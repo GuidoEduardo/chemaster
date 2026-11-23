@@ -822,9 +822,9 @@ function renderQuestion() {
     inp.onkeydown = e => { if (e.key === 'Enter' && inp.value.trim()) answer(inp.value); };
     inp.focus();
   } else {
-    // Todos os elementos já perguntados ficam marcados (verde = acertou, vermelho = errou)
+    // Todos os elementos já perguntados ficam marcados: acertou = cor da categoria (fixação), errou = vermelho
     ans.innerHTML = `<div class="skip-row top">${skipBtn()}</div>
-      <div class="board">${ptable(e => G.marked.has(e.z) ? { cls: G.marked.get(e.z), html: cellHtml(e) } : { cls: 'blank' }, { cls: 'click-t' })}</div>`;
+      <div class="board">${ptable(e => G.marked.has(e.z) ? { cls: G.marked.get(e.z), style: `--c:${CATS[e.cat].color}`, html: cellHtml(e) } : { cls: 'blank' }, { cls: 'click-t' })}</div>`;
     $$('.click-t .pc.blank', ans).forEach(c => c.onclick = () => answer(+c.dataset.z));
   }
   $('#skip').onclick = () => answer(null, 'skip');
@@ -860,7 +860,7 @@ function answer(v, how) {
     ok = v === q.target;
     $$('.click-t .pc').forEach(c => c.onclick = null);
     const cell = $(`.click-t .pc[data-z="${q.target}"]`);
-    cell.classList.remove('blank'); cell.classList.add(ok ? 'done' : 'reveal'); cell.innerHTML = cellHtml(q.el);
+    cell.classList.remove('blank'); cell.classList.add(ok ? 'done' : 'reveal'); cell.style.setProperty('--c', CATS[q.el.cat].color); cell.innerHTML = cellHtml(q.el);
     if (!ok && v) $(`.click-t .pc[data-z="${v}"]`).classList.add('miss');
     G.marked.set(q.target, ok ? 'done' : 'wrong');
   }
