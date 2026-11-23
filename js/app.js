@@ -88,18 +88,18 @@ const I18N = {
     qFamily: 'A qual família ele pertence?', qLetters: 'Complete o nome do elemento', qGroup: 'Em qual grupo (coluna) ele está?',
     qPeriod: 'Em qual período (linha) ele está?', qBig: 'Qual tem o MAIOR número atômico?', qSmall: 'Qual tem o MENOR número atômico?',
     games: {
-      tabela: ['Tabela Periódica', 'A tabela está em branco. Cadê cada elemento?', 'A tabela está vazia e o desafio é seu: ache o lugar certinho de cada elemento. Bora?'],
-      preencher: ['Preencher a Tabela', 'Escreva nomes e veja a tabela ganhar cor!', 'Digite qualquer elemento, na ordem que quiser, e veja a tabela se pintar inteira. Quantos você lembra de cabeça?'],
-      simbolos: ['Símbolos', 'Duas letrinhas, um elemento. Quem é?', 'Aparece o símbolo, você diz o nome. Parece fácil… até aparecerem os esquisitos!'],
-      nomes: ['Nome → Símbolo', 'Do nome pro símbolo, sem colar!', 'Aparece o nome do elemento e você manda o símbolo. Atenção às maiúsculas!'],
-      numero: ['Número Atômico', 'Quantos prótons ele tem? Chuta não!', 'Aparece o elemento, você diz o número atômico (Z). Seu cérebro vai virar uma tabela!'],
-      quem: ['Quem é o Nº?', 'Um número aparece. Que elemento é esse?', 'Aparece um número atômico e você descobre o dono dele. Dá pra responder clicando na tabela também!'],
-      misterio: ['Elemento Misterioso', 'Uma casinha acende. Quem mora ali?', 'Uma casa se ilumina na tabela vazia. Descubra qual elemento mora nesse endereço!'],
-      familias: ['Famílias', 'Cada elemento tem sua turma. Qual é?', 'Alcalinos, halogênios, gases nobres… Coloque cada elemento na família certa!'],
-      letras: ['Letras Sumidas', 'Umas letras fugiram. Complete o nome!', 'Algumas letras deram no pé. Escreva o nome inteiro do elemento e traga elas de volta!'],
-      grupos: ['Grupos', 'Em que coluna esse elemento mora?', 'Diga o grupo (coluna 1 a 18) de cada elemento. Lantanídeos e actinídeos ficam de folga.'],
-      periodos: ['Períodos', 'Em que andar da tabela ele está?', 'Diga o período (linha 1 a 7) de cada elemento. Sobe e desce na tabela!'],
-      maior: ['Duelo Atômico', 'Dois elementos, uma briga: quem é maior?', 'Dois elementos entram no ringue. Quem tem o maior (ou menor) número atômico vence!'],
+      table: ['Tabela Periódica', 'A tabela está em branco. Cadê cada elemento?', 'A tabela está vazia e o desafio é seu: ache o lugar certinho de cada elemento. Bora?'],
+      fill: ['Preencher a Tabela', 'Escreva nomes e veja a tabela ganhar cor!', 'Digite qualquer elemento, na ordem que quiser, e veja a tabela se pintar inteira. Quantos você lembra de cabeça?'],
+      symbols: ['Símbolos', 'Duas letrinhas, um elemento. Quem é?', 'Aparece o símbolo, você diz o nome. Parece fácil… até aparecerem os esquisitos!'],
+      names: ['Nome → Símbolo', 'Do nome pro símbolo, sem colar!', 'Aparece o nome do elemento e você manda o símbolo. Atenção às maiúsculas!'],
+      'atomic-number': ['Número Atômico', 'Quantos prótons ele tem? Chuta não!', 'Aparece o elemento, você diz o número atômico (Z). Seu cérebro vai virar uma tabela!'],
+      'who-is': ['Quem é o Nº?', 'Um número aparece. Que elemento é esse?', 'Aparece um número atômico e você descobre o dono dele. Dá pra responder clicando na tabela também!'],
+      mystery: ['Elemento Misterioso', 'Uma casinha acende. Quem mora ali?', 'Uma casa se ilumina na tabela vazia. Descubra qual elemento mora nesse endereço!'],
+      families: ['Famílias', 'Cada elemento tem sua turma. Qual é?', 'Alcalinos, halogênios, gases nobres… Coloque cada elemento na família certa!'],
+      letters: ['Letras Sumidas', 'Umas letras fugiram. Complete o nome!', 'Algumas letras deram no pé. Escreva o nome inteiro do elemento e traga elas de volta!'],
+      groups: ['Grupos', 'Em que coluna esse elemento mora?', 'Diga o grupo (coluna 1 a 18) de cada elemento. Lantanídeos e actinídeos ficam de folga.'],
+      periods: ['Períodos', 'Em que andar da tabela ele está?', 'Diga o período (linha 1 a 7) de cada elemento. Sobe e desce na tabela!'],
+      duel: ['Duelo Atômico', 'Dois elementos, uma briga: quem é maior?', 'Dois elementos entram no ringue. Quem tem o maior (ou menor) número atômico vence!'],
     },
   },
   en: {
@@ -159,18 +159,18 @@ const I18N = {
     qFamily: 'Which family does it belong to?', qLetters: 'Complete the element name', qGroup: 'Which group (column) is it in?',
     qPeriod: 'Which period (row) is it in?', qBig: 'Which has the HIGHER atomic number?', qSmall: 'Which has the LOWER atomic number?',
     games: {
-      tabela: ['Periodic Table', 'The table is blank. Where does each one go?', 'The table is empty and it is all on you: drop every element in its exact spot. Ready?'],
-      preencher: ['Fill the Table', 'Type names and watch the table light up!', 'Type any element, in any order, and watch the whole table fill with color. How many can you recall?'],
-      simbolos: ['Symbols', 'Two little letters, one element. Who is it?', 'A symbol pops up, you name the element. Easy… until the weird ones show up!'],
-      nomes: ['Name → Symbol', 'From name to symbol, no peeking!', 'An element name shows up and you fire back its symbol. Mind the capital letters!'],
-      numero: ['Atomic Number', 'How many protons? No guessing!', 'An element shows up, you give its atomic number (Z). Your brain is about to become a table!'],
-      quem: ['Who is No.?', 'A number appears. Which element owns it?', 'An atomic number pops up and you find its owner. You can even answer by tapping the table!'],
-      misterio: ['Mystery Element', 'A square lights up. Who lives there?', 'One square glows on the blank table. Figure out which element lives at that address!'],
-      familias: ['Families', 'Every element has a crew. Which one?', 'Alkali metals, halogens, noble gases… Send each element home to the right family!'],
-      letras: ['Runaway Letters', 'Some letters ran off. Bring them back!', 'A few letters escaped from the name. Type the full element name and catch them!'],
-      grupos: ['Groups', 'Which column does it live in?', 'Name the group (column 1 to 18) of each element. Lanthanides and actinides get the day off.'],
-      periodos: ['Periods', 'Which floor of the table is it on?', 'Name the period (row 1 to 7) of each element. Up and down the table!'],
-      maior: ['Atomic Duel', 'Two elements, one fight: who is bigger?', 'Two elements step into the ring. The higher (or lower) atomic number wins!'],
+      table: ['Periodic Table', 'The table is blank. Where does each one go?', 'The table is empty and it is all on you: drop every element in its exact spot. Ready?'],
+      fill: ['Fill the Table', 'Type names and watch the table light up!', 'Type any element, in any order, and watch the whole table fill with color. How many can you recall?'],
+      symbols: ['Symbols', 'Two little letters, one element. Who is it?', 'A symbol pops up, you name the element. Easy… until the weird ones show up!'],
+      names: ['Name → Symbol', 'From name to symbol, no peeking!', 'An element name shows up and you fire back its symbol. Mind the capital letters!'],
+      'atomic-number': ['Atomic Number', 'How many protons? No guessing!', 'An element shows up, you give its atomic number (Z). Your brain is about to become a table!'],
+      'who-is': ['Who is No.?', 'A number appears. Which element owns it?', 'An atomic number pops up and you find its owner. You can even answer by tapping the table!'],
+      mystery: ['Mystery Element', 'A square lights up. Who lives there?', 'One square glows on the blank table. Figure out which element lives at that address!'],
+      families: ['Families', 'Every element has a crew. Which one?', 'Alkali metals, halogens, noble gases… Send each element home to the right family!'],
+      letters: ['Runaway Letters', 'Some letters ran off. Bring them back!', 'A few letters escaped from the name. Type the full element name and catch them!'],
+      groups: ['Groups', 'Which column does it live in?', 'Name the group (column 1 to 18) of each element. Lanthanides and actinides get the day off.'],
+      periods: ['Periods', 'Which floor of the table is it on?', 'Name the period (row 1 to 7) of each element. Up and down the table!'],
+      duel: ['Atomic Duel', 'Two elements, one fight: who is bigger?', 'Two elements step into the ring. The higher (or lower) atomic number wins!'],
     },
   },
 };
@@ -264,16 +264,16 @@ const MODES = {
 
 const GAMES = [
   {
-    id: 'tabela', modes: ['click'],
+    id: 'table', modes: ['click'],
     bg: '#1ccaf7', thumb: () => mini(e => e.z === 26 || e.z === 79 ? 'hl-red' : ''),
     make: el => ({ heading: t('qWhere'), visual: nameCard(el.name), answer: el.name }),
   },
   {
-    id: 'preencher', kind: 'fill',
+    id: 'fill', kind: 'fill',
     bg: 'linear-gradient(135deg,#ffe46b,#ffb238)', thumb: () => mini(e => e.z <= 44 ? 'cat-' + e.cat : ''),
   },
   {
-    id: 'simbolos', modes: ['choice', 'type'],
+    id: 'symbols', modes: ['choice', 'type'],
     bg: 'linear-gradient(135deg,#a78bfa,#6d4bd8)', thumb: () => `<div class="t-tile">Au</div>`,
     make: (el, pool, mode) => ({
       heading: t('qSym'), visual: bigTile(el, { name: false, z: false }),
@@ -282,7 +282,7 @@ const GAMES = [
     }),
   },
   {
-    id: 'nomes', modes: ['choice', 'type'],
+    id: 'names', modes: ['choice', 'type'],
     bg: 'linear-gradient(135deg,#ffb36b,#ff7a45)', thumb: () => `<div class="t-card">${byZ(11).name}</div><span class="t-arrow">→</span><div class="t-tile sm">Na</div>`,
     make: (el, pool, mode) => ({
       heading: t('qSymOf'), visual: nameCard(el.name),
@@ -291,7 +291,7 @@ const GAMES = [
     }),
   },
   {
-    id: 'numero', modes: ['choice', 'type'],
+    id: 'atomic-number', modes: ['choice', 'type'],
     bg: 'linear-gradient(135deg,#5ee0a0,#1fae6b)', thumb: () => `<div class="t-tile"><small>?</small>O</div>`,
     make: el => ({
       heading: t('qZ'), visual: bigTile(el, { z: true, hideZ: true }),
@@ -300,7 +300,7 @@ const GAMES = [
     }),
   },
   {
-    id: 'quem', modes: ['choice', 'type', 'click'],
+    id: 'who-is', modes: ['choice', 'type', 'click'],
     bg: 'linear-gradient(135deg,#4fc3ff,#2f6fd6)', thumb: () => `<div class="t-big">${t('no')} 79</div>`,
     make: (el, pool, mode) => ({
       heading: t('qWhoZ', el.z), visual: bigNum(el.z),
@@ -309,7 +309,7 @@ const GAMES = [
     }),
   },
   {
-    id: 'misterio', modes: ['choice', 'type'],
+    id: 'mystery', modes: ['choice', 'type'],
     bg: '#14304a', thumb: () => mini(e => e.z === 35 ? 'hl' : 'dim'),
     make: (el, pool, mode) => ({
       heading: t('qMystery'), wide: true,
@@ -319,7 +319,7 @@ const GAMES = [
     }),
   },
   {
-    id: 'familias', modes: ['choice'],
+    id: 'families', modes: ['choice'],
     bg: 'linear-gradient(135deg,#ff9ec4,#e8579a)',
     thumb: () => `<div class="t-grid">${[11, 17, 10, 26].map(z => `<div class="t-mini" style="background:${CATS[byZ(z).cat].color}">${byZ(z).sym}</div>`).join('')}</div>`,
     make: el => {
@@ -329,13 +329,13 @@ const GAMES = [
     },
   },
   {
-    id: 'letras', modes: ['type'],
+    id: 'letters', modes: ['type'],
     bg: '#1ccaf7',
     thumb: () => `<div class="letters t-letters">${(LANG === 'en' ? ['I', '', 'O', ''] : ['F', '', 'R', 'R', '']).map(c => `<span class="${c ? '' : 'hole'}">${c}</span>`).join('')}</div>`,
     make: el => ({ heading: t('qLetters'), visual: letters(el.name), answer: el.name, accept: names(el), placeholder: t('phFull') }),
   },
   {
-    id: 'grupos', modes: ['choice', 'type'], filter: e => e.group,
+    id: 'groups', modes: ['choice', 'type'], filter: e => e.group,
     bg: 'linear-gradient(135deg,#43d9c6,#139e8f)', thumb: () => mini(e => e.group === 17 ? 'hl' : ''),
     make: el => ({
       heading: t('qGroup'), visual: bigTile(el),
@@ -344,7 +344,7 @@ const GAMES = [
     }),
   },
   {
-    id: 'periodos', modes: ['choice', 'type'],
+    id: 'periods', modes: ['choice', 'type'],
     bg: 'linear-gradient(135deg,#c3b1ff,#8a6cf0)', thumb: () => mini(e => e.row === 4 ? 'hl' : ''),
     make: el => ({
       heading: t('qPeriod'), visual: bigTile(el),
@@ -353,7 +353,7 @@ const GAMES = [
     }),
   },
   {
-    id: 'maior', modes: ['choice'],
+    id: 'duel', modes: ['choice'],
     bg: 'linear-gradient(90deg,#ff8c7a 50%,#7fd1ff 50%)', thumb: () => `<div class="t-tile sm">Na</div><span class="t-vs">VS</span><div class="t-tile sm">Cl</div>`,
     make: (el, pool) => {
       const o = otherEl(el, pool), big = Math.random() < 0.5;
@@ -406,7 +406,7 @@ const DOODLE = {
   grid: `<svg class="dd dd-grid" viewBox="0 0 300 220" aria-hidden="true"><g stroke="currentColor" stroke-width="2.5">${[0,1,2,3,4,5,6].map(i => `<line x1="${10 + i * 46}" y1="0" x2="${10 + i * 46}" y2="220"/>`).join('')}${[0,1,2,3,4].map(i => `<line x1="0" y1="${14 + i * 48}" x2="300" y2="${14 + i * 48}"/>`).join('')}</g></svg>`,
 };
 const THUMB_BG = ['#86d81c', '#ffd84d', '#7fd1ff', '#ff9ec4', '#bca4ff', '#5fe3c6'];
-const ICONS = { tabela: '📍', preencher: '✍️', simbolos: 'Au', nomes: 'Na', numero: 'Z', quem: '#', misterio: '?', familias: '🎨', letras: 'A_', grupos: '↕', periodos: '↔', maior: '⚖️' };
+const ICONS = { table: '📍', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🎨', letters: 'A_', groups: '↕', periods: '↔', duel: '⚖️' };
 
 /* ---------- roteamento ---------- *//* ---------- roteamento ---------- */
 let G = null; // jogo em andamento
@@ -420,10 +420,18 @@ function stopGame() {
 function route() {
   stopGame();
   const parts = (location.hash.slice(1) || '/').split('/').filter(Boolean);
+  // endereços antigos (em português) redirecionam para os novos
+  const OLD = { jogos: 'games', jogo: 'game', estudar: 'learn' };
+  const OLD_IDS = {"tabela":"table","preencher":"fill","simbolos":"symbols","nomes":"names","numero":"atomic-number","quem":"who-is","misterio":"mystery","familias":"families","letras":"letters","grupos":"groups","periodos":"periods","maior":"duel"};
+  if (OLD[parts[0]]) {
+    const np = [OLD[parts[0]], ...(parts[1] ? [OLD_IDS[parts[1]] || parts[1]] : [])];
+    location.replace('#/' + np.join('/'));
+    return;
+  }
   if (!parts.length) renderHome();
-  else if (parts[0] === 'jogos') renderHome();
-  else if (parts[0] === 'jogo') renderGamePage(parts[1]);
-  else if (parts[0] === 'estudar') renderLearn();
+  else if (parts[0] === 'games') renderHome();
+  else if (parts[0] === 'game') renderGamePage(parts[1]);
+  else if (parts[0] === 'learn') renderLearn();
   else renderHome();
   window.scrollTo(0, 0);
 }
@@ -446,15 +454,15 @@ function renderHome() {
       </div>
       ${DOODLE.spark}
     </div>
-    <div class="sec-head" id="jogos"><h2>${t('trending')}</h2>${DOODLE.swirl}</div>
+    <div class="sec-head" id="games"><h2>${t('trending')}</h2>${DOODLE.swirl}</div>
     <div class="grid">
       ${GAMES.map((g, i) => `
-        <a class="gcard" href="#/jogo/${g.id}">
+        <a class="gcard" href="#/game/${g.id}">
           <div class="thumb" style="background:${THUMB_BG[i % THUMB_BG.length]}">${g.thumb()}<span class="num">${String(i + 1).padStart(2, '0')}</span></div>
           <div class="gbody"><h3>${gt(g, 0)}</h3><p>${gt(g, 1)}</p></div>
         </a>`).join('')}
     </div>
-    <a class="study-link" href="#/estudar">${t('studyTable')} →</a>
+    <a class="study-link" href="#/learn">${t('studyTable')} →</a>
   </section>`;
 }
 
@@ -555,7 +563,7 @@ function renderPractice(g) {
     </div>`;
   }
   h += `<div class="panel-btns"><button class="btn-y wide" id="start">${t('start')} <span>→</span></button>
-        <a class="btn-w wide" href="#/estudar">${t('study')}</a>
+        <a class="btn-w wide" href="#/learn">${t('study')}</a>
         <button class="link-btn" id="resetSet">${t('resetSettings')}</button></div>
     <div class="cta">
       <div class="cta-txt"><b>${t('ctaTitle')}</b><span>${t('ctaSub')}</span></div>
