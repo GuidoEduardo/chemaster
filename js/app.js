@@ -41,7 +41,7 @@ const I18N = {
     hTo: (a, b) => `${a} até ${b}`, customFrom: 'ou escolha: do nº', customTo: 'até o nº',
     mode: 'Modo', timer: 'Tempo por pergunta', on: 'Ligado', off: 'Desligado',
     next: 'Próxima pergunta', auto: 'Automática', manual: 'Manual', manualSub: 'Toque para seguir',
-    order: 'Ordem', random: '🎲 Aleatória', asc: '🔢 Em ordem', ascSub: 'Do menor nº ao maior',
+    nQuestions: n => `${n} perguntas`,
     totalTime: 'Tempo total', noLimit: 'Sem limite', acceptSym: 'Aceitar símbolos',
     onlyNames: 'Só nomes', exName: 'Ex.: Ferro', namesSyms: 'Nomes e símbolos', symEnter: 'Símbolo + Enter',
     start: 'COMEÇAR', study: '📖 ESTUDAR', resetSettings: '↺ Restaurar opções padrão',
@@ -112,7 +112,7 @@ const I18N = {
     hTo: (a, b) => `${a} to ${b}`, customFrom: 'or choose: from no.', customTo: 'to no.',
     mode: 'Mode', timer: 'Time limit', on: 'On', off: 'Off',
     next: 'Next question', auto: 'Auto', manual: 'Manual', manualSub: 'Tap to continue',
-    order: 'Order', random: '🎲 Random', asc: '🔢 In order', ascSub: 'Lowest to highest no.',
+    nQuestions: n => `${n} questions`,
     totalTime: 'Total time', noLimit: 'No limit', acceptSym: 'Accept symbols',
     onlyNames: 'Names only', exName: 'e.g. Iron', namesSyms: 'Names & symbols', symEnter: 'Symbol + Enter',
     start: 'START', study: '📖 LEARN', resetSettings: '↺ Reset to default options',
@@ -462,13 +462,14 @@ function renderHome() {
 function defaultSettings(g) {
   return g.kind === 'fill'
     ? { range: '1-118', limit: '900', symbols: 'no' }
-    : { count: '10', range: '1-118', mode: g.modes[0], timer: '0', next: 'auto', order: 'random' };
+    : { range: '1-118', count: '10', mode: g.modes[0], timer: '0', next: 'auto' };
 }
 function getSettings(g) {
   const saved = (store.get().settings || {})[g.id] || {};
   const s = { ...defaultSettings(g), ...saved };
   if (s.mode && !g.modes.includes(s.mode)) s.mode = g.modes[0];
   if (!['1-20', '1-36', '1-54', '1-118'].includes(s.range)) s.range = '1-118';
+  if (g.kind !== 'fill') s.count = fitCount(g, s);
   return s;
 }
 function saveSettings(g, s) {
@@ -483,12 +484,27 @@ function optGroup(label, key, cur, opts) {
   </div></div>`;
 }
 
-function rangeGroup(s) {
+function rangeGroup(s, g) {
   return optGroup(t('elements'), 'range', s.range, [
     { v: '1-20', label: '1 → 20', sub: t('hTo', 'H', 'Ca') },
     { v: '1-36', label: '1 → 36', sub: t('hTo', 'H', 'Kr') },
     { v: '1-54', label: '1 → 54', sub: t('hTo', 'H', 'Xe') },
-    { v: '1-118', label: t('all'), sub: t('nElements', 118) },
+    { v: '1-118', label: t('all'), sub: t('nElements', g ? poolSize(g, '1-118') : 118) },
+  ]);
+}
+
+const poolSize = (g, range) => { const [a, b] = range.split('-').map(Number); return poolOf(g, a, b).length; };
+const countOpts = (g, range) => [10, 20, 30, 50].filter(n => n < poolSize(g, range));
+// se a quantidade escolhida não cabe na faixa nova, vira "Todas"
+function fitCount(g, s) {
+  if (s.count === 'all') return 'all';
+  return countOpts(g, s.range).includes(+s.count) ? String(s.count) : 'all';
+}
+function countGroup(g, s) {
+  const size = poolSize(g, s.range);
+  return optGroup(t('questions'), 'count', s.count, [
+    ...countOpts(g, s.range).map(n => ({ v: String(n), label: String(n) })),
+    { v: 'all', label: t('allQ'), sub: t('nQuestions', size) },
   ]);
 }
 
@@ -520,11 +536,9 @@ function renderGamePage(id, tab = 'p') {
 function renderPractice(g) {
   const s = getSettings(g);
   const panel = $('#panel');
-  const [from, to] = s.range.split('-').map(Number);
-  const poolSize = poolOf(g, from, to).length;
   let h = '';
   if (g.kind === 'fill') {
-    h += rangeGroup(s);
+    h += rangeGroup(s, g);
     h += optGroup(t('totalTime'), 'limit', s.limit, [
       { v: '300', label: '5 min' }, { v: '600', label: '10 min' }, { v: '900', label: '15 min' }, { v: '0', label: t('noLimit') },
     ]);
@@ -532,17 +546,13 @@ function renderPractice(g) {
       { v: 'no', label: t('onlyNames'), sub: t('exName') }, { v: 'yes', label: t('namesSyms'), sub: t('symEnter') },
     ]);
   } else {
-    h += optGroup(t('questions'), 'count', s.count, [
-      { v: '10', label: '10' }, { v: '20', label: '20' }, { v: '30', label: '30' }, { v: '50', label: '50' },
-      { v: 'all', label: t('allQ'), sub: t('nElements', poolSize) },
-    ]);
-    h += rangeGroup(s);
+    h += rangeGroup(s, g);
+    h += countGroup(g, s);
     if (g.modes.length > 1) h += optGroup(t('mode'), 'mode', s.mode, g.modes.map(m => ({ v: m, label: `${MODES[m].icon} ${MODES[m].label()}`, sub: MODES[m].sub() })));
     h += `<div class="og-row">
       ${optGroup(t('timer'), 'timer', s.timer, [{ v: '15', label: t('on'), sub: '15s' }, { v: '0', label: t('off') }])}
       ${optGroup(t('next'), 'next', s.next, [{ v: 'auto', label: t('auto') }, { v: 'manual', label: t('manual'), sub: t('manualSub') }])}
     </div>`;
-    h += optGroup(t('order'), 'order', s.order, [{ v: 'random', label: t('random') }, { v: 'asc', label: t('asc'), sub: t('ascSub') }]);
   }
   h += `<div class="panel-btns"><button class="btn-y wide" id="start">${t('start')} <span>→</span></button>
         <a class="btn-w wide" href="#/estudar">${t('study')}</a>
@@ -553,7 +563,11 @@ function renderPractice(g) {
     </div>`;
   panel.innerHTML = h;
 
-  $$('.opt', panel).forEach(b => b.onclick = () => { s[b.dataset.k] = b.dataset.v; saveSettings(g, s); renderPractice(g); });
+  $$('.opt', panel).forEach(b => b.onclick = () => {
+    s[b.dataset.k] = b.dataset.v;
+    if (g.kind !== 'fill') s.count = fitCount(g, s);
+    saveSettings(g, s); renderPractice(g);
+  });
   $('#resetSet').onclick = () => { saveSettings(g, null); renderPractice(g); };
   $('#goChallenge').onclick = () => renderGamePage(g.id, 'c');
   $('#start').onclick = () => g.kind === 'fill' ? startFillPractice(g, s) : startPractice(g, s);
@@ -630,8 +644,7 @@ function startPractice(g, s) {
   const [from, to] = s.range.split('-').map(Number);
   const pool = poolOf(g, from, to);
   if (!pool.length) return toast(t('emptyPool'));
-  const n = s.count === 'all' ? pool.length : Math.min(+s.count, pool.length);
-  const list = (s.order === 'asc' ? pool : shuffle(pool)).slice(0, n);
+  const list = shuffle(pool).slice(0, s.count === 'all' ? pool.length : Math.min(+s.count, pool.length));
   startGame({
     questions: list.map(el => buildQ(g, el, pool, s.mode)),
     timer: +s.timer, next: s.next, lives: 0, limit: 0,
