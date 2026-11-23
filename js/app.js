@@ -41,7 +41,7 @@ const I18N = {
     hTo: (a, b) => `${a} até ${b}`, customFrom: 'ou escolha: do nº', customTo: 'até o nº',
     mode: 'Modo', timer: 'Tempo por pergunta', on: 'Ligado', off: 'Desligado',
     next: 'Próxima pergunta', auto: 'Automática', manual: 'Manual', manualSub: 'Toque para seguir',
-    nQuestions: n => `${n} perguntas`,
+    nQuestions: n => `${n} perguntas`, byNumber: '🔢 Por número', byFamily: '🧬 Por família', pickFam: 'Escolha uma ou mais famílias',
     totalTime: 'Tempo total', noLimit: 'Sem limite', acceptSym: 'Aceitar símbolos',
     onlyNames: 'Só nomes', exName: 'Ex.: Ferro', namesSyms: 'Nomes e símbolos', symEnter: 'Símbolo + Enter',
     start: 'COMEÇAR', study: '📖 ESTUDAR', resetSettings: '↺ Restaurar opções padrão',
@@ -112,7 +112,7 @@ const I18N = {
     hTo: (a, b) => `${a} to ${b}`, customFrom: 'or choose: from no.', customTo: 'to no.',
     mode: 'Mode', timer: 'Time limit', on: 'On', off: 'Off',
     next: 'Next question', auto: 'Auto', manual: 'Manual', manualSub: 'Tap to continue',
-    nQuestions: n => `${n} questions`,
+    nQuestions: n => `${n} questions`, byNumber: '🔢 By number', byFamily: '🧬 By family', pickFam: 'Pick one or more families',
     totalTime: 'Total time', noLimit: 'No limit', acceptSym: 'Accept symbols',
     onlyNames: 'Names only', exName: 'e.g. Iron', namesSyms: 'Names & symbols', symEnter: 'Symbol + Enter',
     start: 'START', study: '📖 LEARN', resetSettings: '↺ Reset to default options',
@@ -467,16 +467,45 @@ function renderHome() {
 }
 
 /* ---------- página do jogo (Treino / Desafio) ---------- */
+// famílias como no ensino brasileiro (1A a 8A) + transição, lantanídeos e actinídeos
+const FAMILIES = [
+  { k: 'g1', pt: '1A · Alcalinos (+H)', en: 'Group 1 · Alkali (+H)', test: e => e.group === 1 },
+  { k: 'g2', pt: '2A · Alcalino-terrosos', en: 'Group 2 · Alkaline earth', test: e => e.group === 2 },
+  { k: 'g13', pt: '3A · Família do boro', en: 'Group 13 · Boron', test: e => e.group === 13 },
+  { k: 'g14', pt: '4A · Família do carbono', en: 'Group 14 · Carbon', test: e => e.group === 14 },
+  { k: 'g15', pt: '5A · Família do nitrogênio', en: 'Group 15 · Nitrogen', test: e => e.group === 15 },
+  { k: 'g16', pt: '6A · Calcogênios', en: 'Group 16 · Chalcogens', test: e => e.group === 16 },
+  { k: 'g17', pt: '7A · Halogênios', en: 'Group 17 · Halogens', test: e => e.group === 17 },
+  { k: 'g18', pt: '8A · Gases nobres', en: 'Group 18 · Noble gases', test: e => e.group === 18 },
+  { k: 'tr', pt: 'Metais de transição', en: 'Transition metals', test: e => e.group >= 3 && e.group <= 12 },
+  { k: 'la', pt: 'Lantanídeos', en: 'Lanthanides', test: e => e.cat === 'la' },
+  { k: 'ac', pt: 'Actinídeos', en: 'Actinides', test: e => e.cat === 'ac' },
+];
+const famOf = k => FAMILIES.find(f => f.k === k);
+const gameOk = (g, e) => !g.filter || g.filter(e);
+const famCount = (g, f) => ELEMENTS.filter(e => f.test(e) && gameOk(g, e)).length;
+
+// elementos do treino: por faixa de número ou pelas famílias escolhidas
+function practicePool(g, s) {
+  if (s.by === 'family') return ELEMENTS.filter(e => s.fams.some(k => famOf(k).test(e)) && gameOk(g, e));
+  const [a, b] = s.range.split('-').map(Number);
+  return poolOf(g, a, b);
+}
+
 function defaultSettings(g) {
   return g.kind === 'fill'
-    ? { range: '1-118', limit: '900', symbols: 'no' }
-    : { range: '1-118', count: '10', mode: g.modes[0], timer: '0', next: 'auto' };
+    ? { by: 'range', range: '1-118', fams: ['g1'], limit: '900', symbols: 'no' }
+    : { by: 'range', range: '1-118', fams: ['g1'], count: '10', mode: g.modes[0], timer: '0', next: 'auto' };
 }
 function getSettings(g) {
   const saved = (store.get().settings || {})[g.id] || {};
   const s = { ...defaultSettings(g), ...saved };
   if (s.mode && !g.modes.includes(s.mode)) s.mode = g.modes[0];
   if (!['1-20', '1-36', '1-54', '1-118'].includes(s.range)) s.range = '1-118';
+  if (s.by !== 'family') s.by = 'range';
+  // só famílias que existem neste jogo (ex.: Grupos não tem lantanídeos)
+  s.fams = (Array.isArray(s.fams) ? s.fams : []).filter(k => famOf(k) && famCount(g, famOf(k)) > 0);
+  if (!s.fams.length) s.fams = ['g1'];
   if (g.kind !== 'fill') s.count = fitCount(g, s);
   return s;
 }
@@ -487,13 +516,24 @@ function saveSettings(g, s) {
 }
 
 function optGroup(label, key, cur, opts) {
-  return `<div class="og"><div class="og-label">${label}</div><div class="opts">
+  return `<div class="og">${label ? `<div class="og-label">${label}</div>` : ''}<div class="opts">
     ${opts.map(o => `<button class="opt ${String(cur) === String(o.v) ? 'on' : ''}" data-k="${key}" data-v="${o.v}">${o.label}${o.sub ? `<small>${o.sub}</small>` : ''}</button>`).join('')}
   </div></div>`;
 }
 
-function rangeGroup(s, g) {
-  return optGroup(t('elements'), 'range', s.range, [
+function elementsGroup(s, g) {
+  const by = `<div class="by-switch">
+    <button class="by-btn ${s.by === 'range' ? 'on' : ''}" data-by="range">${t('byNumber')}</button>
+    <button class="by-btn ${s.by === 'family' ? 'on' : ''}" data-by="family">${t('byFamily')}</button></div>`;
+  if (s.by !== 'family') return `<div class="og-head"><div class="og-label">${t('elements')}</div>${by}</div>` + rangeGroup(s, g, true);
+  const fams = FAMILIES.filter(f => famCount(g, f) > 0);
+  return `<div class="og"><div class="og-head"><div class="og-label">${t('elements')}</div>${by}</div>
+    <div class="fam-hint">${t('pickFam')}</div>
+    <div class="fam-grid">${fams.map(f => `<button class="opt fam ${s.fams.includes(f.k) ? 'on' : ''}" data-fam="${f.k}">${f[LANG]}<small>${t('nElements', famCount(g, f))}</small></button>`).join('')}</div></div>`;
+}
+
+function rangeGroup(s, g, noLabel = false) {
+  return optGroup(noLabel ? '' : t('elements'), 'range', s.range, [
     { v: '1-20', label: '1 → 20', sub: t('hTo', 'H', 'Ca') },
     { v: '1-36', label: '1 → 36', sub: t('hTo', 'H', 'Kr') },
     { v: '1-54', label: '1 → 54', sub: t('hTo', 'H', 'Xe') },
@@ -502,16 +542,16 @@ function rangeGroup(s, g) {
 }
 
 const poolSize = (g, range) => { const [a, b] = range.split('-').map(Number); return poolOf(g, a, b).length; };
-const countOpts = (g, range) => [10, 20, 30, 50].filter(n => n < poolSize(g, range));
+const countOpts = (g, s) => [10, 20, 30, 50].filter(n => n < practicePool(g, s).length);
 // se a quantidade escolhida não cabe na faixa nova, vira "Todas"
 function fitCount(g, s) {
   if (s.count === 'all') return 'all';
-  return countOpts(g, s.range).includes(+s.count) ? String(s.count) : 'all';
+  return countOpts(g, s).includes(+s.count) ? String(s.count) : 'all';
 }
 function countGroup(g, s) {
-  const size = poolSize(g, s.range);
+  const size = practicePool(g, s).length;
   return optGroup(t('questions'), 'count', s.count, [
-    ...countOpts(g, s.range).map(n => ({ v: String(n), label: String(n) })),
+    ...countOpts(g, s).map(n => ({ v: String(n), label: String(n) })),
     { v: 'all', label: t('allQ'), sub: t('nQuestions', size) },
   ]);
 }
@@ -546,7 +586,7 @@ function renderPractice(g) {
   const panel = $('#panel');
   let h = '';
   if (g.kind === 'fill') {
-    h += rangeGroup(s, g);
+    h += elementsGroup(s, g);
     h += optGroup(t('totalTime'), 'limit', s.limit, [
       { v: '300', label: '5 min' }, { v: '600', label: '10 min' }, { v: '900', label: '15 min' }, { v: '0', label: t('noLimit') },
     ]);
@@ -554,7 +594,7 @@ function renderPractice(g) {
       { v: 'no', label: t('onlyNames'), sub: t('exName') }, { v: 'yes', label: t('namesSyms'), sub: t('symEnter') },
     ]);
   } else {
-    h += rangeGroup(s, g);
+    h += elementsGroup(s, g);
     h += countGroup(g, s);
     if (g.modes.length > 1) h += optGroup(t('mode'), 'mode', s.mode, g.modes.map(m => ({ v: m, label: `${MODES[m].icon} ${MODES[m].label()}`, sub: MODES[m].sub() })));
     h += `<div class="og-row">
@@ -571,10 +611,14 @@ function renderPractice(g) {
     </div>`;
   panel.innerHTML = h;
 
-  $$('.opt', panel).forEach(b => b.onclick = () => {
-    s[b.dataset.k] = b.dataset.v;
-    if (g.kind !== 'fill') s.count = fitCount(g, s);
-    saveSettings(g, s); renderPractice(g);
+  const changed = () => { if (g.kind !== 'fill') s.count = fitCount(g, s); saveSettings(g, s); renderPractice(g); };
+  $$('.opt[data-k]', panel).forEach(b => b.onclick = () => { s[b.dataset.k] = b.dataset.v; changed(); });
+  $$('.by-btn', panel).forEach(b => b.onclick = () => { s.by = b.dataset.by; changed(); });
+  $$('.opt[data-fam]', panel).forEach(b => b.onclick = () => {
+    const k = b.dataset.fam;
+    if (s.fams.includes(k)) { if (s.fams.length > 1) s.fams = s.fams.filter(x => x !== k); }
+    else s.fams = [...s.fams, k];
+    changed();
   });
   $('#resetSet').onclick = () => { saveSettings(g, null); renderPractice(g); };
   $('#goChallenge').onclick = () => renderGamePage(g.id, 'c');
@@ -649,8 +693,7 @@ function saveBest(gid, key, score, total, passed) {
 
 /* ---------- iniciar partidas ---------- */
 function startPractice(g, s) {
-  const [from, to] = s.range.split('-').map(Number);
-  const pool = poolOf(g, from, to);
+  const pool = practicePool(g, s);
   if (!pool.length) return toast(t('emptyPool'));
   const list = shuffle(pool).slice(0, s.count === 'all' ? pool.length : Math.min(+s.count, pool.length));
   startGame({
@@ -922,8 +965,7 @@ function finish(reason) {
 
 /* ---------- Preencher a Tabela ---------- */
 function startFillPractice(g, s) {
-  const [from, to] = s.range.split('-').map(Number);
-  startFill({ from, to, limit: +s.limit, symbols: s.symbols === 'yes', back: () => renderGamePage(g.id, 'p'), replay: () => startFillPractice(g, s) });
+  startFill({ pool: practicePool(g, s), limit: +s.limit, symbols: s.symbols === 'yes', back: () => renderGamePage(g.id, 'p'), replay: () => startFillPractice(g, s) });
 }
 function startFillChallenge(g, li) {
   const L = FILL_LEVELS[li];
@@ -936,7 +978,7 @@ function startFillChallenge(g, li) {
 
 function startFill(cfg) {
   stopGame();
-  const pool = ELEMENTS.filter(e => e.z >= cfg.from && e.z <= cfg.to);
+  const pool = cfg.pool || ELEMENTS.filter(e => e.z >= cfg.from && e.z <= cfg.to);
   G = { ...cfg, fill: true, pool, found: new Set(), elapsed: 0, paused: false, last: performance.now() };
   app.innerHTML = `
   <section class="stage play wide">
