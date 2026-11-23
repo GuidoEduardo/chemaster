@@ -37,11 +37,11 @@ const I18N = {
     heroKicker: '118 elementos. Zero tédio. Bora jogar! ⚡', heroTitle: 'Jogue Química. Domine a Tabela.',
     explore: 'Explorar Jogos', studyTable: '📖 Estudar a Tabela', trending: 'Jogos',
     practice: '📗 Treino', challenge: '🔥 Desafio',
-    questions: 'Perguntas', elements: 'Elementos', all: 'Todos', allQ: 'Todas', nElements: n => `${n} elementos`,
+    questions: 'Perguntas', elements: 'Elementos', all: 'Todos', allQ: 'Todas', nElements: n => n === 1 ? '1 elemento' : `${n} elementos`,
     hTo: (a, b) => `${a} até ${b}`, customFrom: 'ou escolha: do nº', customTo: 'até o nº',
     mode: 'Modo', timer: 'Tempo por pergunta', on: 'Ligado', off: 'Desligado',
     next: 'Próxima pergunta', auto: 'Automática', manual: 'Manual', manualSub: 'Toque para seguir',
-    nQuestions: n => `${n} perguntas`, byNumber: '🔢 Por número', byFamily: '🧬 Por família', pickFam: 'Escolha uma ou mais famílias',
+    nQuestions: n => `${n} perguntas`, byNumber: '🔢 Por número', byCategory: '🧪 Por categoria', pickCat: 'Escolha uma ou mais categorias',
     totalTime: 'Tempo total', noLimit: 'Sem limite', acceptSym: 'Aceitar símbolos',
     onlyNames: 'Só nomes', exName: 'Ex.: Ferro', namesSyms: 'Nomes e símbolos', symEnter: 'Símbolo + Enter',
     start: 'COMEÇAR', study: '📖 ESTUDAR', resetSettings: '↺ Restaurar opções padrão',
@@ -78,14 +78,15 @@ const I18N = {
     review: n => `Para revisar (${n})`, you: 'você',
     ofElements: n => `de ${n} elementos`, fillPh: 'Digite o nome de qualquer elemento', fillPhSym: ' (ou símbolo + Enter)',
     giveUp: 'Desistir', already: n => `${n} já foi! 😉`, missingHint: 'Os que faltaram estão em <span class="r">vermelho</span> na tabela.',
-    learnTitle: 'Estudar a Tabela', learnLead: 'Toque em um elemento para ver os detalhes. Toque em uma família para destacá-la.',
-    symbol: 'Símbolo', atomicNo: 'Nº atômico', family: 'Família', atomicNumber: 'Número atômico',
+    learnTitle: 'Estudar a Tabela', learnLead: 'Toque em um elemento para ver os detalhes. Toque em uma categoria para destacá-la.',
+    symbol: 'Símbolo', atomicNo: 'Nº atômico', category: 'Categoria', atomicNumber: 'Número atômico',
     emptyPool: 'Nenhum elemento nessa faixa para este jogo.',
     phName: 'Digite o nome do elemento', phSym: 'Digite o símbolo', phNum: 'Digite o número', phGroup: 'Digite o número do grupo',
     phPeriod: 'Digite o número do período', phFull: 'Digite o nome completo',
     qWhere: 'Onde fica este elemento?', qSym: 'Qual elemento tem este símbolo?', qSymOf: 'Qual é o símbolo deste elemento?',
     qZ: 'Qual é o número atômico?', qWhoZ: z => `Qual elemento tem número atômico ${z}?`, qMystery: 'Qual é o elemento destacado?',
-    qFamily: 'A qual família ele pertence?', qLetters: 'Complete o nome do elemento', qGroup: 'Em qual grupo (coluna) ele está?',
+    qCategory: 'A qual categoria ele pertence?', qFamily: 'Em qual família ele está?',
+    famNames: { 1: '1A · Metais alcalinos', 2: '2A · Metais alcalino-terrosos', 13: '3A · Família do boro', 14: '4A · Família do carbono', 15: '5A · Família do nitrogênio', 16: '6A · Calcogênios', 17: '7A · Halogênios', 18: '8A · Gases nobres' }, qLetters: 'Complete o nome do elemento', qGroup: 'Em qual grupo (coluna) ele está?',
     qPeriod: 'Em qual período (linha) ele está?', qBig: 'Qual tem o MAIOR número atômico?', qSmall: 'Qual tem o MENOR número atômico?',
     games: {
       table: ['Tabela Periódica', 'A tabela está em branco. Cadê cada elemento?', 'A tabela está vazia e o desafio é seu: ache o lugar certinho de cada elemento. Bora?'],
@@ -95,7 +96,8 @@ const I18N = {
       'atomic-number': ['Número Atômico', 'Quantos prótons ele tem? Chuta não!', 'Aparece o elemento, você diz o número atômico (Z). Seu cérebro vai virar uma tabela!'],
       'who-is': ['Quem é o Nº?', 'Um número aparece. Que elemento é esse?', 'Aparece um número atômico e você descobre o dono dele. Dá pra responder clicando na tabela também!'],
       mystery: ['Elemento Misterioso', 'Uma casinha acende. Quem mora ali?', 'Uma casa se ilumina na tabela vazia. Descubra qual elemento mora nesse endereço!'],
-      families: ['Famílias', 'Cada elemento tem sua turma. Qual é?', 'Alcalinos, halogênios, gases nobres… Coloque cada elemento na família certa!'],
+      families: ['Famílias', 'Da 1A à 8A: em qual família ele está?', 'Cada coluna da tabela é uma família, da 1A à 8A. Diga a família de cada elemento e aprenda onde cada uma fica!'],
+      categories: ['Categorias', 'Cada elemento tem sua turma. Qual é?', 'Metais alcalinos, não metais, gases nobres… Coloque cada elemento na categoria certa!'],
       letters: ['Letras Sumidas', 'Umas letras fugiram. Complete o nome!', 'Algumas letras deram no pé. Escreva o nome inteiro do elemento e traga elas de volta!'],
       groups: ['Grupos', 'Em que coluna esse elemento mora?', 'Diga o grupo (coluna 1 a 18) de cada elemento. Lantanídeos e actinídeos ficam de folga.'],
       periods: ['Períodos', 'Em que andar da tabela ele está?', 'Diga o período (linha 1 a 7) de cada elemento. Sobe e desce na tabela!'],
@@ -108,11 +110,11 @@ const I18N = {
     heroKicker: '118 elements. Zero boredom. Let’s play! ⚡', heroTitle: 'Play Chemistry. Master the Table.',
     explore: 'Explore Games', studyTable: '📖 Learn the Table', trending: 'Games',
     practice: '📗 Practice', challenge: '🔥 Challenge',
-    questions: 'Questions', elements: 'Elements', all: 'All', allQ: 'All', nElements: n => `${n} elements`,
+    questions: 'Questions', elements: 'Elements', all: 'All', allQ: 'All', nElements: n => n === 1 ? '1 element' : `${n} elements`,
     hTo: (a, b) => `${a} to ${b}`, customFrom: 'or choose: from no.', customTo: 'to no.',
     mode: 'Mode', timer: 'Time limit', on: 'On', off: 'Off',
     next: 'Next question', auto: 'Auto', manual: 'Manual', manualSub: 'Tap to continue',
-    nQuestions: n => `${n} questions`, byNumber: '🔢 By number', byFamily: '🧬 By family', pickFam: 'Pick one or more families',
+    nQuestions: n => `${n} questions`, byNumber: '🔢 By number', byCategory: '🧪 By category', pickCat: 'Pick one or more categories',
     totalTime: 'Total time', noLimit: 'No limit', acceptSym: 'Accept symbols',
     onlyNames: 'Names only', exName: 'e.g. Iron', namesSyms: 'Names & symbols', symEnter: 'Symbol + Enter',
     start: 'START', study: '📖 LEARN', resetSettings: '↺ Reset to default options',
@@ -149,14 +151,15 @@ const I18N = {
     review: n => `To review (${n})`, you: 'you',
     ofElements: n => `of ${n} elements`, fillPh: 'Type the name of any element', fillPhSym: ' (or symbol + Enter)',
     giveUp: 'Give up', already: n => `${n} is already done! 😉`, missingHint: 'The ones you missed are in <span class="r">red</span> on the table.',
-    learnTitle: 'Learn the Table', learnLead: 'Tap an element to see its details. Tap a family to highlight it.',
-    symbol: 'Symbol', atomicNo: 'Atomic no.', family: 'Family', atomicNumber: 'Atomic number',
+    learnTitle: 'Learn the Table', learnLead: 'Tap an element to see its details. Tap a category to highlight it.',
+    symbol: 'Symbol', atomicNo: 'Atomic no.', category: 'Category', atomicNumber: 'Atomic number',
     emptyPool: 'No elements in that range for this game.',
     phName: 'Type the element name', phSym: 'Type the symbol', phNum: 'Type the number', phGroup: 'Type the group number',
     phPeriod: 'Type the period number', phFull: 'Type the full name',
     qWhere: 'Where is this element?', qSym: 'Which element has this symbol?', qSymOf: "What is this element's symbol?",
     qZ: 'What is the atomic number?', qWhoZ: z => `Which element has atomic number ${z}?`, qMystery: 'Which element is highlighted?',
-    qFamily: 'Which family does it belong to?', qLetters: 'Complete the element name', qGroup: 'Which group (column) is it in?',
+    qCategory: 'Which category does it belong to?', qFamily: 'Which family is it in?',
+    famNames: { 1: 'Group 1 · Alkali metals', 2: 'Group 2 · Alkaline earth metals', 13: 'Group 13 · Boron group', 14: 'Group 14 · Carbon group', 15: 'Group 15 · Nitrogen group', 16: 'Group 16 · Chalcogens', 17: 'Group 17 · Halogens', 18: 'Group 18 · Noble gases' }, qLetters: 'Complete the element name', qGroup: 'Which group (column) is it in?',
     qPeriod: 'Which period (row) is it in?', qBig: 'Which has the HIGHER atomic number?', qSmall: 'Which has the LOWER atomic number?',
     games: {
       table: ['Periodic Table', 'The table is blank. Where does each one go?', 'The table is empty and it is all on you: drop every element in its exact spot. Ready?'],
@@ -166,7 +169,8 @@ const I18N = {
       'atomic-number': ['Atomic Number', 'How many protons? No guessing!', 'An element shows up, you give its atomic number (Z). Your brain is about to become a table!'],
       'who-is': ['Who is No.?', 'A number appears. Which element owns it?', 'An atomic number pops up and you find its owner. You can even answer by tapping the table!'],
       mystery: ['Mystery Element', 'A square lights up. Who lives there?', 'One square glows on the blank table. Figure out which element lives at that address!'],
-      families: ['Families', 'Every element has a crew. Which one?', 'Alkali metals, halogens, noble gases… Send each element home to the right family!'],
+      families: ['Families', 'Group 1 to 18: which family is it in?', 'Each column of the table is a family, from group 1 to 18. Name the family of each element and learn where each one sits!'],
+      categories: ['Categories', 'Every element has a crew. Which one?', 'Alkali metals, nonmetals, noble gases… Send each element home to the right category!'],
       letters: ['Runaway Letters', 'Some letters ran off. Bring them back!', 'A few letters escaped from the name. Type the full element name and catch them!'],
       groups: ['Groups', 'Which column does it live in?', 'Name the group (column 1 to 18) of each element. Lanthanides and actinides get the day off.'],
       periods: ['Periods', 'Which floor of the table is it on?', 'Name the period (row 1 to 7) of each element. Up and down the table!'],
@@ -239,13 +243,23 @@ function elOpts(el, pool, f) {
   for (const o of shuffle(src)) { if (labels.size >= 4) break; if (o !== el) labels.add(f(o)); }
   return shuffle([...labels]);
 }
+// a janela de valores é sorteada em volta da resposta, assim a certa não fica sempre "no meio"
 function numOpts(ans, min, max, f = String) {
-  const s = new Set([ans]);
-  for (let i = 0; s.size < 4 && i < 200; i++) {
-    const d = ans + rand(11) - 5;
-    if (d >= min && d <= max) s.add(d);
-  }
-  return shuffle([...s]).map(f);
+  const W = Math.min(9, max - min + 1);
+  const lo = Math.max(min, ans - W + 1), hi = Math.min(ans, max - W + 1);
+  const start = lo + rand(hi - lo + 1);
+  const others = [];
+  for (let v = start; v < start + W; v++) if (v !== ans) others.push(v);
+  return shuffle([ans, ...shuffle(others).slice(0, 3)]).map(f);
+}
+function zOpts(z, pool) {
+  const zs = pool.map(e => e.z), lo = Math.min(...zs), hi = Math.max(...zs);
+  return hi - lo >= 3 ? numOpts(z, lo, hi) : numOpts(z, 1, 118);
+}
+function valueOpts(ans, values, f, fallback) {
+  const others = [...new Set(values)].filter(v => v !== ans);
+  if (others.length < 3) return fallback();
+  return shuffle([ans, ...shuffle(others).slice(0, 3)]).map(f);
 }
 function otherEl(el, pool) {
   const src = pool.length >= 2 ? pool : ELEMENTS;
@@ -261,6 +275,8 @@ const MODES = {
   type:   { label: () => t('mType'),   sub: () => t('mTypeSub'),   icon: '⌨️', short: () => t('sType') },
   click:  { label: () => t('mClick'),  sub: () => t('mClickSub'),  icon: '📍', short: () => t('sClick') },
 };
+
+const FAMILY_GROUPS = [1, 2, 13, 14, 15, 16, 17, 18];
 
 const GAMES = [
   {
@@ -286,17 +302,17 @@ const GAMES = [
     bg: 'linear-gradient(135deg,#ffb36b,#ff7a45)', thumb: () => `<div class="t-card">${byZ(11).name}</div><span class="t-arrow">→</span><div class="t-tile sm">Na</div>`,
     make: (el, pool, mode) => ({
       heading: t('qSymOf'), visual: nameCard(el.name),
-      answer: el.sym, accept: [el.sym], placeholder: t('phSym'),
+      answer: el.sym, accept: [el.sym], exact: el.sym, placeholder: t('phSym'),
       options: mode === 'choice' && elOpts(el, pool, e => e.sym),
     }),
   },
   {
     id: 'atomic-number', modes: ['choice', 'type'],
     bg: 'linear-gradient(135deg,#5ee0a0,#1fae6b)', thumb: () => `<div class="t-tile"><small>?</small>O</div>`,
-    make: el => ({
+    make: (el, pool) => ({
       heading: t('qZ'), visual: bigTile(el, { z: true, hideZ: true }),
       answer: String(el.z), accept: [String(el.z)], placeholder: t('phNum'),
-      options: numOpts(el.z, 1, 118), inputmode: 'numeric',
+      options: zOpts(el.z, pool), inputmode: 'numeric',
     }),
   },
   {
@@ -319,13 +335,26 @@ const GAMES = [
     }),
   },
   {
-    id: 'families', modes: ['choice'],
+    // só elementos que pertencem a uma família (o H fica de fora: não tem família)
+    id: 'families', modes: ['choice'], noCategory: true, filter: e => FAMILY_GROUPS.includes(e.group) && e.z !== 1,
+    bg: 'linear-gradient(135deg,#ffe46b,#ffb238)',
+    thumb: () => mini(e => FAMILY_GROUPS.includes(e.group) && e.z !== 1 ? 'hl' : ''),
+    make: (el, pool) => {
+      const ans = t('famNames')[el.group];
+      const options = valueOpts(el.group, pool.map(e => e.group), g => t('famNames')[g],
+        () => shuffle([ans, ...shuffle(FAMILY_GROUPS.filter(g => g !== el.group)).slice(0, 3).map(g => t('famNames')[g])]));
+      return { heading: t('qFamily'), visual: bigTile(el), answer: ans, options };
+    },
+  },
+  {
+    id: 'categories', modes: ['choice'], noCategory: true,
     bg: 'linear-gradient(135deg,#ff9ec4,#e8579a)',
     thumb: () => `<div class="t-grid">${[11, 17, 10, 26].map(z => `<div class="t-mini" style="background:${CATS[byZ(z).cat].color}">${byZ(z).sym}</div>`).join('')}</div>`,
-    make: el => {
+    make: (el, pool) => {
       const ans = CATS[el.cat].name;
-      const others = shuffle(Object.values(CATS).map(c => c.name).filter(n => n !== ans)).slice(0, 3);
-      return { heading: t('qFamily'), visual: bigTile(el), answer: ans, options: shuffle([ans, ...others]) };
+      const options = valueOpts(el.cat, pool.map(e => e.cat), k => CATS[k].name,
+        () => shuffle([ans, ...shuffle(Object.values(CATS).map(c => c.name).filter(n => n !== ans)).slice(0, 3)]));
+      return { heading: t('qCategory'), visual: bigTile(el), answer: ans, options };
     },
   },
   {
@@ -335,21 +364,21 @@ const GAMES = [
     make: el => ({ heading: t('qLetters'), visual: letters(el.name), answer: el.name, accept: names(el), placeholder: t('phFull') }),
   },
   {
-    id: 'groups', modes: ['choice', 'type'], filter: e => e.group,
+    id: 'groups', modes: ['choice', 'type'], noCategory: true, filter: e => e.group,
     bg: 'linear-gradient(135deg,#43d9c6,#139e8f)', thumb: () => mini(e => e.group === 17 ? 'hl' : ''),
-    make: el => ({
+    make: (el, pool) => ({
       heading: t('qGroup'), visual: bigTile(el),
       answer: `${t('group')} ${el.group}`, accept: [String(el.group), 'grupo' + el.group, 'group' + el.group], placeholder: t('phGroup'),
-      options: numOpts(el.group, 1, 18, n => `${t('group')} ${n}`), inputmode: 'numeric',
+      options: valueOpts(el.group, pool.map(e => e.group), n => `${t('group')} ${n}`, () => numOpts(el.group, 1, 18, n => `${t('group')} ${n}`)), inputmode: 'numeric',
     }),
   },
   {
-    id: 'periods', modes: ['choice', 'type'],
+    id: 'periods', modes: ['choice', 'type'], hideCats: ['la', 'ac'],
     bg: 'linear-gradient(135deg,#c3b1ff,#8a6cf0)', thumb: () => mini(e => e.row === 4 ? 'hl' : ''),
-    make: el => ({
+    make: (el, pool) => ({
       heading: t('qPeriod'), visual: bigTile(el),
       answer: `${t('period')} ${el.period}`, accept: [String(el.period), 'periodo' + el.period, 'period' + el.period], placeholder: t('phPeriod'),
-      options: numOpts(el.period, 1, 7, n => `${t('period')} ${n}`), inputmode: 'numeric',
+      options: valueOpts(el.period, pool.map(e => e.period), n => `${t('period')} ${n}`, () => numOpts(el.period, 1, 7, n => `${t('period')} ${n}`)), inputmode: 'numeric',
     }),
   },
   {
@@ -406,9 +435,9 @@ const DOODLE = {
   grid: `<svg class="dd dd-grid" viewBox="0 0 300 220" aria-hidden="true"><g stroke="currentColor" stroke-width="2.5">${[0,1,2,3,4,5,6].map(i => `<line x1="${10 + i * 46}" y1="0" x2="${10 + i * 46}" y2="220"/>`).join('')}${[0,1,2,3,4].map(i => `<line x1="0" y1="${14 + i * 48}" x2="300" y2="${14 + i * 48}"/>`).join('')}</g></svg>`,
 };
 const THUMB_BG = ['#86d81c', '#ffd84d', '#7fd1ff', '#ff9ec4', '#bca4ff', '#5fe3c6'];
-const ICONS = { table: '📍', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🎨', letters: 'A_', groups: '↕', periods: '↔', duel: '⚖️' };
+const ICONS = { table: '📍', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', duel: '⚖️' };
 
-/* ---------- roteamento ---------- *//* ---------- roteamento ---------- */
+/* ---------- roteamento ---------- */
 let G = null; // jogo em andamento
 
 function stopGame() {
@@ -467,45 +496,33 @@ function renderHome() {
 }
 
 /* ---------- página do jogo (Treino / Desafio) ---------- */
-// famílias como no ensino brasileiro (1A a 8A) + transição, lantanídeos e actinídeos
-const FAMILIES = [
-  { k: 'g1', pt: '1A · Alcalinos (+H)', en: 'Group 1 · Alkali (+H)', test: e => e.group === 1 },
-  { k: 'g2', pt: '2A · Alcalino-terrosos', en: 'Group 2 · Alkaline earth', test: e => e.group === 2 },
-  { k: 'g13', pt: '3A · Família do boro', en: 'Group 13 · Boron', test: e => e.group === 13 },
-  { k: 'g14', pt: '4A · Família do carbono', en: 'Group 14 · Carbon', test: e => e.group === 14 },
-  { k: 'g15', pt: '5A · Família do nitrogênio', en: 'Group 15 · Nitrogen', test: e => e.group === 15 },
-  { k: 'g16', pt: '6A · Calcogênios', en: 'Group 16 · Chalcogens', test: e => e.group === 16 },
-  { k: 'g17', pt: '7A · Halogênios', en: 'Group 17 · Halogens', test: e => e.group === 17 },
-  { k: 'g18', pt: '8A · Gases nobres', en: 'Group 18 · Noble gases', test: e => e.group === 18 },
-  { k: 'tr', pt: 'Metais de transição', en: 'Transition metals', test: e => e.group >= 3 && e.group <= 12 },
-  { k: 'la', pt: 'Lantanídeos', en: 'Lanthanides', test: e => e.cat === 'la' },
-  { k: 'ac', pt: 'Actinídeos', en: 'Actinides', test: e => e.cat === 'ac' },
-];
-const famOf = k => FAMILIES.find(f => f.k === k);
+// categorias da tabela (as mesmas cores da página Estudar), na ordem das cores da legenda
+const CAT_KEYS = Object.keys(CATS);
 const gameOk = (g, e) => !g.filter || g.filter(e);
-const famCount = (g, f) => ELEMENTS.filter(e => f.test(e) && gameOk(g, e)).length;
+const catCount = (g, k) => (g.hideCats || []).includes(k) ? 0 : ELEMENTS.filter(e => e.cat === k && gameOk(g, e)).length;
 
-// elementos do treino: por faixa de número ou pelas famílias escolhidas
+// elementos do treino: por faixa de número ou pelas categorias escolhidas
 function practicePool(g, s) {
-  if (s.by === 'family') return ELEMENTS.filter(e => s.fams.some(k => famOf(k).test(e)) && gameOk(g, e));
+  if (s.by === 'category') return ELEMENTS.filter(e => s.cats.includes(e.cat) && gameOk(g, e));
   const [a, b] = s.range.split('-').map(Number);
   return poolOf(g, a, b);
 }
 
 function defaultSettings(g) {
   return g.kind === 'fill'
-    ? { by: 'range', range: '1-118', fams: ['g1'], limit: '900', symbols: 'no' }
-    : { by: 'range', range: '1-118', fams: ['g1'], count: '10', mode: g.modes[0], timer: '0', next: 'auto' };
+    ? { by: 'range', range: '1-118', cats: ['am'], limit: '900', symbols: 'no' }
+    : { by: 'range', range: '1-118', cats: ['am'], count: '10', mode: g.modes[0], timer: '0', next: 'auto' };
 }
 function getSettings(g) {
   const saved = (store.get().settings || {})[g.id] || {};
   const s = { ...defaultSettings(g), ...saved };
   if (s.mode && !g.modes.includes(s.mode)) s.mode = g.modes[0];
   if (!['1-20', '1-36', '1-54', '1-118'].includes(s.range)) s.range = '1-118';
-  if (s.by !== 'family') s.by = 'range';
-  // só famílias que existem neste jogo (ex.: Grupos não tem lantanídeos)
-  s.fams = (Array.isArray(s.fams) ? s.fams : []).filter(k => famOf(k) && famCount(g, famOf(k)) > 0);
-  if (!s.fams.length) s.fams = ['g1'];
+  if (s.by !== 'category' || g.noCategory) s.by = 'range';
+  // só categorias que existem neste jogo (ex.: Grupos não tem lantanídeos)
+  s.cats = (Array.isArray(s.cats) ? s.cats : []).filter(k => CATS[k] && catCount(g, k) > 0);
+  if (!s.cats.length) s.cats = ['am'];
+  delete s.fams;
   if (g.kind !== 'fill') s.count = fitCount(g, s);
   return s;
 }
@@ -524,12 +541,13 @@ function optGroup(label, key, cur, opts) {
 function elementsGroup(s, g) {
   const by = `<div class="by-switch">
     <button class="by-btn ${s.by === 'range' ? 'on' : ''}" data-by="range">${t('byNumber')}</button>
-    <button class="by-btn ${s.by === 'family' ? 'on' : ''}" data-by="family">${t('byFamily')}</button></div>`;
-  if (s.by !== 'family') return `<div class="og-head"><div class="og-label">${t('elements')}</div>${by}</div>` + rangeGroup(s, g, true);
-  const fams = FAMILIES.filter(f => famCount(g, f) > 0);
+    <button class="by-btn ${s.by === 'category' ? 'on' : ''}" data-by="category">${t('byCategory')}</button></div>`;
+  if (g.noCategory) return rangeGroup(s, g);
+  if (s.by !== 'category') return `<div class="og-head"><div class="og-label">${t('elements')}</div>${by}</div>` + rangeGroup(s, g, true);
+  const cats = CAT_KEYS.filter(k => catCount(g, k) > 0);
   return `<div class="og"><div class="og-head"><div class="og-label">${t('elements')}</div>${by}</div>
-    <div class="fam-hint">${t('pickFam')}</div>
-    <div class="fam-grid">${fams.map(f => `<button class="opt fam ${s.fams.includes(f.k) ? 'on' : ''}" data-fam="${f.k}">${f[LANG]}<small>${t('nElements', famCount(g, f))}</small></button>`).join('')}</div></div>`;
+    <div class="fam-hint">${t('pickCat')}</div>
+    <div class="fam-grid">${cats.map(k => `<button class="opt fam ${s.cats.includes(k) ? 'on' : ''}" data-cat="${k}"><span class="cat-name"><i class="cat-dot" style="--c:${CATS[k].color}"></i>${CATS[k].name}</span><small>${t('nElements', catCount(g, k))}</small></button>`).join('')}</div></div>`;
 }
 
 function rangeGroup(s, g, noLabel = false) {
@@ -614,10 +632,10 @@ function renderPractice(g) {
   const changed = () => { if (g.kind !== 'fill') s.count = fitCount(g, s); saveSettings(g, s); renderPractice(g); };
   $$('.opt[data-k]', panel).forEach(b => b.onclick = () => { s[b.dataset.k] = b.dataset.v; changed(); });
   $$('.by-btn', panel).forEach(b => b.onclick = () => { s.by = b.dataset.by; changed(); });
-  $$('.opt[data-fam]', panel).forEach(b => b.onclick = () => {
-    const k = b.dataset.fam;
-    if (s.fams.includes(k)) { if (s.fams.length > 1) s.fams = s.fams.filter(x => x !== k); }
-    else s.fams = [...s.fams, k];
+  $$('.opt[data-cat]', panel).forEach(b => b.onclick = () => {
+    const k = b.dataset.cat;
+    if (s.cats.includes(k)) { if (s.cats.length > 1) s.cats = s.cats.filter(x => x !== k); }
+    else s.cats = [...s.cats, k];
     changed();
   });
   $('#resetSet').onclick = () => { saveSettings(g, null); renderPractice(g); };
@@ -643,10 +661,13 @@ function renderChallenge(g) {
     const inf = mode === 'type';
     h += `<div class="mode-head"><span class="mode-ic">${MODES[mode].icon}</span><b>${label(mode)}</b>
       <span class="mode-lives ${inf ? 'inf' : ''}">${inf ? '♾️ ' + t('livesInf') : '❤️ ' + t('lives3')}</span></div>`;
+    // jogos com poucos elementos (ex.: Famílias) podem ter dois níveis com as mesmas perguntas: fica só o primeiro
+    const sizes = levels.map(L => fill ? L.to : Math.min(L.count, poolOf(g, 1, L.to).length));
     h += levels.map((L, i) => {
+      if (i > 0 && sizes[i] === sizes[i - 1]) return '';
       const key = `${mode}-${i}`;
       const mins = Math.round(L.limit / 60) + ' min';
-      const n = fill ? L.to : Math.min(L.count, poolOf(g, 1, L.to).length);
+      const n = sizes[i];
       const desc = fill ? t('fillDesc', L.to, Math.round(L.limit / 60)) : t('lvlDesc', n, L.to);
       const info = [
         fill ? ['🧪', n, t('sElements')] : ['📋', n, t('sQuestions')],
@@ -797,7 +818,7 @@ function renderQuestion() {
   } else if (q.mode === 'type') {
     ans.innerHTML = `<div class="type-row"><input id="tin" class="tin" autocomplete="off" autocapitalize="off" spellcheck="false" ${q.inputmode ? `inputmode="${q.inputmode}"` : ''} placeholder="${q.placeholder || ''}">${skipBtn()}</div>`;
     const inp = $('#tin');
-    inp.oninput = () => { if (q.accept.includes(norm(inp.value))) answer(inp.value); };
+    inp.oninput = () => { if (typedOk(q, inp.value)) answer(inp.value); };
     inp.onkeydown = e => { if (e.key === 'Enter' && inp.value.trim()) answer(inp.value); };
     inp.focus();
   } else {
@@ -809,6 +830,9 @@ function renderQuestion() {
   $('#skip').onclick = () => answer(null, 'skip');
   updateHud();
 }
+
+// símbolos precisam da maiúscula certa (Co ≠ CO); nomes aceitam sem acento e sem maiúscula
+const typedOk = (q, v) => q.exact ? String(v).trim() === q.exact : q.accept.includes(norm(v));
 
 function factHtml(e) {
   return `<div class="fact">${tile(e, { size: 'sm', name: false })}<div><b>${e.name} (${e.sym})</b><small>${t('no')} ${e.z} · ${CATS[e.cat].name}${e.group ? ` · ${t('group')} ${e.group}` : ''} · ${t('period')} ${e.period}</small></div></div>`;
@@ -828,7 +852,7 @@ function answer(v, how) {
       else if (b.dataset.v === v) b.classList.add('wrong');
     });
   } else if (q.mode === 'type') {
-    ok = v != null && q.accept.includes(norm(v));
+    ok = v != null && typedOk(q, v);
     const inp = $('#tin');
     inp.disabled = true; inp.classList.add(ok ? 'right' : 'wrong');
     if (!ok) inp.value = q.answer;
@@ -1065,7 +1089,7 @@ function renderLearn() {
     $('#detail').innerHTML = `${tile(e, { size: 'lg' })}
       <div class="d-info"><h2>${e.name}</h2>
         <div class="d-tags"><span>${t('symbol')} <b>${e.sym}</b></span><span>${t('atomicNo')} <b>${e.z}</b></span>
-        <span>${t('family')} <b>${CATS[e.cat].name}</b></span><span>${t('group')} <b>${e.group || '-'}</b></span><span>${t('period')} <b>${e.period}</b></span></div>
+        <span>${t('category')} <b>${CATS[e.cat].name}</b></span><span>${t('group')} <b>${e.group || '-'}</b></span><span>${t('period')} <b>${e.period}</b></span></div>
       </div>`;
   };
   $$('.learn-t .pc[data-z]').forEach(c => c.onclick = () => show(+c.dataset.z));
