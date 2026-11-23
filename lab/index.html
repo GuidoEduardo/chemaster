@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CheMaster Lab</title>
+  <meta name="author" content="Guido">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- visual base do site + estilos só do Lab -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-in">
+      <a href="../" class="logo"><span class="logo-box">CheMaster</span><span class="logo-dot">?</span></a>
+      <nav class="nav-links">
+        <a href="../#/jogos" data-t="navGames">Games</a>
+        <a href="../#/estudar" data-t="navStudy">Learn</a>
+        <a href="./" class="lab-link on">Lab <span class="beta">beta</span></a>
+        <button class="lang-btn" id="langBtn" title="Idioma / Language"><span id="langCode">EN</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="lab"></main>
+
+  <footer class="foot" data-t="footer">CheMaster · made by Guido ⚛</footer>
+
+  <!-- dados dos elementos vêm do site principal; o resto é só do Lab -->
+  <script src="../js/data.js"></script>
+  <script src="masses.js"></script>
+  <script src="lab.js"></script>
+</body>
+</html>

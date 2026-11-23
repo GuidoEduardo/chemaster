@@ -33,7 +33,7 @@ function toast(msg) {
 const I18N = {
   pt: {
     navGames: 'Jogos', navStudy: 'Estudar', footer: 'CheMaster · feito por Guido ⚛',
-    docTitle: 'CheMaster — Aprenda a Tabela Periódica',
+    docTitle: 'CheMaster | Aprenda a Tabela Periódica',
     heroKicker: '118 elementos. Zero tédio. Bora jogar! ⚡', heroTitle: 'Jogue Química. Domine a Tabela.',
     explore: 'Explorar Jogos', studyTable: '📖 Estudar a Tabela', trending: 'Jogos',
     practice: '📗 Treino', challenge: '🔥 Desafio',
@@ -48,10 +48,20 @@ const I18N = {
     mChoice: 'Alternativas', mChoiceSub: 'Escolha entre 4', mType: 'Digitar', mTypeSub: 'Escreva a resposta',
     mClick: 'Clicar', mClickSub: 'Toque na tabela', sChoice: 'Escolha', sType: 'Digitar', sClick: 'Clicar',
     lvlTags: ['INICIANTE', 'FÁCIL', 'MÉDIO', 'DIFÍCIL', 'MESTRE'],
-    lvlTitles: ['Novato do Lab', 'Béquer Borbulhando', 'Modo Reação', 'Caçador de Elementos', 'CheMaster Supremo'],
+    lvlNames: {
+      choice: ['Novato do Lab', 'Béquer Borbulhando', 'Modo Reação', 'Caçador de Elementos', 'CheMaster Supremo'],
+      type: ['Primeiras Letras', 'Dedos Rápidos', 'Químico do Teclado', 'Alquimista da Escrita', 'CheMaster das Teclas'],
+      click: ['Explorador Novato', 'Desbravador da Tabela', 'Mira Certeira', 'Navegador da Grade', 'CheMaster do Alvo'],
+    },
     lvlDesc: (n, to) => to === 118 ? `${n} perguntas, a tabela inteira. Sem dó!` : `${n} perguntas do elemento 1 ao ${to}. Aquece aí!`,
     fillDesc: (n, m) => `Preencha do 1 ao ${n} antes que ${m} minutos acabem!`,
-    sQuestions: 'Perguntas', sTime: 'Tempo', sMode: 'Modo', sLives: 'Vidas', sElements: 'Elementos',
+    chRulesTitle: 'Como funciona o Desafio',
+    chTime: '⏱️ Um tempo total para a fase inteira, não por pergunta!',
+    chLives: m => `❤️ ${m}: 3 vidas, cada erro custa uma`, chInf: m => `♾️ ${m}: vidas infinitas, só o relógio manda`,
+    chWin: '🏆 Responda tudo antes do tempo acabar e vença', chWinFill: '🏆 Preencha todos antes do tempo acabar e vença',
+    lives3: '3 vidas', livesInf: 'Vidas infinitas',
+    ctaTitle: 'Já treinou? Hora do Desafio! 🔥', ctaSub: 'Tempo total, níveis para cada modo e muito orgulho em jogo.', ctaBtn: 'Ir para o Desafio →',
+    sQuestions: 'Perguntas', sTime: 'Tempo total', sMode: 'Modo', sLives: 'Vidas', sElements: 'Elementos',
     completed: '✅ Concluído', best: 'Melhor', resetProgress: '↺ Resetar progresso deste jogo',
     confirmReset: 'Apagar o progresso dos desafios deste jogo?', progressReset: 'Progresso apagado!',
     time: 'TEMPO', left: 'RESTAM', qOf: (i, n) => `Pergunta <b>${i}</b> de ${n}`,
@@ -62,7 +72,7 @@ const I18N = {
     paused: 'Pausado', resume: 'Continuar', quit: 'Sair',
     rPerfect: ['🏆', 'Perfeito!', 'Você acertou tudo. Incrível!'], rGreat: ['🌟', 'Excelente!', 'Você está quase dominando.'],
     rGood: ['👍', 'Bom trabalho!', 'Mais um pouco de treino e fica perfeito.'], rKeep: ['📚', 'Continue praticando!', 'Cada rodada fixa um pouco mais.'],
-    rLives: ['💔', 'Acabaram as vidas!', 'Revise os erros abaixo e tente de novo.'], rTime: ['⏰', 'O tempo acabou!', 'Quase lá — tente de novo.'],
+    rLives: ['💔', 'Acabaram as vidas!', 'Revise os erros abaixo e tente de novo.'], rTime: ['⏰', 'O tempo acabou!', 'Foi por pouco! Tenta de novo.'],
     levelDone: 'Fase concluída! ',
     correct: 'Acertos', score: 'Aproveitamento', tTime: 'Tempo', again: 'Jogar de novo ↻', back: 'Voltar',
     review: n => `Para revisar (${n})`, you: 'você',
@@ -94,7 +104,7 @@ const I18N = {
   },
   en: {
     navGames: 'Games', navStudy: 'Learn', footer: 'CheMaster · made by Guido ⚛',
-    docTitle: 'CheMaster — Learn the Periodic Table',
+    docTitle: 'CheMaster | Learn the Periodic Table',
     heroKicker: '118 elements. Zero boredom. Let’s play! ⚡', heroTitle: 'Play Chemistry. Master the Table.',
     explore: 'Explore Games', studyTable: '📖 Learn the Table', trending: 'Games',
     practice: '📗 Practice', challenge: '🔥 Challenge',
@@ -109,10 +119,20 @@ const I18N = {
     mChoice: 'Multiple choice', mChoiceSub: 'Pick from 4', mType: 'Type', mTypeSub: 'Type the answer',
     mClick: 'Pin', mClickSub: 'Tap the table', sChoice: 'Choice', sType: 'Type', sClick: 'Pin',
     lvlTags: ['BEGINNER', 'EASY', 'MEDIUM', 'HARD', 'MASTER'],
-    lvlTitles: ['Lab Rookie', 'Bubbling Beaker', 'Chain Reaction', 'Element Hunter', 'Supreme CheMaster'],
+    lvlNames: {
+      choice: ['Lab Rookie', 'Bubbling Beaker', 'Chain Reaction', 'Element Hunter', 'Supreme CheMaster'],
+      type: ['Ink Starter', 'Quick Fingers', 'Keyboard Chemist', 'Spelling Alchemist', 'Typing CheMaster'],
+      click: ['Map Rookie', 'Table Explorer', 'Sharp Shooter', 'Grid Navigator', 'Pinpoint CheMaster'],
+    },
     lvlDesc: (n, to) => to === 118 ? `${n} questions, the whole table. No mercy!` : `${n} questions, elements 1 to ${to}. Warm up!`,
     fillDesc: (n, m) => `Fill elements 1 to ${n} before ${m} minutes run out!`,
-    sQuestions: 'Questions', sTime: 'Time limit', sMode: 'Mode', sLives: 'Lives', sElements: 'Elements',
+    chRulesTitle: 'How Challenge works',
+    chTime: '⏱️ One total time for the whole level, not per question!',
+    chLives: m => `❤️ ${m}: 3 lives, every mistake costs one`, chInf: m => `♾️ ${m}: infinite lives, only the clock can stop you`,
+    chWin: '🏆 Answer everything before time runs out to win', chWinFill: '🏆 Fill them all before time runs out to win',
+    lives3: '3 lives', livesInf: 'Infinite lives',
+    ctaTitle: 'Practiced enough? Challenge time! 🔥', ctaSub: 'Total time, levels for every mode and bragging rights.', ctaBtn: 'Go to Challenge →',
+    sQuestions: 'Questions', sTime: 'Total time', sMode: 'Mode', sLives: 'Lives', sElements: 'Elements',
     completed: '✅ Completed', best: 'Best', resetProgress: '↺ Reset progress for this game',
     confirmReset: 'Erase challenge progress for this game?', progressReset: 'Progress erased!',
     time: 'TIME', left: 'LEFT', qOf: (i, n) => `Question <b>${i}</b> of ${n}`,
@@ -123,7 +143,7 @@ const I18N = {
     paused: 'Paused', resume: 'Resume', quit: 'Quit',
     rPerfect: ['🏆', 'Perfect!', 'You got everything right. Amazing!'], rGreat: ['🌟', 'Excellent!', "You're almost there."],
     rGood: ['👍', 'Good job!', 'A bit more practice and it will be perfect.'], rKeep: ['📚', 'Keep practicing!', 'Every round helps it stick.'],
-    rLives: ['💔', 'Out of lives!', 'Review your mistakes below and try again.'], rTime: ['⏰', "Time's up!", 'So close — try again.'],
+    rLives: ['💔', 'Out of lives!', 'Review your mistakes below and try again.'], rTime: ['⏰', "Time's up!", 'So close! Give it another go.'],
     levelDone: 'Level complete! ',
     correct: 'Correct', score: 'Score', tTime: 'Time', again: 'Play again ↻', back: 'Back',
     review: n => `To review (${n})`, you: 'you',
@@ -449,7 +469,6 @@ function getSettings(g) {
   const s = { ...defaultSettings(g), ...saved };
   if (s.mode && !g.modes.includes(s.mode)) s.mode = g.modes[0];
   if (!['1-20', '1-36', '1-54', '1-118'].includes(s.range)) s.range = '1-118';
-  s.timer = '0';
   return s;
 }
 function saveSettings(g, s) {
@@ -520,48 +539,73 @@ function renderPractice(g) {
     h += rangeGroup(s);
     if (g.modes.length > 1) h += optGroup(t('mode'), 'mode', s.mode, g.modes.map(m => ({ v: m, label: `${MODES[m].icon} ${MODES[m].label()}`, sub: MODES[m].sub() })));
     h += `<div class="og-row">
+      ${optGroup(t('timer'), 'timer', s.timer, [{ v: '15', label: t('on'), sub: '15s' }, { v: '0', label: t('off') }])}
       ${optGroup(t('next'), 'next', s.next, [{ v: 'auto', label: t('auto') }, { v: 'manual', label: t('manual'), sub: t('manualSub') }])}
-      ${optGroup(t('order'), 'order', s.order, [{ v: 'random', label: t('random') }, { v: 'asc', label: t('asc'), sub: t('ascSub') }])}
     </div>`;
+    h += optGroup(t('order'), 'order', s.order, [{ v: 'random', label: t('random') }, { v: 'asc', label: t('asc'), sub: t('ascSub') }]);
   }
   h += `<div class="panel-btns"><button class="btn-y wide" id="start">${t('start')} <span>→</span></button>
         <a class="btn-w wide" href="#/estudar">${t('study')}</a>
-        <button class="link-btn" id="resetSet">${t('resetSettings')}</button></div>`;
+        <button class="link-btn" id="resetSet">${t('resetSettings')}</button></div>
+    <div class="cta">
+      <div class="cta-txt"><b>${t('ctaTitle')}</b><span>${t('ctaSub')}</span></div>
+      <button class="btn-y cta-btn" id="goChallenge">${t('ctaBtn')}</button>
+    </div>`;
   panel.innerHTML = h;
 
   $$('.opt', panel).forEach(b => b.onclick = () => { s[b.dataset.k] = b.dataset.v; saveSettings(g, s); renderPractice(g); });
   $('#resetSet').onclick = () => { saveSettings(g, null); renderPractice(g); };
+  $('#goChallenge').onclick = () => renderGamePage(g.id, 'c');
   $('#start').onclick = () => g.kind === 'fill' ? startFillPractice(g, s) : startPractice(g, s);
 }
 
 function renderChallenge(g) {
   const best = (store.get().best || {})[g.id] || {};
-  const levels = g.kind === 'fill' ? FILL_LEVELS : LEVELS;
-  $('#panel').innerHTML = levels.map((L, i) => {
-    let info, desc;
-    const mins = Math.round(L.limit / 60) + ' min';
-    if (g.kind === 'fill') {
-      desc = t('fillDesc', L.to, Math.round(L.limit / 60));
-      info = [['🧪', L.to, t('sElements')], ['⏱️', mins, t('sTime')], ['⌨️', MODES.type.short(), t('sMode')], ['♾️', '∞', t('sLives')]];
-    } else {
-      const n = Math.min(L.count, poolOf(g, 1, L.to).length);
-      const mode = challengeMode(g, i);
-      desc = t('lvlDesc', n, L.to);
-      info = [['📋', n, t('sQuestions')], ['⏱️', mins, t('sTime')], [MODES[mode].icon, MODES[mode].short(), t('sMode')], ['❤️', 3, t('sLives')]];
-    }
-    const b = best[i];
-    const badge = b ? (b.passed ? `<span class="done-badge">${t('completed')}</span>` : `<span class="best-badge">${t('best')}: ${b.score}</span>`) : '';
-    return `<div class="lvl">
-      <div class="lvl-img" style="background:${L.bg}">${L.icon}</div>
-      <div class="lvl-body">
-        <div class="lvl-top"><span class="lvl-tag" style="background:${L.color}">${t('lvlTags')[i]}</span><span class="stars">${'★'.repeat(L.stars)}</span>${badge}</div>
-        <h3>${t('lvlTitles')[i]}</h3><p>${desc}</p>
-        <div class="lvl-stats" style="background:${L.soft}">${info.map(([ic, v, l]) => `<div><b>${ic} ${v}</b><small>${l}</small></div>`).join('')}</div>
-      </div>
-      <div class="lvl-go"><button class="btn-y" data-lvl="${i}">${t('start')} <span>→</span></button></div>
-    </div>`;
-  }).join('') + (Object.keys(best).length ? `<div class="panel-btns"><button class="link-btn" id="resetProg">${t('resetProgress')}</button></div>` : '');
-  $$('[data-lvl]').forEach(b => b.onclick = () => g.kind === 'fill' ? startFillChallenge(g, +b.dataset.lvl) : startChallenge(g, +b.dataset.lvl));
+  const fill = g.kind === 'fill';
+  const modes = fill ? ['type'] : g.modes;
+  const levels = fill ? FILL_LEVELS : LEVELS;
+  const label = m => MODES[m].label();
+  const limited = modes.filter(m => m !== 'type');
+  const rules = [t('chTime')];
+  if (limited.length) rules.push(t('chLives', limited.map(label).join(' / ')));
+  if (modes.includes('type')) rules.push(t('chInf', label('type')));
+  rules.push(t(fill ? 'chWinFill' : 'chWin'));
+
+  let h = `<div class="ch-rules"><div class="ch-title">${t('chRulesTitle')}</div>
+    <div class="ch-list">${rules.map(r => `<span>${r}</span>`).join('')}</div></div>`;
+  for (const mode of modes) {
+    const inf = mode === 'type';
+    h += `<div class="mode-head"><span class="mode-ic">${MODES[mode].icon}</span><b>${label(mode)}</b>
+      <span class="mode-lives ${inf ? 'inf' : ''}">${inf ? '♾️ ' + t('livesInf') : '❤️ ' + t('lives3')}</span></div>`;
+    h += levels.map((L, i) => {
+      const key = `${mode}-${i}`;
+      const mins = Math.round(L.limit / 60) + ' min';
+      const n = fill ? L.to : Math.min(L.count, poolOf(g, 1, L.to).length);
+      const desc = fill ? t('fillDesc', L.to, Math.round(L.limit / 60)) : t('lvlDesc', n, L.to);
+      const info = [
+        fill ? ['🧪', n, t('sElements')] : ['📋', n, t('sQuestions')],
+        ['⏱️', mins, t('sTime')],
+        [MODES[mode].icon, MODES[mode].short(), t('sMode')],
+        inf ? ['♾️', '∞', t('sLives')] : ['❤️', 3, t('sLives')],
+      ];
+      const bst = best[key];
+      const badge = bst ? (bst.passed ? `<span class="done-badge">${t('completed')}</span>` : `<span class="best-badge">${t('best')}: ${bst.score}</span>`) : '';
+      return `<div class="lvl">
+        <div class="lvl-img" style="background:${L.bg}">${L.icon}</div>
+        <div class="lvl-body">
+          <div class="lvl-top"><span class="lvl-tag" style="background:${L.color}">${t('lvlTags')[i]}</span><span class="stars">${'★'.repeat(L.stars)}</span>${badge}</div>
+          <h3>${t('lvlNames')[mode][i]}</h3><p>${desc}</p>
+          <div class="lvl-stats" style="background:${L.soft}">${info.map(([ic, v, l]) => `<div><b>${ic} ${v}</b><small>${l}</small></div>`).join('')}</div>
+        </div>
+        <div class="lvl-go"><button class="btn-y" data-mode="${mode}" data-lvl="${i}">${t('start')} <span>→</span></button></div>
+      </div>`;
+    }).join('');
+  }
+  if (Object.keys(best).length) h += `<div class="panel-btns"><button class="link-btn" id="resetProg">${t('resetProgress')}</button></div>`;
+  $('#panel').innerHTML = h;
+  $$('[data-lvl]').forEach(btn => btn.onclick = () => fill
+    ? startFillChallenge(g, +btn.dataset.lvl)
+    : startChallenge(g, +btn.dataset.lvl, btn.dataset.mode));
   const rp = $('#resetProg');
   if (rp) rp.onclick = () => {
     if (!confirm(t('confirmReset'))) return;
@@ -570,13 +614,11 @@ function renderChallenge(g) {
   };
 }
 
-const challengeMode = (g, i) => (i >= 3 && g.modes.includes('type')) ? 'type' : g.modes[0];
-
-function saveBest(gid, li, score, total, passed) {
+function saveBest(gid, key, score, total, passed) {
   const d = store.get(); d.best = d.best || {}; d.best[gid] = d.best[gid] || {};
-  const prev = d.best[gid][li];
+  const prev = d.best[gid][key];
   const keepPrev = prev && prev.n > score;
-  d.best[gid][li] = {
+  d.best[gid][key] = {
     score: keepPrev ? prev.score : `${score}/${total}`, n: keepPrev ? prev.n : score,
     passed: passed || !!(prev && prev.passed),
   };
@@ -597,16 +639,16 @@ function startPractice(g, s) {
   });
 }
 
-function startChallenge(g, li) {
+function startChallenge(g, li, mode) {
   const L = LEVELS[li];
   const pool = poolOf(g, 1, L.to);
-  const mode = challengeMode(g, li);
   const list = shuffle(pool).slice(0, Math.min(L.count, pool.length));
+  const lives = mode === 'type' ? 0 : 3; // digitar: vidas infinitas
   startGame({
     questions: list.map(el => buildQ(g, el, pool, mode)),
-    timer: 0, next: 'auto', lives: 3, maxLives: 3, limit: L.limit, challenge: true,
-    back: () => renderGamePage(g.id, 'c'), replay: () => startChallenge(g, li),
-    onFinish: r => saveBest(g.id, li, r.score, r.total, r.passed),
+    timer: 0, next: 'auto', lives, maxLives: lives, limit: L.limit, challenge: true,
+    back: () => renderGamePage(g.id, 'c'), replay: () => startChallenge(g, li, mode),
+    onFinish: r => saveBest(g.id, `${mode}-${li}`, r.score, r.total, r.passed),
   });
 }
 
@@ -664,6 +706,7 @@ function tick() {
 function updateHud() {
   if (!G) return;
   $('#clock').textContent = fmt(G.limit ? G.limit - G.elapsed : G.elapsed);
+  $('.clock').classList.toggle('hurry', !!G.limit && G.limit - G.elapsed <= 30);
   const bar = $('#qbar');
   if (G.fill) bar.style.width = (G.limit ? 100 * (1 - G.elapsed / G.limit) : 100 * G.found.size / G.pool.length) + '%';
   else if (G.timer) bar.style.width = Math.max(0, 100 * (1 - G.qTime / G.timer)) + '%';
@@ -866,7 +909,7 @@ function startFillChallenge(g, li) {
   startFill({
     from: 1, to: L.to, limit: L.limit, symbols: false, challenge: true,
     back: () => renderGamePage(g.id, 'c'), replay: () => startFillChallenge(g, li),
-    onFinish: r => saveBest(g.id, li, r.score, r.total, r.passed),
+    onFinish: r => saveBest(g.id, `type-${li}`, r.score, r.total, r.passed),
   });
 }
 
@@ -951,7 +994,7 @@ function renderLearn() {
     <p class="lead">${t('learnLead')}</p>
     <div class="legend">${Object.entries(CATS).map(([k, c]) => `<button class="chip" data-cat="${k}" style="--c:${c.color}">${c.name}</button>`).join('')}</div>
     <div class="detail" id="detail"></div>
-    <div class="board learn">${ptable(e => ({ cls: 'cat', style: `--c:${CATS[e.cat].color}`, html: cellHtml(e, true) }), { cls: 'learn-t', phHtml: ['57–71', '89–103'] })}</div>
+    <div class="board learn">${ptable(e => ({ cls: 'cat', style: `--c:${CATS[e.cat].color}`, html: cellHtml(e, true) }), { cls: 'learn-t', phHtml: ['57-71', '89-103'] })}</div>
   </section>`;
   const show = z => {
     const e = byZ(z);
@@ -959,7 +1002,7 @@ function renderLearn() {
     $('#detail').innerHTML = `${tile(e, { size: 'lg' })}
       <div class="d-info"><h2>${e.name}</h2>
         <div class="d-tags"><span>${t('symbol')} <b>${e.sym}</b></span><span>${t('atomicNo')} <b>${e.z}</b></span>
-        <span>${t('family')} <b>${CATS[e.cat].name}</b></span><span>${t('group')} <b>${e.group || '—'}</b></span><span>${t('period')} <b>${e.period}</b></span></div>
+        <span>${t('family')} <b>${CATS[e.cat].name}</b></span><span>${t('group')} <b>${e.group || '-'}</b></span><span>${t('period')} <b>${e.period}</b></span></div>
       </div>`;
   };
   $$('.learn-t .pc[data-z]').forEach(c => c.onclick = () => show(+c.dataset.z));
