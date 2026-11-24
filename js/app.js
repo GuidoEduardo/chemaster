@@ -76,6 +76,9 @@ const I18N = {
     levelDone: 'Fase concluída! ',
     correct: 'Acertos', score: 'Aproveitamento', tTime: 'Tempo', again: 'Jogar de novo ↻', back: 'Voltar',
     review: n => `Para revisar (${n})`, you: 'você',
+    topics: 'Temas', pickTopic: 'Escolha um ou mais temas', quizQ: 'Pergunta de química',
+    quizLvl: ['Só as perguntas básicas. Para aquecer!', 'Básicas e médias, de todos os temas.', 'Todas as perguntas, inclusive as difíceis!'],
+    quizLvlNames: ['Teoria na Ponta da Língua', 'Professor Substituto', 'Enciclopédia Química'],
     ofElements: n => `de ${n} elementos`, fillPh: 'Digite o nome de qualquer elemento', fillPhSym: ' (ou símbolo + Enter)',
     giveUp: 'Desistir', already: n => `${n} já foi! 😉`, missingHint: 'Os que faltaram estão em <span class="r">vermelho</span> na tabela.',
     learnTitle: 'Estudar a Tabela', learnLead: 'Toque em um elemento para ver os detalhes. Toque em uma categoria para destacá-la.',
@@ -101,6 +104,7 @@ const I18N = {
       letters: ['Letras Sumidas', 'Umas letras fugiram. Complete o nome!', 'Algumas letras deram no pé. Escreva o nome inteiro do elemento e traga elas de volta!'],
       groups: ['Grupos', 'Em que coluna esse elemento mora?', 'Diga o grupo (coluna 1 a 18) de cada elemento. Lantanídeos e actinídeos ficam de folga.'],
       periods: ['Períodos', 'Em que andar da tabela ele está?', 'Diga o período (linha 1 a 7) de cada elemento. Sobe e desce na tabela!'],
+      quiz: ['Perguntas de Química', 'Quem explode na água? Quem nunca reage? Responda!', 'Grave como cada família se comporta: quem reage com a água, quem forma sal, quem brilha no letreiro, quem enferruja… Cada resposta vem com uma explicação curtinha.'],
       duel: ['Duelo Atômico', 'Dois elementos, uma briga: quem é maior?', 'Dois elementos entram no ringue. Quem tem o maior (ou menor) número atômico vence!'],
     },
   },
@@ -149,6 +153,9 @@ const I18N = {
     levelDone: 'Level complete! ',
     correct: 'Correct', score: 'Score', tTime: 'Time', again: 'Play again ↻', back: 'Back',
     review: n => `To review (${n})`, you: 'you',
+    topics: 'Topics', pickTopic: 'Pick one or more topics', quizQ: 'Chemistry question',
+    quizLvl: ['Only the basic questions. Warm up!', 'Basic and medium, from every topic.', 'Every question, hard ones included!'],
+    quizLvlNames: ['Theory Rookie', 'Substitute Teacher', 'Walking Encyclopedia'],
     ofElements: n => `of ${n} elements`, fillPh: 'Type the name of any element', fillPhSym: ' (or symbol + Enter)',
     giveUp: 'Give up', already: n => `${n} is already done! 😉`, missingHint: 'The ones you missed are in <span class="r">red</span> on the table.',
     learnTitle: 'Learn the Table', learnLead: 'Tap an element to see its details. Tap a category to highlight it.',
@@ -174,6 +181,7 @@ const I18N = {
       letters: ['Runaway Letters', 'Some letters ran off. Bring them back!', 'A few letters escaped from the name. Type the full element name and catch them!'],
       groups: ['Groups', 'Which column does it live in?', 'Name the group (column 1 to 18) of each element. Lanthanides and actinides get the day off.'],
       periods: ['Periods', 'Which floor of the table is it on?', 'Name the period (row 1 to 7) of each element. Up and down the table!'],
+      quiz: ['Chemistry Questions', 'Who explodes in water? Who never reacts? Answer!', 'Learn how each family behaves: who reacts with water, who forms salts, who glows in signs, who rusts… Every answer comes with a short explanation.'],
       duel: ['Atomic Duel', 'Two elements, one fight: who is bigger?', 'Two elements step into the ring. The higher (or lower) atomic number wins!'],
     },
   },
@@ -382,6 +390,19 @@ const GAMES = [
     }),
   },
   {
+    id: 'quiz', kind: 'quiz', modes: ['choice'],
+    bg: 'linear-gradient(135deg,#ffe46b,#ff9ec4)',
+    thumb: () => `<div class="t-card t-quiz">${LANG === 'en' ? 'Na + H₂O = 💥?' : 'Na + H₂O = 💥?'}</div>`,
+    make: item => {
+      const L = item[LANG] || item.pt, topic = QUIZ_TOPICS[item.topic];
+      return {
+        heading: L.q, answer: L.a, options: shuffle([L.a, ...L.wrong]), note: L.note,
+        visual: `<div class="quiz-topic">${topic.icon} ${topic[LANG] || topic.pt}</div>`,
+        el: item.z ? byZ(item.z) : null, reveal: item.z ? [byZ(item.z)] : [], quiz: true,
+      };
+    },
+  },
+  {
     id: 'duel', modes: ['choice'],
     bg: 'linear-gradient(90deg,#ff8c7a 50%,#7fd1ff 50%)', thumb: () => `<div class="t-tile sm">Na</div><span class="t-vs">VS</span><div class="t-tile sm">Cl</div>`,
     make: (el, pool) => {
@@ -413,13 +434,21 @@ const FILL_LEVELS = [
   { ...LEVELS[4], to: 118, limit: 900 },
 ];
 
+const QUIZ_LEVELS = [
+  { ...LEVELS[0], d: 1, count: 15, limit: 240 },
+  { ...LEVELS[1], d: 2, count: 30, limit: 480 },
+  { ...LEVELS[2], d: 3, count: 50, limit: 780 },
+];
+const quizPool = (topics, d = 3) => QUIZ.filter(x => x.d <= d && (!topics || topics.includes(x.topic)));
+const topicCount = k => QUIZ.filter(x => x.topic === k).length;
+
 function poolOf(g, from, to) {
   return ELEMENTS.filter(e => e.z >= from && e.z <= to && (!g.filter || g.filter(e)));
 }
 
 function buildQ(g, el, pool, mode) {
   const q = g.make(el, pool, mode);
-  q.el = q.el || el; q.mode = mode; q.game = g;
+  if (g.kind !== 'quiz') q.el = q.el || el; q.mode = mode; q.game = g;
   if (q.accept) q.accept = q.accept.map(norm);
   if (mode === 'click') q.target = q.el.z;
   return q;
@@ -435,7 +464,7 @@ const DOODLE = {
   grid: `<svg class="dd dd-grid" viewBox="0 0 300 220" aria-hidden="true"><g stroke="currentColor" stroke-width="2.5">${[0,1,2,3,4,5,6].map(i => `<line x1="${10 + i * 46}" y1="0" x2="${10 + i * 46}" y2="220"/>`).join('')}${[0,1,2,3,4].map(i => `<line x1="0" y1="${14 + i * 48}" x2="300" y2="${14 + i * 48}"/>`).join('')}</g></svg>`,
 };
 const THUMB_BG = ['#86d81c', '#ffd84d', '#7fd1ff', '#ff9ec4', '#bca4ff', '#5fe3c6'];
-const ICONS = { table: '📍', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', duel: '⚖️' };
+const ICONS = { table: '📍', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', quiz: '💡', duel: '⚖️' };
 
 /* ---------- roteamento ---------- */
 let G = null; // jogo em andamento
@@ -503,6 +532,7 @@ const catCount = (g, k) => (g.hideCats || []).includes(k) ? 0 : ELEMENTS.filter(
 
 // elementos do treino: por faixa de número ou pelas categorias escolhidas
 function practicePool(g, s) {
+  if (g.kind === 'quiz') return quizPool(s.topics);
   if (s.by === 'category') return ELEMENTS.filter(e => s.cats.includes(e.cat) && gameOk(g, e));
   const [a, b] = s.range.split('-').map(Number);
   return poolOf(g, a, b);
@@ -516,6 +546,13 @@ function defaultSettings(g) {
 function getSettings(g) {
   const saved = (store.get().settings || {})[g.id] || {};
   const s = { ...defaultSettings(g), ...saved };
+  if (g.kind === 'quiz') {
+    s.mode = 'choice';
+    s.topics = (Array.isArray(s.topics) ? s.topics : []).filter(k => QUIZ_TOPICS[k]);
+    if (!s.topics.length) s.topics = Object.keys(QUIZ_TOPICS);
+    s.count = fitCount(g, s);
+    return s;
+  }
   if (s.mode && !g.modes.includes(s.mode)) s.mode = g.modes[0];
   if (!['1-20', '1-36', '1-54', '1-118'].includes(s.range)) s.range = '1-118';
   if (s.by !== 'category' || g.noCategory) s.by = 'range';
@@ -536,6 +573,12 @@ function optGroup(label, key, cur, opts) {
   return `<div class="og">${label ? `<div class="og-label">${label}</div>` : ''}<div class="opts">
     ${opts.map(o => `<button class="opt ${String(cur) === String(o.v) ? 'on' : ''}" data-k="${key}" data-v="${o.v}">${o.label}${o.sub ? `<small>${o.sub}</small>` : ''}</button>`).join('')}
   </div></div>`;
+}
+
+function topicsGroup(s) {
+  return `<div class="og"><div class="og-label">${t('topics')}</div>
+    <div class="fam-hint">${t('pickTopic')}</div>
+    <div class="fam-grid">${Object.entries(QUIZ_TOPICS).map(([k, tp]) => `<button class="opt fam ${s.topics.includes(k) ? 'on' : ''}" data-topic="${k}"><span class="cat-name">${tp.icon} ${tp[LANG] || tp.pt}</span><small>${t('nQuestions', topicCount(k))}</small></button>`).join('')}</div></div>`;
 }
 
 function elementsGroup(s, g) {
@@ -612,7 +655,7 @@ function renderPractice(g) {
       { v: 'no', label: t('onlyNames'), sub: t('exName') }, { v: 'yes', label: t('namesSyms'), sub: t('symEnter') },
     ]);
   } else {
-    h += elementsGroup(s, g);
+    h += g.kind === 'quiz' ? topicsGroup(s) : elementsGroup(s, g);
     h += countGroup(g, s);
     if (g.modes.length > 1) h += optGroup(t('mode'), 'mode', s.mode, g.modes.map(m => ({ v: m, label: `${MODES[m].icon} ${MODES[m].label()}`, sub: MODES[m].sub() })));
     h += `<div class="og-row">
@@ -638,6 +681,12 @@ function renderPractice(g) {
     else s.cats = [...s.cats, k];
     changed();
   });
+  $$('.opt[data-topic]', panel).forEach(b => b.onclick = () => {
+    const k = b.dataset.topic;
+    if (s.topics.includes(k)) { if (s.topics.length > 1) s.topics = s.topics.filter(x => x !== k); }
+    else s.topics = [...s.topics, k];
+    changed();
+  });
   $('#resetSet').onclick = () => { saveSettings(g, null); renderPractice(g); };
   $('#goChallenge').onclick = () => renderGamePage(g.id, 'c');
   $('#start').onclick = () => g.kind === 'fill' ? startFillPractice(g, s) : startPractice(g, s);
@@ -647,7 +696,8 @@ function renderChallenge(g) {
   const best = (store.get().best || {})[g.id] || {};
   const fill = g.kind === 'fill';
   const modes = fill ? ['type'] : g.modes;
-  const levels = fill ? FILL_LEVELS : LEVELS;
+  const quiz = g.kind === 'quiz';
+  const levels = fill ? FILL_LEVELS : quiz ? QUIZ_LEVELS : LEVELS;
   const label = m => MODES[m].label();
   const limited = modes.filter(m => m !== 'type');
   const rules = [t('chTime')];
@@ -662,13 +712,13 @@ function renderChallenge(g) {
     h += `<div class="mode-head"><span class="mode-ic">${MODES[mode].icon}</span><b>${label(mode)}</b>
       <span class="mode-lives ${inf ? 'inf' : ''}">${inf ? '♾️ ' + t('livesInf') : '❤️ ' + t('lives3')}</span></div>`;
     // jogos com poucos elementos (ex.: Famílias) podem ter dois níveis com as mesmas perguntas: fica só o primeiro
-    const sizes = levels.map(L => fill ? L.to : Math.min(L.count, poolOf(g, 1, L.to).length));
+    const sizes = levels.map(L => fill ? L.to : Math.min(L.count, quiz ? quizPool(null, L.d).length : poolOf(g, 1, L.to).length));
     h += levels.map((L, i) => {
       if (i > 0 && sizes[i] === sizes[i - 1]) return '';
       const key = `${mode}-${i}`;
       const mins = Math.round(L.limit / 60) + ' min';
       const n = sizes[i];
-      const desc = fill ? t('fillDesc', L.to, Math.round(L.limit / 60)) : t('lvlDesc', n, L.to);
+      const desc = fill ? t('fillDesc', L.to, Math.round(L.limit / 60)) : quiz ? t('quizLvl')[i] : t('lvlDesc', n, L.to);
       const info = [
         fill ? ['🧪', n, t('sElements')] : ['📋', n, t('sQuestions')],
         ['⏱️', mins, t('sTime')],
@@ -681,7 +731,7 @@ function renderChallenge(g) {
         <div class="lvl-img" style="background:${L.bg}">${L.icon}</div>
         <div class="lvl-body">
           <div class="lvl-top"><span class="lvl-tag" style="background:${L.color}">${t('lvlTags')[i]}</span><span class="stars">${'★'.repeat(L.stars)}</span>${badge}</div>
-          <h3>${t('lvlNames')[mode][i]}</h3><p>${desc}</p>
+          <h3>${quiz ? t('quizLvlNames')[i] : t('lvlNames')[mode][i]}</h3><p>${desc}</p>
           <div class="lvl-stats" style="background:${L.soft}">${info.map(([ic, v, l]) => `<div><b>${ic} ${v}</b><small>${l}</small></div>`).join('')}</div>
         </div>
         <div class="lvl-go"><button class="btn-y" data-mode="${mode}" data-lvl="${i}">${t('start')} <span>→</span></button></div>
@@ -725,8 +775,9 @@ function startPractice(g, s) {
 }
 
 function startChallenge(g, li, mode) {
-  const L = LEVELS[li];
-  const pool = poolOf(g, 1, L.to);
+  const quiz = g.kind === 'quiz';
+  const L = (quiz ? QUIZ_LEVELS : LEVELS)[li];
+  const pool = quiz ? quizPool(null, L.d) : poolOf(g, 1, L.to);
   const list = shuffle(pool).slice(0, Math.min(L.count, pool.length));
   const lives = mode === 'type' ? 0 : 3; // digitar: vidas infinitas
   startGame({
@@ -890,6 +941,7 @@ function showPop(ok, how, q) {
     <div class="pop-ic">${icon}</div>
     <div class="pop-title">${title}</div>
     ${ok ? '' : `<div class="pop-ans">${t('answer')}: <b>${q.answer}</b></div>`}
+    ${q.note ? `<div class="pop-note">💡 ${q.note}</div>` : ''}
     <div class="facts">${(q.reveal || [q.el]).map(factHtml).join('')}</div>
     ${manual ? `<button class="btn-y" id="nextq">${t('nextBtn')} <span>→</span></button>` : `<div class="pop-hint">${t('tapNext')}</div>`}
   </div>`;
@@ -977,8 +1029,8 @@ function finish(reason) {
       <div class="res-actions"><button class="btn-y" id="again">${t('again')}</button><button class="btn-w" id="back">${t('back')}</button></div>
     </div>
     ${wrong.length ? `<h3 class="rv-title">${t('review', wrong.length)}</h3>
-      <div class="review">${wrong.map(r => `<div class="rv">${tile(r.q.el, { size: 'sm', name: false })}<div>
-        <b>${r.q.el.name}</b><small>${r.q.heading}</small>
+      <div class="review">${wrong.map(r => `<div class="rv">${r.q.quiz ? `<div class="rv-ic">💡</div>` : tile(r.q.el, { size: 'sm', name: false })}<div>
+        <b>${r.q.quiz ? r.q.heading : r.q.el.name}</b>${r.q.quiz ? (r.q.note ? `<small>${r.q.note}</small>` : '') : `<small>${r.q.heading}</small>`}
         <small>${t('answer')}: <b class="g">${r.q.answer}</b>${typeof r.given === 'string' ? ` · ${t('you')}: <span class="r">${esc(r.given)}</span>` : ''}</small>
       </div></div>`).join('')}</div>` : ''}
   </section>`;
