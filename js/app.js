@@ -52,6 +52,7 @@ const I18N = {
       choice: ['Novato do Lab', 'Béquer Borbulhando', 'Modo Reação', 'Caçador de Elementos', 'CheMaster Supremo'],
       type: ['Primeiras Letras', 'Dedos Rápidos', 'Químico do Teclado', 'Alquimista da Escrita', 'CheMaster das Teclas'],
       click: ['Explorador Novato', 'Desbravador da Tabela', 'Mira Certeira', 'Navegador da Grade', 'CheMaster do Alvo'],
+      define: ['Aprendiz de Químico', 'Ficha Técnica', 'Raio-X Atômico', 'Enciclopédia Viva', 'CheMaster Absoluto'],
     },
     lvlDesc: (n, to) => to === 118 ? `${n} perguntas, a tabela inteira. Sem dó!` : `${n} perguntas do elemento 1 ao ${to}. Aquece aí!`,
     fillDesc: (n, m) => `Preencha do 1 ao ${n} antes que ${m} minutos acabem!`,
@@ -86,6 +87,11 @@ const I18N = {
     emptyPool: 'Nenhum elemento nessa faixa para este jogo.',
     phName: 'Digite o nome do elemento', phSym: 'Digite o símbolo', phNum: 'Digite o número', phGroup: 'Digite o número do grupo',
     phPeriod: 'Digite o número do período', phFull: 'Digite o nome completo',
+    qDefine: 'Defina o elemento', defSym: 'Símbolo', defZ: 'Número atômico', defZHint: 'Z = nº de prótons',
+    defLoc: 'Lugar na tabela', defLocHint: '👉 Clique na casa certa na tabela', confirm: 'Confirmar',
+    zoomHint: 'Arraste para mover · roda do mouse ou pinça para dar zoom',
+    fBlock: 'linha de baixo (bloco f)', pickCatOne: 'Escolha a categoria',
+    partSym: 'Símbolo', partZ: 'Nº atômico', partLoc: 'Lugar', mDefine: 'Definir', mDefineSub: 'Símbolo, nº, lugar e categoria', sDefine: 'Definir',
     qWhere: 'Onde fica este elemento?', qSym: 'Qual elemento tem este símbolo?', qSymOf: 'Qual é o símbolo deste elemento?',
     qZ: 'Qual é o número atômico?', qWhoZ: z => `Qual elemento tem número atômico ${z}?`, qMystery: 'Qual é o elemento destacado?',
     qCategory: 'A qual categoria ele pertence?', qFamily: 'Em qual família ele está?',
@@ -93,6 +99,7 @@ const I18N = {
     qPeriod: 'Em qual período (linha) ele está?', qBig: 'Qual tem o MAIOR número atômico?', qSmall: 'Qual tem o MENOR número atômico?',
     games: {
       table: ['Tabela Periódica', 'A tabela está em branco. Cadê cada elemento?', 'A tabela está vazia e o desafio é seu: ache o lugar certinho de cada elemento. Bora?'],
+      define: ['Definir Elemento', 'Símbolo, número, lugar e categoria. Modo hard! 🔥', 'Aparece só o nome. Você escreve o símbolo e o número atômico (o número de prótons), marca a casa na tabela (dá para arrastar e dar zoom) e escolhe a categoria. Só vale o ponto se acertar tudo!'],
       fill: ['Preencher a Tabela', 'Escreva nomes e veja a tabela ganhar cor!', 'Digite qualquer elemento, na ordem que quiser, e veja a tabela se pintar inteira. Quantos você lembra de cabeça?'],
       symbols: ['Símbolos', 'Duas letrinhas, um elemento. Quem é?', 'Aparece o símbolo, você diz o nome. Parece fácil… até aparecerem os esquisitos!'],
       names: ['Nome → Símbolo', 'Do nome pro símbolo, sem colar!', 'Aparece o nome do elemento e você manda o símbolo. Atenção às maiúsculas!'],
@@ -129,6 +136,7 @@ const I18N = {
       choice: ['Lab Rookie', 'Bubbling Beaker', 'Chain Reaction', 'Element Hunter', 'Supreme CheMaster'],
       type: ['Ink Starter', 'Quick Fingers', 'Keyboard Chemist', 'Spelling Alchemist', 'Typing CheMaster'],
       click: ['Map Rookie', 'Table Explorer', 'Sharp Shooter', 'Grid Navigator', 'Pinpoint CheMaster'],
+      define: ['Chem Apprentice', 'Spec Sheet', 'Atomic X-Ray', 'Living Encyclopedia', 'Absolute CheMaster'],
     },
     lvlDesc: (n, to) => to === 118 ? `${n} questions, the whole table. No mercy!` : `${n} questions, elements 1 to ${to}. Warm up!`,
     fillDesc: (n, m) => `Fill elements 1 to ${n} before ${m} minutes run out!`,
@@ -163,6 +171,11 @@ const I18N = {
     emptyPool: 'No elements in that range for this game.',
     phName: 'Type the element name', phSym: 'Type the symbol', phNum: 'Type the number', phGroup: 'Type the group number',
     phPeriod: 'Type the period number', phFull: 'Type the full name',
+    qDefine: 'Define the element', defSym: 'Symbol', defZ: 'Atomic number', defZHint: 'Z = number of protons',
+    defLoc: 'Spot on the table', defLocHint: '👉 Tap the right square on the table', confirm: 'Confirm',
+    zoomHint: 'Drag to move · mouse wheel or pinch to zoom',
+    fBlock: 'bottom row (f-block)', pickCatOne: 'Pick the category',
+    partSym: 'Symbol', partZ: 'Atomic no.', partLoc: 'Spot', mDefine: 'Define', mDefineSub: 'Symbol, number, spot & category', sDefine: 'Define',
     qWhere: 'Where is this element?', qSym: 'Which element has this symbol?', qSymOf: "What is this element's symbol?",
     qZ: 'What is the atomic number?', qWhoZ: z => `Which element has atomic number ${z}?`, qMystery: 'Which element is highlighted?',
     qCategory: 'Which category does it belong to?', qFamily: 'Which family is it in?',
@@ -170,6 +183,7 @@ const I18N = {
     qPeriod: 'Which period (row) is it in?', qBig: 'Which has the HIGHER atomic number?', qSmall: 'Which has the LOWER atomic number?',
     games: {
       table: ['Periodic Table', 'The table is blank. Where does each one go?', 'The table is empty and it is all on you: drop every element in its exact spot. Ready?'],
+      define: ['Define the Element', 'Symbol, number, spot and category. Hard mode! 🔥', 'Only the name shows up. Type the symbol and the atomic number (the number of protons), mark its square on a table you can drag and zoom, and pick its category. You only score if everything is right!'],
       fill: ['Fill the Table', 'Type names and watch the table light up!', 'Type any element, in any order, and watch the whole table fill with color. How many can you recall?'],
       symbols: ['Symbols', 'Two little letters, one element. Who is it?', 'A symbol pops up, you name the element. Easy… until the weird ones show up!'],
       names: ['Name → Symbol', 'From name to symbol, no peeking!', 'An element name shows up and you fire back its symbol. Mind the capital letters!'],
@@ -282,6 +296,7 @@ const MODES = {
   choice: { label: () => t('mChoice'), sub: () => t('mChoiceSub'), icon: '🔘', short: () => t('sChoice') },
   type:   { label: () => t('mType'),   sub: () => t('mTypeSub'),   icon: '⌨️', short: () => t('sType') },
   click:  { label: () => t('mClick'),  sub: () => t('mClickSub'),  icon: '📍', short: () => t('sClick') },
+  define: { label: () => t('mDefine'), sub: () => t('mDefineSub'), icon: '🧾', short: () => t('sDefine') },
 };
 
 const FAMILY_GROUPS = [1, 2, 13, 14, 15, 16, 17, 18];
@@ -291,6 +306,20 @@ const GAMES = [
     id: 'table', modes: ['click'],
     bg: '#1ccaf7', thumb: () => mini(e => e.z === 26 || e.z === 79 ? 'hl-red' : ''),
     make: el => ({ heading: t('qWhere'), visual: nameCard(el.name), answer: el.name }),
+  },
+  {
+    id: 'define', modes: ['define'], qTimer: 45, limitMul: 2.5,
+    bg: '#14304a', thumb: () => `<div class="t-def"><b>Ferro</b><span>Fe · 26</span></div>`,
+    // Categoria: só pergunta se as questões tiverem mais de uma categoria
+    // (no Treino "por categoria" com uma só, a resposta seria óbvia)
+    make: (el, pool) => {
+      const cats = CAT_KEYS.filter(k => pool.some(e => e.cat === k));
+      const ask = cats.length > 1;
+      return {
+        heading: t('qDefine'), catOpts: ask ? cats : null,
+        answer: `${el.sym} · ${el.z}${ask ? ` · ${CATS[el.cat].name}` : ''}`,
+      };
+    },
   },
   {
     id: 'fill', kind: 'fill',
@@ -450,7 +479,7 @@ function buildQ(g, el, pool, mode) {
   const q = g.make(el, pool, mode);
   if (g.kind !== 'quiz') q.el = q.el || el; q.mode = mode; q.game = g;
   if (q.accept) q.accept = q.accept.map(norm);
-  if (mode === 'click') q.target = q.el.z;
+  if (mode === 'click' || mode === 'define') q.target = q.el.z;
   return q;
 }
 
@@ -464,13 +493,13 @@ const DOODLE = {
   grid: `<svg class="dd dd-grid" viewBox="0 0 300 220" aria-hidden="true"><g stroke="currentColor" stroke-width="2.5">${[0,1,2,3,4,5,6].map(i => `<line x1="${10 + i * 46}" y1="0" x2="${10 + i * 46}" y2="220"/>`).join('')}${[0,1,2,3,4].map(i => `<line x1="0" y1="${14 + i * 48}" x2="300" y2="${14 + i * 48}"/>`).join('')}</g></svg>`,
 };
 const THUMB_BG = ['#86d81c', '#ffd84d', '#7fd1ff', '#ff9ec4', '#bca4ff', '#5fe3c6'];
-const ICONS = { table: '📍', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', quiz: '💡', duel: '⚖️' };
+const ICONS = { table: '📍', define: '🧾', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', quiz: '💡', duel: '⚖️' };
 
 /* ---------- roteamento ---------- */
 let G = null; // jogo em andamento
 
 function stopGame() {
-  if (G) { clearInterval(G.iv); clearTimeout(G.to); }
+  if (G) { clearInterval(G.iv); clearTimeout(G.to); if (G.abort) G.abort.abort(); }
   G = null;
   $$('#pause-ov, #pop').forEach(e => e.remove());
 }
@@ -659,7 +688,7 @@ function renderPractice(g) {
     h += countGroup(g, s);
     if (g.modes.length > 1) h += optGroup(t('mode'), 'mode', s.mode, g.modes.map(m => ({ v: m, label: `${MODES[m].icon} ${MODES[m].label()}`, sub: MODES[m].sub() })));
     h += `<div class="og-row">
-      ${optGroup(t('timer'), 'timer', s.timer, [{ v: '15', label: t('on'), sub: '15s' }, { v: '0', label: t('off') }])}
+      ${optGroup(t('timer'), 'timer', s.timer, [{ v: '15', label: t('on'), sub: (g.qTimer || 15) + 's' }, { v: '0', label: t('off') }])}
       ${optGroup(t('next'), 'next', s.next, [{ v: 'auto', label: t('auto') }, { v: 'manual', label: t('manual'), sub: t('manualSub') }])}
     </div>`;
   }
@@ -716,7 +745,7 @@ function renderChallenge(g) {
     h += levels.map((L, i) => {
       if (i > 0 && sizes[i] === sizes[i - 1]) return '';
       const key = `${mode}-${i}`;
-      const mins = Math.round(L.limit / 60) + ' min';
+      const mins = Math.round(L.limit * (g.limitMul || 1) / 60) + ' min';
       const n = sizes[i];
       const desc = fill ? t('fillDesc', L.to, Math.round(L.limit / 60)) : quiz ? t('quizLvl')[i] : t('lvlDesc', n, L.to);
       const info = [
@@ -769,7 +798,7 @@ function startPractice(g, s) {
   const list = shuffle(pool).slice(0, s.count === 'all' ? pool.length : Math.min(+s.count, pool.length));
   startGame({
     questions: list.map(el => buildQ(g, el, pool, s.mode)),
-    timer: +s.timer, next: s.next, lives: 0, limit: 0,
+    timer: +s.timer ? (g.qTimer || +s.timer) : 0, next: s.next, lives: 0, limit: 0,
     back: () => renderGamePage(g.id, 'p'), replay: () => startPractice(g, s),
   });
 }
@@ -782,10 +811,82 @@ function startChallenge(g, li, mode) {
   const lives = mode === 'type' ? 0 : 3; // digitar: vidas infinitas
   startGame({
     questions: list.map(el => buildQ(g, el, pool, mode)),
-    timer: 0, next: 'auto', lives, maxLives: lives, limit: L.limit, challenge: true,
+    timer: 0, next: 'auto', lives, maxLives: lives, limit: L.limit * (g.limitMul || 1), challenge: true,
     back: () => renderGamePage(g.id, 'c'), replay: () => startChallenge(g, li, mode),
     onFinish: r => saveBest(g.id, `${mode}-${li}`, r.score, r.total, r.passed),
   });
+}
+
+/* ---------- tabela com zoom e arraste (jogo Definir) ---------- */
+function setupZoom(box, inner, onPick) {
+  let s = 1, x = 0, y = 0, fit = 1, moved = false, last = null, pinch = 0;
+  const pts = new Map();
+  const iw = () => inner.offsetWidth, ih = () => inner.offsetHeight;
+  const clamp = () => {
+    const bw = box.clientWidth, bh = box.clientHeight, w = iw() * s, h = ih() * s, m = 60;
+    x = Math.min(Math.max(x, Math.min(0, bw - w) - m), Math.max(0, bw - w) + m);
+    y = Math.min(Math.max(y, Math.min(0, bh - h) - m), Math.max(0, bh - h) + m);
+  };
+  const apply = () => { clamp(); inner.style.transform = `translate(${x}px,${y}px) scale(${s})`; };
+  const reset = () => {
+    fit = Math.min(box.clientWidth / iw(), box.clientHeight / ih());
+    s = fit; x = (box.clientWidth - iw() * s) / 2; y = (box.clientHeight - ih() * s) / 2; apply();
+  };
+  const zoomAt = (k, cx, cy) => {
+    const ns = Math.min(Math.max(s * k, fit * 0.9), Math.max(fit * 5, 2.5));
+    x = cx - (cx - x) * ns / s; y = cy - (cy - y) * ns / s; s = ns; apply();
+  };
+  const local = e => { const r = box.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  box.addEventListener('wheel', e => { e.preventDefault(); const [cx, cy] = local(e); zoomAt(e.deltaY < 0 ? 1.15 : 1 / 1.15, cx, cy); }, { passive: false });
+  box.addEventListener('pointerdown', e => {
+    box.setPointerCapture(e.pointerId);
+    pts.set(e.pointerId, local(e));
+    if (pts.size === 1) { moved = false; last = local(e); }
+    if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch = Math.hypot(a[0] - b[0], a[1] - b[1]); moved = true; }
+  });
+  box.addEventListener('pointermove', e => {
+    if (!pts.has(e.pointerId)) return;
+    const p = local(e); pts.set(e.pointerId, p);
+    if (pts.size === 1) {
+      const dx = p[0] - last[0], dy = p[1] - last[1];
+      if (!moved && Math.hypot(dx, dy) < 5) return;
+      moved = true; box.classList.add('dragging');
+      x += dx; y += dy; last = p; apply();
+    } else if (pts.size === 2) {
+      const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      if (pinch) zoomAt(d / pinch, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2);
+      pinch = d;
+    }
+  });
+  const up = e => {
+    if (!pts.has(e.pointerId)) return;
+    pts.delete(e.pointerId);
+    if (pts.size === 1) { last = [...pts.values()][0]; pinch = 0; }
+    if (pts.size === 0) {
+      box.classList.remove('dragging');
+      if (!moved && e.type === 'pointerup') {
+        const c = document.elementFromPoint(e.clientX, e.clientY);
+        const cell = c && c.closest('.pc[data-z]');
+        if (cell) onPick(+cell.dataset.z);
+      }
+    }
+  };
+  box.addEventListener('pointerup', up); box.addEventListener('pointercancel', up);
+  box.addEventListener('dblclick', e => { const [cx, cy] = local(e); zoomAt(1.8, cx, cy); });
+  box.parentElement.querySelectorAll('[data-zm]').forEach(b => b.onclick = () => {
+    const cx = box.clientWidth / 2, cy = box.clientHeight / 2;
+    if (b.dataset.zm === 'fit') reset(); else zoomAt(b.dataset.zm === 'in' ? 1.35 : 1 / 1.35, cx, cy);
+  });
+  requestAnimationFrame(reset);
+  return {
+    focus(el) {
+      const r = el.getBoundingClientRect(), ir = inner.getBoundingClientRect();
+      const cx = (r.left - ir.left + r.width / 2) / s, cy = (r.top - ir.top + r.height / 2) / s;
+      if (s < fit * 1.6) s = fit * 1.6;
+      x = box.clientWidth / 2 - cx * s; y = box.clientHeight / 2 - cy * s;
+      inner.style.transition = 'transform .35s'; apply(); setTimeout(() => inner.style.transition = '', 400);
+    },
+  };
 }
 
 /* ---------- motor do quiz ---------- */
@@ -803,7 +904,7 @@ function startGame(cfg) {
   // marked: z -> 'done' | 'wrong' (elementos já perguntados no modo clicar)
   G = { ...cfg, i: 0, score: 0, results: [], elapsed: 0, qTime: 0, paused: false, locked: false, marked: new Map(), last: performance.now() };
   app.innerHTML = `
-  <section class="stage play">
+  <section class="stage play ${G.questions[0] && G.questions[0].mode === 'define' ? 'wide' : ''}">
     <div class="hud">
       <div class="clock"><small>${G.limit ? t('left') : t('time')}</small><b id="clock">0:00</b></div>
       <div class="bars"><div class="ticks" id="ticks">${G.questions.map(() => '<i></i>').join('')}</div><div class="qbar"><span id="qbar"></span></div></div>
@@ -826,6 +927,8 @@ function tick() {
   const now = performance.now(), dt = (now - G.last) / 1000;
   G.last = now;
   if (G.paused || G.over) return;
+  // Definir: o relógio para enquanto você confere a resposta
+  if (G.locked && !G.fill && G.questions[G.i] && G.questions[G.i].mode === 'define') return;
   G.elapsed += dt;
   if (G.fill) {
     if (G.limit && G.elapsed >= G.limit) return finishFill('time');
@@ -856,7 +959,8 @@ const skipBtn = () => `<button class="skip-btn" id="skip">${t('skip')} ⏭</butt
 
 function renderQuestion() {
   const q = G.questions[G.i];
-  G.qTime = 0; G.locked = false;
+  G.qTime = 0; G.locked = false; G.pick = null;
+  if (G.abort) { G.abort.abort(); G.abort = null; }
   $$('#ticks i').forEach((tk, i) => tk.classList.toggle('cur', i === G.i));
   $('#qmeta').innerHTML = `${t('qOf', G.i + 1, G.questions.length)} <span class="ok-count">✔ ${G.score}</span>`;
   $('#qhead').textContent = q.heading;
@@ -872,6 +976,70 @@ function renderQuestion() {
     inp.oninput = () => { if (typedOk(q, inp.value)) answer(inp.value); };
     inp.onkeydown = e => { if (e.key === 'Enter' && inp.value.trim()) answer(inp.value); };
     inp.focus();
+  } else if (q.mode === 'define') {
+    ans.innerHTML = `<div class="def">
+      <div class="def-form">
+        <div class="def-name">${q.el.name}</div>
+        <label class="def-f"><span>${t('defSym')}</span><input id="dsym" class="tin" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="3" placeholder="?"></label>
+        <label class="def-f"><span>${t('defZ')} <small>${t('defZHint')}</small></span><input id="dz" class="tin" inputmode="numeric" autocomplete="off" maxlength="3" placeholder="?"></label>
+        <div class="def-f"><span>${t('defLoc')}</span><div class="def-loc" id="dloc">${t('defLocHint')}</div></div>
+        ${q.catOpts ? `<div class="def-f"><span>${t('category')}</span>
+          <div class="csel" id="csel">
+            <button type="button" class="csel-btn" id="cselBtn"><i class="cat-dot"></i><span id="cselTxt">${t('pickCatOne')}</span><b class="csel-arr">▾</b></button>
+            <div class="csel-list" id="cselList" hidden>${q.catOpts.map(k => `<button type="button" class="csel-opt" data-cat="${k}" style="--c:${CATS[k].color}"><i class="cat-dot"></i>${CATS[k].name}</button>`).join('')}</div>
+            <div class="csel-right" id="cselRight" hidden></div>
+          </div></div>` : ''}
+        <div class="def-btns"><button class="btn-y" id="dok">${t('confirm')} <span>→</span></button>${skipBtn()}</div>
+      </div>
+      <div class="zwrap">
+        <div class="zoombox" id="zbox"><div class="zoomin" id="zin">${ptable(e => G.marked.has(e.z) ? { cls: G.marked.get(e.z), style: `--c:${CATS[e.cat].color}`, html: cellHtml(e) } : { cls: 'blank' }, { cls: 'click-t def-t' })}</div></div>
+        <div class="zctl"><button data-zm="in" title="Zoom +">+</button><button data-zm="out" title="Zoom −">−</button><button data-zm="fit" title="↺">⤢</button></div>
+        <div class="zhint">${t('zoomHint')}</div>
+      </div>
+    </div>`;
+    G.zoom = setupZoom($('#zbox'), $('#zin'), z => {
+      if (G.locked) return;
+      const prev = $('.def-t .pc.pick'); if (prev) { prev.classList.remove('pick'); prev.classList.add('blank'); }
+      const c = $(`.def-t .pc[data-z="${z}"]`);
+      if (!c || !c.classList.contains('blank')) { G.pick = null; return; }
+      c.classList.remove('blank'); c.classList.add('pick');
+      G.pick = z;
+      const e = byZ(z);
+      $('#dloc').innerHTML = `📍 <b>${t('period')} ${e.period}${e.group ? ` · ${t('group')} ${e.group}` : ` · ${t('fBlock')}`}</b>`;
+      $('#dloc').classList.add('on');
+    });
+    G.cat = null;
+    if (q.catOpts) {
+      const btn = $('#cselBtn'), list = $('#cselList');
+      const open = on => { list.hidden = !on; btn.classList.toggle('open', on); if (on) { const cur = $('.csel-opt.on', list) || $('.csel-opt', list); cur.focus(); } };
+      btn.onclick = e => { e.stopPropagation(); if (!G.locked) open(list.hidden); };
+      $$('.csel-opt', list).forEach(o => {
+        o.onclick = e => {
+          e.stopPropagation();
+          G.cat = o.dataset.cat;
+          $$('.csel-opt', list).forEach(x => x.classList.toggle('on', x === o));
+          btn.classList.add('chosen'); btn.style.setProperty('--c', CATS[G.cat].color);
+          $('#cselTxt').textContent = CATS[G.cat].name;
+          open(false); btn.focus();
+        };
+        o.onkeydown = e => {
+          const all = $$('.csel-opt', list), i = all.indexOf(o);
+          if (e.key === 'ArrowDown') { e.preventDefault(); (all[i + 1] || all[0]).focus(); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); (all[i - 1] || all[all.length - 1]).focus(); }
+          else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); open(false); btn.focus(); }
+          else if (e.key === 'Enter') { e.stopPropagation(); }
+        };
+      });
+      btn.onkeydown = e => { if (e.key === 'ArrowDown') { e.preventDefault(); open(true); } };
+      document.addEventListener('click', () => open(false), { signal: (G.abort = new AbortController()).signal });
+    }
+    const submit = () => {
+      if (!$('#dsym').value.trim() && !$('#dz').value.trim() && !G.pick && !G.cat) return;
+      answer({ sym: $('#dsym').value, z: $('#dz').value, loc: G.pick, cat: G.cat });
+    };
+    $('#dok').onclick = submit;
+    $$('#dsym, #dz').forEach(i => i.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+    $('#dsym').focus();
   } else {
     // Todos os elementos já perguntados ficam marcados: acertou = cor da categoria (fixação), errou = vermelho
     ans.innerHTML = `<div class="skip-row top">${skipBtn()}</div>
@@ -907,6 +1075,37 @@ function answer(v, how) {
     const inp = $('#tin');
     inp.disabled = true; inp.classList.add(ok ? 'right' : 'wrong');
     if (!ok) inp.value = q.answer;
+  } else if (q.mode === 'define') {
+    const a = v || {};
+    const symOk = String(a.sym || '').trim() === q.el.sym;
+    const zOk = String(a.z || '').trim() === String(q.el.z);
+    const locOk = a.loc === q.target;
+    q.parts = [[t('partSym'), symOk], [t('partZ'), zOk], [t('partLoc'), locOk]];
+    let catOk = true;
+    if (q.catOpts) {
+      catOk = a.cat === q.el.cat;
+      q.parts.push([t('category'), catOk]);
+      const btn = $('#cselBtn');
+      btn.disabled = true; $('#cselList').hidden = true; btn.classList.remove('open');
+      btn.classList.add(catOk ? 'right' : 'wrong');
+      if (!catOk) {
+        const r = $('#cselRight');
+        r.hidden = false; r.style.setProperty('--c', CATS[q.el.cat].color);
+        r.innerHTML = `<i class="cat-dot"></i>✓ ${CATS[q.el.cat].name}`;
+        if (!a.cat) $('#cselTxt').textContent = '—';
+      }
+    }
+    ok = symOk && zOk && locOk && catOk;
+    [['#dsym', symOk, q.el.sym], ['#dz', zOk, q.el.z]].forEach(([id, good, right]) => {
+      const inp = $(id); inp.disabled = true; inp.classList.add(good ? 'right' : 'wrong'); if (!good) inp.value = right;
+    });
+    $('#dok').disabled = true;
+    const cell = $(`.def-t .pc[data-z="${q.target}"]`);
+    cell.classList.remove('blank', 'pick'); cell.classList.add(locOk ? 'done' : 'reveal'); cell.style.setProperty('--c', CATS[q.el.cat].color); cell.innerHTML = cellHtml(q.el);
+    if (!locOk && a.loc) { const m = $(`.def-t .pc[data-z="${a.loc}"]`); m.classList.remove('pick'); m.classList.add('miss'); }
+    G.marked.set(q.target, ok ? 'done' : 'wrong');
+    if (!locOk && G.zoom) G.zoom.focus(cell);
+    v = null; // o resumo final não mostra o objeto
   } else {
     ok = v === q.target;
     $$('.click-t .pc').forEach(c => c.onclick = null);
@@ -924,9 +1123,11 @@ function answer(v, how) {
 
   if (!ok && G.lives) {
     G.lives--; updateHud();
-    if (G.lives <= 0) { G.over = true; G.to = setTimeout(() => finish('lives'), 1100); return; }
+    if (G.lives <= 0) { G.over = true; G.to = setTimeout(() => finish('lives'), q.mode === 'define' ? 4000 : 1100); return; }
   }
-  if (G.next !== 'manual') G.to = setTimeout(nextQ, ok ? 650 : 1100);
+  // Definir: bem mais tempo para conferir (principalmente quando erra)
+  const wait = q.mode === 'define' ? (ok ? 1500 : 6000) : (ok ? 650 : 1100);
+  if (G.next !== 'manual') G.to = setTimeout(nextQ, wait);
 }
 
 // Popup animado de acerto/erro
@@ -936,10 +1137,11 @@ function showPop(ok, how, q) {
   const manual = G.next === 'manual' && !G.over;
   const wrap = document.createElement('div');
   wrap.id = 'pop';
-  wrap.className = `pop-wrap ${q.mode === 'click' ? 'pop-top' : ''}`;
+  wrap.className = `pop-wrap ${q.mode === 'click' ? 'pop-top' : q.mode === 'define' ? 'pop-def' : ''}`;
   wrap.innerHTML = `<div class="pop ${ok ? 'good' : 'bad'}">
     <div class="pop-ic">${icon}</div>
     <div class="pop-title">${title}</div>
+    ${q.parts ? `<div class="pop-parts">${q.parts.map(([l, k]) => `<span class="${k ? 'ok' : 'no'}">${l} ${k ? '✓' : '✗'}</span>`).join('')}</div>` : ''}
     ${ok ? '' : `<div class="pop-ans">${t('answer')}: <b>${q.answer}</b></div>`}
     ${q.note ? `<div class="pop-note">💡 ${q.note}</div>` : ''}
     <div class="facts">${(q.reveal || [q.el]).map(factHtml).join('')}</div>
