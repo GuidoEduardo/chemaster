@@ -1,0 +1,83 @@
+/* CheMaster Lab · Criar Átomo (simulação em tela cheia) */
+.sim-body { margin: 0; height: 100vh; height: 100dvh; overflow: hidden; background: #fbfaf5;
+  background-image: radial-gradient(#e6e2d6 1.2px, transparent 1.2px); background-size: 22px 22px; user-select: none; -webkit-user-select: none; }
+#sim { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; touch-action: none; display: block; }
+#sim.grab { cursor: grab; } #sim.grabbing { cursor: grabbing; }
+
+.sim-top { position: fixed; top: 12px; left: 12px; right: 12px; display: flex; align-items: center; gap: 12px; pointer-events: none; z-index: 5; }
+.sim-top > * { pointer-events: auto; }
+.sim-back { border: 2.5px solid var(--ink); border-radius: 99px; background: #fff; padding: 7px 14px; font-weight: 800; text-decoration: none; color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+.sim-back:hover { background: var(--lime-soft); }
+.sim-title { margin: 0; font-size: 22px; font-weight: 900; letter-spacing: -.5px; background: #fff; border: 2.5px solid var(--ink); border-radius: 12px; padding: 3px 14px; box-shadow: 3px 3px 0 var(--ink); }
+.sim-ctl { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.sim-btn { min-width: 44px; height: 44px; border-radius: 12px; border: 2.5px solid var(--ink); background: #fff; font-size: 18px; font-weight: 900; box-shadow: 3px 3px 0 var(--ink); padding: 0 12px; }
+.sim-btn:hover { background: var(--lime-soft); }
+.sim-btn.on { background: #ffe27a; }
+
+.sim-panel { position: fixed; top: 72px; right: 12px; width: 250px; background: #fff; border: 2.5px solid var(--ink); border-radius: 16px; box-shadow: 4px 4px 0 var(--ink); padding: 12px; z-index: 4; }
+.sp-head { display: flex; gap: 10px; align-items: center; }
+.sp-tile { position: relative; width: 78px; height: 78px; border: 2.5px solid var(--ink); border-radius: 12px; background: var(--c, #fff); display: grid; place-items: center; font-size: 34px; font-weight: 900; flex-shrink: 0; }
+.sp-tile .a { position: absolute; top: 4px; left: 7px; font-size: 13px; }
+.sp-tile .z { position: absolute; bottom: 4px; left: 7px; font-size: 12px; color: rgba(0, 0, 0, .6); }
+.sp-tile .q { position: absolute; top: 3px; right: 6px; font-size: 15px; }
+.sp-name { font-size: 16px; font-weight: 900; line-height: 1.15; }
+.sp-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.sp-chip { border: 2px solid var(--ink); border-radius: 99px; padding: 1px 8px; font-size: 11px; font-weight: 800; background: #fff; }
+.sp-chip.stable { background: var(--lime); } .sp-chip.radio { background: #ffe27a; } .sp-chip.unbound { background: #ffb3b1; }
+.sp-chip.pos { background: #ffd3d2; } .sp-chip.neg { background: #d6e4ff; }
+.sp-empty { font-size: 13px; font-weight: 700; color: var(--muted); line-height: 1.4; }
+.sp-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 10px; }
+.sp-stats div { border: 2px solid var(--ink); border-radius: 9px; text-align: center; padding: 3px 0; }
+.sp-stats b { display: block; font-size: 16px; font-weight: 900; }
+.sp-stats small { font-size: 9.5px; font-weight: 800; color: var(--muted); }
+.sp-bar { height: 8px; border: 2px solid var(--ink); border-radius: 99px; margin-top: 8px; overflow: hidden; background: #fff; }
+.sp-bar i { display: block; height: 100%; background: var(--red); }
+
+.sim-log { position: fixed; left: 12px; top: 72px; width: min(340px, calc(100vw - 290px)); display: flex; flex-direction: column; gap: 8px; z-index: 4; pointer-events: none; }
+.sim-msg { background: #fff; border: 2.5px solid var(--ink); border-radius: 14px; padding: 10px 12px; font-size: 13.5px; font-weight: 600; line-height: 1.45; box-shadow: 3px 3px 0 var(--ink); animation: popIn .25s cubic-bezier(.2, 1.6, .4, 1); transition: opacity .5s; }
+.sim-msg.stable { background: #e9f9d6; } .sim-msg.radio { background: #fff4c2; } .sim-msg.boom { background: #ffe0df; } .sim-msg.mission { background: var(--lime); }
+.sim-msg.out { opacity: 0; }
+
+.sim-paused { position: fixed; top: 74px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; font-weight: 900; font-size: 13px; padding: 6px 14px; border-radius: 99px; z-index: 4; display: none; }
+.sim-paused.on { display: block; }
+
+.sim-missions { position: fixed; right: 12px; bottom: 12px; width: 250px; background: #fff; border: 2.5px solid var(--ink); border-radius: 14px; box-shadow: 4px 4px 0 var(--ink); padding: 8px 12px; z-index: 4; max-height: 45vh; overflow: auto; }
+.sim-missions summary { font-weight: 900; cursor: pointer; font-size: 14px; }
+.sim-missions summary small { color: var(--muted); font-weight: 700; margin-left: 4px; }
+.sim-missions ul { list-style: none; padding: 0; margin: 8px 0 2px; display: grid; gap: 4px; }
+.sim-missions li { font-size: 12px; font-weight: 700; padding: 5px 7px; border-radius: 8px; background: #f6f5ef; }
+.sim-missions li.ok { background: var(--lime-soft); text-decoration: line-through; color: var(--muted); }
+
+.sim-dock { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 4; }
+.sim-bin { width: 112px; background: #fff; border: 2.5px solid var(--ink); border-radius: 16px; box-shadow: 4px 4px 0 var(--ink); padding: 8px 6px 6px; text-align: center; cursor: grab; touch-action: none; transition: transform .1s, background .1s; }
+.sim-bin:hover { transform: translateY(-3px); }
+.sim-bin.trash { background: #ffe0df; transform: scale(1.06); }
+.sim-bin b { display: block; font-size: 14px; font-weight: 900; margin-top: 4px; }
+.sim-bin small { display: block; font-size: 11px; font-weight: 700; color: var(--muted); }
+.bin-pile { position: relative; height: 34px; }
+.bin-pile i { position: absolute; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--ink); }
+.bin-pile i:nth-child(1) { left: 18px; top: 12px; } .bin-pile i:nth-child(2) { left: 34px; top: 14px; } .bin-pile i:nth-child(3) { left: 50px; top: 12px; }
+.bin-pile i:nth-child(4) { left: 26px; top: 0; } .bin-pile i:nth-child(5) { left: 42px; top: 1px; }
+.sim-bin.p i { background: #ff6b6b; } .sim-bin.n i { background: #d9d4c7; }
+.sim-bin.e i { background: #4f8dff; width: 14px; height: 14px; }
+
+.sim-hint { position: fixed; bottom: 128px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 700; color: var(--muted); background: rgba(255, 255, 255, .85); border-radius: 99px; padding: 3px 12px; z-index: 3; white-space: nowrap; pointer-events: none; }
+
+@media (max-width: 760px) {
+  .sim-title { display: none; }
+  .sim-panel { top: auto; bottom: 120px; right: 8px; left: 8px; width: auto; padding: 8px 10px; }
+  .sp-head { gap: 8px; } .sp-tile { width: 56px; height: 56px; font-size: 24px; }
+  .sp-stats { margin-top: 6px; }
+  .sim-log { top: 66px; left: 8px; width: calc(100vw - 16px); }
+  .sim-missions { top: 66px; bottom: auto; right: 8px; width: 190px; max-height: 40vh; }
+  .sim-missions:not([open]) { width: auto; }
+  .sim-dock { bottom: 8px; gap: 8px; }
+  .sim-bin { width: 96px; padding: 6px 4px 4px; }
+  .sim-hint { display: none; }
+}
+@media (max-width: 760px) {
+  .sim-log { top: 112px; }
+  .sim-log .sim-msg { font-size: 12px; padding: 7px 10px; }
+  .sim-log .sim-msg:nth-child(n+2) { display: none; }
+  .sim-paused { top: 66px; font-size: 11px; }
+}

@@ -17,7 +17,7 @@
     pt: {
       navGames: 'Jogos', navStudy: 'Estudar', footer: 'CheMaster · feito por Guido ⚛', docTitle: 'CheMaster Lab',
       beta: '🚧 Em construção!', betaText: 'O Lab é uma ideia em teste: pode mudar, sumir ou ter algum erro. Use à vontade, mas confira com o seu material de estudo.',
-      tools: { ion: 'Íons', dist: 'Elétrons', iso: 'Isótopos', mol: 'Massa molar', bal: 'Equações' },
+      tools: { build: 'Criar Átomo', ion: 'Íons', dist: 'Elétrons', iso: 'Isótopos', mol: 'Massa molar', bal: 'Equações' },
       learn: '📖 Aprender', practice: '✏️ Praticar',
       element: 'Elemento', charge: 'Carga', massNumber: 'Massa (A)',
       protons: 'prótons', electrons: 'elétrons', neutrons: 'nêutrons', chargeL: 'carga', massL: 'massa',
@@ -52,11 +52,11 @@
       level: 'Nível', levels: { easy: 'Fácil', medium: 'Médio', hard: 'Difícil' }, range: 'Elementos',
       qElectrons: s => `Quantos elétrons tem o ${s}?`, qProtons: s => `Quantos prótons tem o ${s}?`,
       qKind: s => `${s} é cátion, ânion ou neutro?`,
-      qDist: el => `Distribuição eletrônica do ${el.name} (Z = ${el.z})`,
-      qValence: el => `Elétrons na camada de valência do ${el.name} (Z = ${el.z})?`,
-      qLast: el => `Último subnível do ${el.name} (Z = ${el.z})?`,
+      qDist: el => `Distribuição eletrônica do ${el.name}`,
+      qValence: el => `Elétrons na camada de valência do ${el.name}?`,
+      qLast: el => `Último subnível do ${el.name}?`,
       qNeutrons: s => `Quantos nêutrons tem o ${s}?`,
-      qMassNum: (el, N) => `${el.name} (Z = ${el.z}) com ${N} nêutrons. Qual é o A?`,
+      qMassNum: (el, N) => `${el.name} com ${N} nêutrons. Qual é o A?`,
       qMolar: f => `Massa molar de ${f}?`, qBal: 'Balanceie a equação',
       distHint: 'Ex.: 1s2 2s2 2p6', lastHint: 'Ex.: 3p5', numHint: 'Número', molHint: 'Em g/mol, ex.: 58,5',
       use: 'Use', balFill: 'Preencha todos os números (use 1).', balNotMin: g => `Está certo, mas dá para simplificar: divida tudo por ${g}.`,
@@ -65,7 +65,7 @@
     en: {
       navGames: 'Games', navStudy: 'Learn', footer: 'CheMaster · made by Guido ⚛', docTitle: 'CheMaster Lab',
       beta: '🚧 Under construction!', betaText: 'The Lab is an experiment: things may change, disappear or break. Have fun, but double check with your study material.',
-      tools: { ion: 'Ions', dist: 'Electrons', iso: 'Isotopes', mol: 'Molar mass', bal: 'Equations' },
+      tools: { build: 'Build an Atom', ion: 'Ions', dist: 'Electrons', iso: 'Isotopes', mol: 'Molar mass', bal: 'Equations' },
       learn: '📖 Learn', practice: '✏️ Practice',
       element: 'Element', charge: 'Charge', massNumber: 'Mass (A)',
       protons: 'protons', electrons: 'electrons', neutrons: 'neutrons', chargeL: 'charge', massL: 'mass',
@@ -100,11 +100,11 @@
       level: 'Level', levels: { easy: 'Easy', medium: 'Medium', hard: 'Hard' }, range: 'Elements',
       qElectrons: s => `How many electrons does ${s} have?`, qProtons: s => `How many protons does ${s} have?`,
       qKind: s => `Is ${s} a cation, an anion or neutral?`,
-      qDist: el => `Electron configuration of ${el.name} (Z = ${el.z})`,
-      qValence: el => `Valence electrons of ${el.name} (Z = ${el.z})?`,
-      qLast: el => `Last sublevel of ${el.name} (Z = ${el.z})?`,
+      qDist: el => `Electron configuration of ${el.name}`,
+      qValence: el => `Valence electrons of ${el.name}?`,
+      qLast: el => `Last sublevel of ${el.name}?`,
       qNeutrons: s => `How many neutrons does ${s} have?`,
-      qMassNum: (el, N) => `${el.name} (Z = ${el.z}) with ${N} neutrons. What is A?`,
+      qMassNum: (el, N) => `${el.name} with ${N} neutrons. What is A?`,
       qMolar: f => `Molar mass of ${f}?`, qBal: 'Balance the equation',
       distHint: 'e.g. 1s2 2s2 2p6', lastHint: 'e.g. 3p5', numHint: 'Number', molHint: 'In g/mol, e.g. 58.5',
       use: 'Use', balFill: 'Fill in every number (use 1).', balNotMin: g => `Correct, but it can be simplified: divide everything by ${g}.`,
@@ -426,9 +426,9 @@
   }
 
   /* ---------- estado ---------- */
-  const TOOLS = { ion: '⚛️', dist: '🌀', iso: '☢️', mol: '⚖️', bal: '⚗️' };
+  const TOOLS = { build: '🔬', ion: '⚛️', dist: '🌀', iso: '☢️', mol: '⚖️', bal: '⚗️' };
   const S = {
-    tool: 'ion', mode: 'learn', z: 11, q: 1, A: null, formula: 'H2SO4', precise: false, grams: '10',
+    tool: location.hash === '#build' ? 'build' : 'ion', mode: 'learn', z: 11, q: 1, A: null, formula: 'H2SO4', precise: false, grams: '10',
     eq: 'CH4 + O2 -> CO2 + H2O', range: '1-36', level: 'easy', score: 0, total: 0, pq: null, lastKey: '',
   };
 
@@ -457,11 +457,12 @@
         </details>
       </div>
       <div class="tool-row">${Object.entries(TOOLS).map(([k, ic]) => `<button class="tool ${S.tool === k ? 'on' : ''}" data-tool="${k}"><span class="tool-ic">${ic}</span><span>${t('tools')[k]}</span></button>`).join('')}</div>
-      <div class="mode-row">${seg('mode', S.mode, [['learn', t('learn')], ['practice', t('practice')]])}</div>
+      ${S.tool === 'build' ? '' : `<div class="mode-row">${seg('mode', S.mode, [['learn', t('learn')], ['practice', t('practice')]])}</div>`}
       <div class="card" id="card"></div>
     </section>`;
     $$('.tool').forEach(b => b.onclick = () => { S.tool = b.dataset.tool; S.pq = null; S.score = S.total = 0; render(); });
     bindSeg('mode', v => { S.mode = v; S.pq = null; S.score = S.total = 0; render(); });
+    if (S.tool === 'build') return launcher();
     S.mode === 'learn' ? learn() : practice();
   }
   function bindSeg(name, fn) { $$(`[data-seg="${name}"] button`).forEach(b => b.onclick = () => fn(b.dataset.v)); }
@@ -474,6 +475,21 @@
       S.q = S.tool === 'ion' && cc != null ? cc : 0;
       learn();
     };
+  }
+
+  /* ---------- Criar Átomo: abre a simulação em tela cheia (atom.html) ---------- */
+  const LAUNCH = {
+    pt: { title: 'Criar Átomo', text: 'Uma simulação em tela cheia: puxe prótons, nêutrons e elétrons das caixinhas, agarre e arremesse partículas, pause para montar com calma. Núcleos impossíveis explodem e os radioativos decaem na sua frente!', go: '▶ Abrir o simulador', list: ['🧲 Arraste e arremesse partículas', '⏸ Pause para montar com calma', '💥 Núcleos impossíveis explodem', '☢️ Radioativos decaem sozinhos', '🎯 10 missões'] },
+    en: { title: 'Build an Atom', text: 'A full-screen simulation: pull protons, neutrons and electrons from the boxes, grab and throw particles, pause to build calmly. Impossible nuclei blow up and radioactive ones decay right in front of you!', go: '▶ Open the simulator', list: ['🧲 Drag and throw particles', '⏸ Pause to build calmly', '💥 Impossible nuclei blow up', '☢️ Radioactive ones decay on their own', '🎯 10 missions'] },
+  };
+  function launcher() {
+    const L = LAUNCH[LANG];
+    $('#card').innerHTML = `<div class="launch">
+      <div class="launch-art">${miniAtom(6, 8, 6, { size: 190 })}</div>
+      <div class="launch-txt"><h2>${L.title}</h2><p>${L.text}</p>
+        <ul>${L.list.map(x => `<li>${x}</li>`).join('')}</ul>
+        <a class="btn-y" href="atom.html">${L.go} <span>→</span></a></div>
+    </div>`;
   }
 
   /* ---------- aprender ---------- */
@@ -668,9 +684,8 @@
   function qMol() {
     const f = rnd(COMPOUNDS[S.level]);
     const counts = parseFormula(f).counts, M = molarMass(counts, false);
-    const used = [...counts.keys()].map(sym => `${sym} = ${fmtNum(schoolMass(SYM[sym].z), 1)}`).join(' · ');
     return {
-      key: f, text: t('qMolar', fmtFormula(f)), hint: t('molHint'), extra: `<div class="used">${t('use')}: ${used}</div>`,
+      key: f, text: t('qMolar', fmtFormula(f)), hint: t('molHint'),
       check: v => Math.abs(parseFloat(String(v).replace(',', '.')) - M) < 0.05, show: `${fmtNum(M, 1)} g/mol`,
       why: [...counts].map(([sym, n]) => `${n} × ${fmtNum(schoolMass(SYM[sym].z), 1)}`).join(' + ') + ` = ${fmtNum(M, 1)}`,
     };

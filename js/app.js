@@ -98,6 +98,30 @@ const I18N = {
     seqSkipped: 'Pulados', seqListTitle: 'A lista completa', seqLegend: ['acertou', 'pulou', 'não chegou'],
     seqDesc: (n, m) => `Do 1 ao ${n} em ordem, em até ${m}.`,
     chSeq: '♾️ Sem vidas: só o relógio manda, e cada pulo conta como erro', chWinSeq: '🏆 Chegue ao fim no tempo com no máximo 10% pulados',
+    protons: 'prótons', neutrons: 'nêutrons', electrons: 'elétrons', protons1: 'próton', neutrons1: 'nêutron', electrons1: 'elétron',
+    xAsk: { p: 'Quantos prótons ele tem?', n: 'Quantos nêutrons ele tem?', e: 'Quantos elétrons ele tem?' },
+    xWho: 'Quem sou eu?',
+    xNoteP: (sym, z) => `Prótons = número atômico (Z) do ${sym} = ${z}. São os prótons que fazem ele ser ${sym}.`,
+    xNoteN: (a, z, n) => `Nêutrons = A − Z = ${a} − ${z} = ${n}.`,
+    xNoteE0: z => `Átomo neutro: elétrons = prótons = ${z}.`,
+    xNoteE: (z, q, e) => q > 0 ? `Carga ${q}+: perdeu ${q} elétron${q > 1 ? 's' : ''} → ${z} − ${q} = ${e}.` : `Carga ${-q}−: ganhou ${-q} elétron${q < -1 ? 's' : ''} → ${z} + ${-q} = ${e}.`,
+    xWhoNote: (name, z, ion) => `Quem decide é o número de prótons: ${z} prótons = ${name}.${ion ? ` Com essa quantidade de elétrons, é o íon ${ion}.` : ''}`,
+    boomQ: 'Esse núcleo é…', boomOpts: ['✅ Estável', '☢️ Radioativo', '💥 Não existe'],
+    bStable: 'Estável: essa combinação de prótons e nêutrons dura para sempre.',
+    bRadio: (half, dec, prod) => `Radioativo, ${half}. Decai por ${dec} e vira ${prod}.`,
+    bHalf: h => `meia-vida de ${h}`, bShort: 'meia-vida curta',
+    bFew: 'Nêutrons de menos para segurar tantos prótons se repelindo: o núcleo se desfaz na hora.',
+    bMany: 'Nêutrons demais: eles escapam na hora e o núcleo nem chega a se formar.',
+    bSplit: 'Se parte na hora em dois núcleos de hélio-4 (duas partículas alfa).',
+    bHeavy: ' Depois do chumbo, nenhum elemento tem isótopo estável.', bTcPm: ' Tecnécio e promécio não têm nenhum isótopo estável.',
+    dLabels: { a: 'Alfa (α)', 'b-': 'Beta menos (β⁻)', 'b+': 'Beta mais (β⁺)', g: 'Gama (γ)' },
+    dAskProd: (n, d) => `${n} sofre decaimento ${d}. Vira o quê?`, dAskMode: 'Que decaimento foi esse?',
+    dRule: {
+      a: 'Alfa: sai um pacote de 2 prótons + 2 nêutrons. Z cai 2 e A cai 4.',
+      'b-': 'Beta menos: um nêutron vira próton. Z sobe 1 e A fica igual.',
+      'b+': 'Beta mais: um próton vira nêutron. Z desce 1 e A fica igual.',
+      g: 'Gama: só sai energia (luz muito forte). Nada muda: continua o mesmo isótopo.',
+    },
     fBlock: 'linha de baixo (bloco f)', pickCatOne: 'Escolha a categoria',
     partSym: 'Símbolo', partZ: 'Nº atômico', partLoc: 'Lugar', mDefine: 'Definir', mDefineSub: 'Símbolo, nº, lugar e categoria', sDefine: 'Definir',
     qWhere: 'Onde fica este elemento?', qSym: 'Qual elemento tem este símbolo?', qSymOf: 'Qual é o símbolo deste elemento?',
@@ -108,6 +132,9 @@ const I18N = {
     games: {
       table: ['Tabela Periódica', 'A tabela está em branco. Cadê cada elemento?', 'A tabela está vazia e o desafio é seu: ache o lugar certinho de cada elemento. Bora?'],
       sequence: ['Em Ordem', 'Do 1 em diante: quem vem agora?', 'Escreva os elementos na ordem do número atômico, um atrás do outro: o nome, o símbolo ou os dois. Só entra a resposta certa. Travou? Pode pular, mas no final o pulo aparece como erro na lista completa.'],
+      xray: ['Raio-X do Átomo', 'Prótons, nêutrons e elétrons: conte de cabeça!', 'Aparece um isótopo ou íon, como ¹⁶O²⁻, e você diz quantos prótons, nêutrons ou elétrons ele tem. O Z não aparece: é com você! Às vezes vira "Quem sou eu?" e você descobre o elemento pelas partículas.'],
+      boom: ['Estável ou Boom?', 'Dura para sempre, é radioativo ou explode?', 'Aparece um isótopo com seus prótons e nêutrons. Ele é estável, radioativo ou nem consegue existir? Cada resposta explica por quê, com meia-vida e tudo.'],
+      decay: ['Transmutação', 'Alfa, beta ou gama: no que o átomo vira?', 'A alquimia de verdade! Diga no que cada isótopo se transforma depois de decair, ou descubra qual decaimento aconteceu. Do trítio ao urânio-238.'],
       define: ['Definir Elemento', 'Símbolo, número, lugar e categoria. Modo hard! 🔥', 'Aparece só o nome. Você escreve o símbolo e o número atômico (o número de prótons), marca a casa na tabela (dá para arrastar e dar zoom) e escolhe a categoria. Só vale o ponto se acertar tudo!'],
       fill: ['Preencher a Tabela', 'Escreva nomes e veja a tabela ganhar cor!', 'Digite qualquer elemento, na ordem que quiser, e veja a tabela se pintar inteira. Quantos você lembra de cabeça?'],
       symbols: ['Símbolos', 'Duas letrinhas, um elemento. Quem é?', 'Aparece o símbolo, você diz o nome. Parece fácil… até aparecerem os esquisitos!'],
@@ -191,6 +218,30 @@ const I18N = {
     seqSkipped: 'Skipped', seqListTitle: 'The full list', seqLegend: ['correct', 'skipped', 'not reached'],
     seqDesc: (n, m) => `From 1 to ${n} in order, within ${m}.`,
     chSeq: '♾️ No lives: only the clock rules, and every skip counts as a mistake', chWinSeq: '🏆 Reach the end in time with at most 10% skipped',
+    protons: 'protons', neutrons: 'neutrons', electrons: 'electrons', protons1: 'proton', neutrons1: 'neutron', electrons1: 'electron',
+    xAsk: { p: 'How many protons does it have?', n: 'How many neutrons does it have?', e: 'How many electrons does it have?' },
+    xWho: 'Who am I?',
+    xNoteP: (sym, z) => `Protons = atomic number (Z) of ${sym} = ${z}. The protons are what make it ${sym}.`,
+    xNoteN: (a, z, n) => `Neutrons = A − Z = ${a} − ${z} = ${n}.`,
+    xNoteE0: z => `Neutral atom: electrons = protons = ${z}.`,
+    xNoteE: (z, q, e) => q > 0 ? `Charge ${q}+: it lost ${q} electron${q > 1 ? 's' : ''} → ${z} − ${q} = ${e}.` : `Charge ${-q}−: it gained ${-q} electron${q < -1 ? 's' : ''} → ${z} + ${-q} = ${e}.`,
+    xWhoNote: (name, z, ion) => `The proton count decides: ${z} protons = ${name}.${ion ? ` With that many electrons, it is the ${ion} ion.` : ''}`,
+    boomQ: 'This nucleus is…', boomOpts: ['✅ Stable', '☢️ Radioactive', '💥 Can\'t exist'],
+    bStable: 'Stable: this mix of protons and neutrons lasts forever.',
+    bRadio: (half, dec, prod) => `Radioactive, ${half}. It decays by ${dec} and becomes ${prod}.`,
+    bHalf: h => `half-life of ${h}`, bShort: 'short half-life',
+    bFew: 'Too few neutrons to hold that many repelling protons: the nucleus falls apart instantly.',
+    bMany: 'Too many neutrons: they escape instantly and the nucleus never forms.',
+    bSplit: 'It instantly splits into two helium-4 nuclei (two alpha particles).',
+    bHeavy: ' After lead, no element has a stable isotope.', bTcPm: ' Technetium and promethium have no stable isotope at all.',
+    dLabels: { a: 'Alpha (α)', 'b-': 'Beta minus (β⁻)', 'b+': 'Beta plus (β⁺)', g: 'Gamma (γ)' },
+    dAskProd: (n, d) => `${n} goes through ${d} decay. What does it become?`, dAskMode: 'Which decay was this?',
+    dRule: {
+      a: 'Alpha: a packet of 2 protons + 2 neutrons leaves. Z drops by 2 and A by 4.',
+      'b-': 'Beta minus: a neutron turns into a proton. Z goes up 1, A stays the same.',
+      'b+': 'Beta plus: a proton turns into a neutron. Z goes down 1, A stays the same.',
+      g: 'Gamma: only energy leaves (very strong light). Nothing changes: same isotope.',
+    },
     fBlock: 'bottom row (f-block)', pickCatOne: 'Pick the category',
     partSym: 'Symbol', partZ: 'Atomic no.', partLoc: 'Spot', mDefine: 'Define', mDefineSub: 'Symbol, number, spot & category', sDefine: 'Define',
     qWhere: 'Where is this element?', qSym: 'Which element has this symbol?', qSymOf: "What is this element's symbol?",
@@ -201,6 +252,9 @@ const I18N = {
     games: {
       table: ['Periodic Table', 'The table is blank. Where does each one go?', 'The table is empty and it is all on you: drop every element in its exact spot. Ready?'],
       sequence: ['In Order', 'From 1 onward: who comes next?', 'Type the elements in atomic number order, one after another: the name, the symbol or both. Only the right answer goes in. Stuck? You can skip, but skips show up as mistakes in the full list at the end.'],
+      xray: ['Atom X-Ray', 'Protons, neutrons and electrons: count them in your head!', 'An isotope or ion shows up, like ¹⁶O²⁻, and you say how many protons, neutrons or electrons it has. Z is hidden: that one is on you! Sometimes it turns into "Who am I?" and you find the element from its particles.'],
+      boom: ['Stable or Boom?', 'Lasts forever, radioactive or blows up?', 'An isotope shows up with its protons and neutrons. Is it stable, radioactive, or can it not even exist? Every answer explains why, half-life included.'],
+      decay: ['Transmutation', 'Alpha, beta or gamma: what does the atom become?', 'Real alchemy! Say what each isotope turns into after it decays, or figure out which decay happened. From tritium to uranium-238.'],
       define: ['Define the Element', 'Symbol, number, spot and category. Hard mode! 🔥', 'Only the name shows up. Type the symbol and the atomic number (the number of protons), mark its square on a table you can drag and zoom, and pick its category. You only score if everything is right!'],
       fill: ['Fill the Table', 'Type names and watch the table light up!', 'Type any element, in any order, and watch the whole table fill with color. How many can you recall?'],
       symbols: ['Symbols', 'Two little letters, one element. Who is it?', 'A symbol pops up, you name the element. Easy… until the weird ones show up!'],
@@ -266,6 +320,8 @@ function ptable(cellFn, { cls = '', ph = true, phHtml = ['', ''] } = {}) {
 const mini = clsFn => ptable(e => ({ cls: clsFn(e) || '' }), { cls: 'mini', ph: false });
 
 const bigTile = (el, o = {}) => tile(el, { size: 'xl', neutral: true, ...o });
+const cnt = (n, k) => `${n} ${t(n === 1 ? k + '1' : k)}`;
+const nucTile = (z, a, q = 0, showZ = false) => `<div class="nuc-tile" style="--c:${CATS[byZ(z).cat].color}"><span class="na">${a}</span>${showZ ? `<span class="nz">${z}</span>` : ''}<b>${byZ(z).sym}</b>${q ? `<span class="nq">${chargeTxt(q)}</span>` : ''}</div>`;
 const nameCard = s => `<div class="vis-name">${s}</div>`;
 const bigNum = z => `<div class="vis-num"><small>${t('atomicNumber')}</small>${z}</div>`;
 
@@ -457,6 +513,89 @@ const GAMES = [
     },
   },
   {
+    id: 'xray', modes: ['choice', 'type'], noCategory: true, filter: e => !!NUC[e.z],
+    bg: '#7fd1ff', thumb: () => `<div class="t-xray">${miniAtom(3, 4, 3, { size: 92 })}</div>`,
+    make: (el, pool, mode) => {
+      const A = nucPickA(el.z), N = A - el.z;
+      const ch = ionCharge(el), q = ch && Math.random() < 0.5 ? ch : 0, E = el.z - q;
+      const k = pickOne(mode === 'choice' ? ['p', 'n', 'e', 'e', 'who'] : ['p', 'n', 'e', 'e']);
+      if (k === 'who') {
+        const near = shuffle([el.z - 2, el.z - 1, el.z + 1, el.z + 2].filter(z => z >= 1 && z <= 118)).slice(0, 3);
+        return {
+          heading: t('xWho'), answer: el.name, options: shuffle([el.name, ...near.map(z => byZ(z).name)]),
+          visual: `<div class="xr-who">${A <= 60 ? miniAtom(el.z, N, E, { size: 150 }) : ''}<div class="xr-counts"><span class="cp">${cnt(el.z, 'protons')}</span><span class="cn">${cnt(N, 'neutrons')}</span><span class="ce">${cnt(E, 'electrons')}</span></div></div>`,
+          note: t('xWhoNote', el.name, el.z, q ? el.sym + chargeTxt(q) : ''),
+        };
+      }
+      const ans = k === 'p' ? el.z : k === 'n' ? N : E;
+      return {
+        heading: t('xAsk')[k], visual: nucTile(el.z, A, q),
+        answer: String(ans), accept: [String(ans)], placeholder: t('phNum'), inputmode: 'numeric',
+        options: numOpts(ans, Math.max(0, ans - 5), ans + 5),
+        note: k === 'p' ? t('xNoteP', el.sym, el.z) : k === 'n' ? t('xNoteN', A, el.z, N) : q ? t('xNoteE', el.z, q, E) : t('xNoteE0', el.z),
+      };
+    },
+  },
+  {
+    id: 'boom', modes: ['choice'], noCategory: true, filter: e => !!NUC[e.z],
+    bg: 'linear-gradient(135deg,#ffb36b,#ff5b5b)', thumb: () => `<div class="t-boom"><span>✅</span><span>☢️</span><span>💥</span></div>`,
+    make: el => {
+      const z = el.z, [st, lo, hi, holes] = NUC[z];
+      const kinds = {};
+      if (st.length) kinds.stable = st;
+      let radio = famousA(z);
+      if (z <= 20) {
+        const a0 = Math.min(...st), a1 = Math.max(...st);
+        radio = [...new Set([...radio, ...Array.from({ length: a1 - a0 + 7 }, (_, i) => a0 - 3 + i)])].filter(a => nucInfo(z, a).kind === 'radio');
+        const ub = [lo - 1, lo - 2, hi + 1, hi + 2, ...holes].filter(a => a >= z && a >= 1 && nucInfo(z, a).kind === 'unbound');
+        if (ub.length) kinds.unbound = ub;
+      }
+      if (radio.length) kinds.radio = radio;
+      const kind = pickOne(Object.keys(kinds)), A = pickOne(kinds[kind]), info = nucInfo(z, A);
+      const opts = t('boomOpts');
+      let note;
+      if (info.kind === 'stable') note = t('bStable');
+      else if (info.kind === 'radio') {
+        const to = decayTo(z, A, info.decay);
+        note = t('bRadio', info.half ? t('bHalf', info.half[LANG === 'pt' ? 0 : 1]) : t('bShort'), t('dLabels')[info.decay].toLowerCase(), isoName(to.z, to.a, LANG));
+      } else note = t(info.why === 'split' ? 'bSplit' : info.why === 'few' ? 'bFew' : 'bMany');
+      if (z > 82) note += t('bHeavy');
+      if (z === 43 || z === 61) note += t('bTcPm');
+      return {
+        heading: t('boomQ'), options: opts, answer: opts[{ stable: 0, radio: 1, unbound: 2 }[info.kind]], note,
+        visual: `<div class="iso-card">${nucTile(z, A)}<div><div class="xr-name">${isoName(z, A, LANG)}</div>
+          <div class="xr-counts"><span class="cp">${cnt(z, 'protons')}</span><span class="cn">${cnt(A - z, 'neutrons')}</span></div></div></div>`,
+      };
+    },
+  },
+  {
+    id: 'decay', modes: ['choice'], noCategory: true, filter: e => DECAYS.some(d => d[0] === e.z),
+    bg: 'linear-gradient(135deg,#bca4ff,#5fe3c6)', thumb: () => `<div class="t-decay"><b>¹⁴C</b><span>β⁻</span><b>¹⁴N</b></div>`,
+    make: el => {
+      const [z, a, mode] = pickOne(DECAYS.filter(d => d[0] === el.z));
+      const L = t('dLabels'), nm = (zz, aa) => isoName(zz, aa, LANG);
+      const askMode = Math.random() < 0.4;
+      const m = !askMode && Math.random() < 0.15 ? 'g' : mode;
+      const prod = decayTo(z, a, m);
+      const arrow = sym => `<span class="dec-arrow"><small>${sym}</small>→</span>`;
+      const SYMS = { a: 'α', 'b-': 'β⁻', 'b+': 'β⁺', g: 'γ' };
+      const reveal = [...new Set([z, prod.z])].map(byZ);
+      if (askMode) {
+        const options = ['a', 'b-', 'b+', 'g'].map(k => L[k]);
+        return {
+          heading: t('dAskMode'), options, answer: L[m], note: t('dRule')[m], reveal,
+          visual: `<div class="dec-vis">${nucTile(z, a, 0, true)}${arrow('?')}${nucTile(prod.z, prod.a, 0, true)}</div>`,
+        };
+      }
+      const cand = ['b-', 'b+', 'a', 'g'].map(k => decayTo(z, a, k)).filter(p => p.z >= 1 && p.z <= 118);
+      const names = [...new Set([nm(prod.z, prod.a), ...shuffle(cand).map(p => nm(p.z, p.a))])].slice(0, 4);
+      return {
+        heading: t('dAskProd', nm(z, a), L[m].toLowerCase()), options: shuffle(names), answer: nm(prod.z, prod.a), note: t('dRule')[m], reveal,
+        visual: `<div class="dec-vis">${nucTile(z, a, 0, true)}${arrow(SYMS[m])}<div class="nuc-tile q"><b>?</b></div></div>`,
+      };
+    },
+  },
+  {
     id: 'duel', modes: ['choice'],
     bg: 'linear-gradient(90deg,#ff8c7a 50%,#7fd1ff 50%)', thumb: () => `<div class="t-tile sm">Na</div><span class="t-vs">VS</span><div class="t-tile sm">Cl</div>`,
     make: (el, pool) => {
@@ -526,7 +665,7 @@ const DOODLE = {
   grid: `<svg class="dd dd-grid" viewBox="0 0 300 220" aria-hidden="true"><g stroke="currentColor" stroke-width="2.5">${[0,1,2,3,4,5,6].map(i => `<line x1="${10 + i * 46}" y1="0" x2="${10 + i * 46}" y2="220"/>`).join('')}${[0,1,2,3,4].map(i => `<line x1="0" y1="${14 + i * 48}" x2="300" y2="${14 + i * 48}"/>`).join('')}</g></svg>`,
 };
 const THUMB_BG = ['#86d81c', '#ffd84d', '#7fd1ff', '#ff9ec4', '#bca4ff', '#5fe3c6'];
-const ICONS = { table: '📍', define: '🧾', sequence: '🔢', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', quiz: '💡', duel: '⚖️' };
+const ICONS = { table: '📍', define: '🧾', sequence: '🔢', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', quiz: '💡', xray: '🩻', boom: '💥', decay: '☢️', duel: '⚖️' };
 
 /* ---------- roteamento ---------- */
 let G = null; // jogo em andamento
@@ -539,6 +678,8 @@ function stopGame() {
 
 function route() {
   stopGame();
+  atomLearnStop();
+  reactLearnStop();
   const parts = (location.hash.slice(1) || '/').split('/').filter(Boolean);
   // endereços antigos (em português) redirecionam para os novos
   const OLD = { jogos: 'games', jogo: 'game', estudar: 'learn' };
@@ -551,7 +692,7 @@ function route() {
   if (!parts.length) renderHome();
   else if (parts[0] === 'games') renderHome();
   else if (parts[0] === 'game') renderGamePage(parts[1]);
-  else if (parts[0] === 'learn') renderLearn();
+  else if (parts[0] === 'learn') renderLearn(parts[1]);
   else renderHome();
   window.scrollTo(0, 0);
 }
@@ -1504,9 +1645,25 @@ function finishFill(reason) {
 }
 
 /* ---------- Estudar ---------- */
-function renderLearn() {
+function learnTabs(sub) {
+  const T = AL[LANG] || AL.pt;
+  return `<div class="learn-tabs"><a href="#/learn" class="${sub !== 'atom' && sub !== 'react' ? 'on' : ''}">${T.tabTable}</a><a href="#/learn/atom" class="${sub === 'atom' ? 'on' : ''}">${T.tabAtom}</a><a href="#/learn/react" class="${sub === 'react' ? 'on' : ''}">${rlT().tab}</a></div>`;
+}
+
+function renderLearn(sub) {
+  if (sub === 'react') {
+    app.innerHTML = `<section class="learn-page atom-learn">${learnTabs(sub)}${reactLearnHtml()}</section>`;
+    reactLearnInit();
+    return;
+  }
+  if (sub === 'atom') {
+    app.innerHTML = `<section class="learn-page atom-learn">${learnTabs(sub)}${atomLearnHtml()}</section>`;
+    atomLearnInit();
+    return;
+  }
   app.innerHTML = `
   <section class="learn-page">
+    ${learnTabs(sub)}
     <h1 class="page-title">${t('learnTitle')}</h1>
     <p class="lead">${t('learnLead')}</p>
     <div class="legend">${Object.entries(CATS).map(([k, c]) => `<button class="chip" data-cat="${k}" style="--c:${c.color}">${c.name}</button>`).join('')}</div>
