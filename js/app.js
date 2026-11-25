@@ -52,6 +52,9 @@ const I18N = {
       choice: ['Novato do Lab', 'Béquer Borbulhando', 'Modo Reação', 'Caçador de Elementos', 'CheMaster Supremo'],
       type: ['Primeiras Letras', 'Dedos Rápidos', 'Químico do Teclado', 'Alquimista da Escrita', 'CheMaster das Teclas'],
       click: ['Explorador Novato', 'Desbravador da Tabela', 'Mira Certeira', 'Navegador da Grade', 'CheMaster do Alvo'],
+      name: ['Contagem Inicial', 'Fila Indiana', 'Procissão Atômica', 'Maratona de Nomes', 'CheMaster da Sequência'],
+      sym: ['Primeiras Siglas', 'Sigla em Sigla', 'Alfabeto Químico', 'Código Periódico', 'CheMaster das Siglas'],
+      both: ['Dupla Dinâmica', 'Ficha Dupla', 'Duplo Desafio', 'Memória de Elefante', 'CheMaster Completo'],
       define: ['Aprendiz de Químico', 'Ficha Técnica', 'Raio-X Atômico', 'Enciclopédia Viva', 'CheMaster Absoluto'],
     },
     lvlDesc: (n, to) => to === 118 ? `${n} perguntas, a tabela inteira. Sem dó!` : `${n} perguntas do elemento 1 ao ${to}. Aquece aí!`,
@@ -90,6 +93,11 @@ const I18N = {
     qDefine: 'Defina o elemento', defSym: 'Símbolo', defZ: 'Número atômico', defZHint: 'Z = nº de prótons',
     defLoc: 'Lugar na tabela', defLocHint: '👉 Clique na casa certa na tabela', confirm: 'Confirmar',
     zoomHint: 'Arraste para mover · roda do mouse ou pinça para dar zoom',
+    wName: 'Nome', wNameSub: 'Ex.: Hidrogênio', wSym: 'Símbolo', wSymSub: 'Ex.: H', wBoth: 'Símbolo + Nome', wBothSub: 'Os dois, nessa ordem',
+    seqWrite: 'O que escrever', seqPh: (w, z) => `${w} do nº ${z}`, seqHint: 'Só entra a resposta certa · Pular conta como erro no final',
+    seqSkipped: 'Pulados', seqListTitle: 'A lista completa', seqLegend: ['acertou', 'pulou', 'não chegou'],
+    seqDesc: (n, m) => `Do 1 ao ${n} em ordem, em até ${m}.`,
+    chSeq: '♾️ Sem vidas: só o relógio manda, e cada pulo conta como erro', chWinSeq: '🏆 Chegue ao fim no tempo com no máximo 10% pulados',
     fBlock: 'linha de baixo (bloco f)', pickCatOne: 'Escolha a categoria',
     partSym: 'Símbolo', partZ: 'Nº atômico', partLoc: 'Lugar', mDefine: 'Definir', mDefineSub: 'Símbolo, nº, lugar e categoria', sDefine: 'Definir',
     qWhere: 'Onde fica este elemento?', qSym: 'Qual elemento tem este símbolo?', qSymOf: 'Qual é o símbolo deste elemento?',
@@ -99,6 +107,7 @@ const I18N = {
     qPeriod: 'Em qual período (linha) ele está?', qBig: 'Qual tem o MAIOR número atômico?', qSmall: 'Qual tem o MENOR número atômico?',
     games: {
       table: ['Tabela Periódica', 'A tabela está em branco. Cadê cada elemento?', 'A tabela está vazia e o desafio é seu: ache o lugar certinho de cada elemento. Bora?'],
+      sequence: ['Em Ordem', 'Do 1 em diante: quem vem agora?', 'Escreva os elementos na ordem do número atômico, um atrás do outro: o nome, o símbolo ou os dois. Só entra a resposta certa. Travou? Pode pular, mas no final o pulo aparece como erro na lista completa.'],
       define: ['Definir Elemento', 'Símbolo, número, lugar e categoria. Modo hard! 🔥', 'Aparece só o nome. Você escreve o símbolo e o número atômico (o número de prótons), marca a casa na tabela (dá para arrastar e dar zoom) e escolhe a categoria. Só vale o ponto se acertar tudo!'],
       fill: ['Preencher a Tabela', 'Escreva nomes e veja a tabela ganhar cor!', 'Digite qualquer elemento, na ordem que quiser, e veja a tabela se pintar inteira. Quantos você lembra de cabeça?'],
       symbols: ['Símbolos', 'Duas letrinhas, um elemento. Quem é?', 'Aparece o símbolo, você diz o nome. Parece fácil… até aparecerem os esquisitos!'],
@@ -136,6 +145,9 @@ const I18N = {
       choice: ['Lab Rookie', 'Bubbling Beaker', 'Chain Reaction', 'Element Hunter', 'Supreme CheMaster'],
       type: ['Ink Starter', 'Quick Fingers', 'Keyboard Chemist', 'Spelling Alchemist', 'Typing CheMaster'],
       click: ['Map Rookie', 'Table Explorer', 'Sharp Shooter', 'Grid Navigator', 'Pinpoint CheMaster'],
+      name: ['Countdown Rookie', 'Single File', 'Atomic Parade', 'Name Marathon', 'Sequence CheMaster'],
+      sym: ['First Symbols', 'Symbol by Symbol', 'Chemical Alphabet', 'Periodic Code', 'Symbol CheMaster'],
+      both: ['Dynamic Duo', 'Double Sheet', 'Double Trouble', 'Elephant Memory', 'Complete CheMaster'],
       define: ['Chem Apprentice', 'Spec Sheet', 'Atomic X-Ray', 'Living Encyclopedia', 'Absolute CheMaster'],
     },
     lvlDesc: (n, to) => to === 118 ? `${n} questions, the whole table. No mercy!` : `${n} questions, elements 1 to ${to}. Warm up!`,
@@ -174,6 +186,11 @@ const I18N = {
     qDefine: 'Define the element', defSym: 'Symbol', defZ: 'Atomic number', defZHint: 'Z = number of protons',
     defLoc: 'Spot on the table', defLocHint: '👉 Tap the right square on the table', confirm: 'Confirm',
     zoomHint: 'Drag to move · mouse wheel or pinch to zoom',
+    wName: 'Name', wNameSub: 'e.g. Hydrogen', wSym: 'Symbol', wSymSub: 'e.g. H', wBoth: 'Symbol + Name', wBothSub: 'Both, in that order',
+    seqWrite: 'What to type', seqPh: (w, z) => `${w} of no. ${z}`, seqHint: 'Only the right answer goes in · Skips count as mistakes at the end',
+    seqSkipped: 'Skipped', seqListTitle: 'The full list', seqLegend: ['correct', 'skipped', 'not reached'],
+    seqDesc: (n, m) => `From 1 to ${n} in order, within ${m}.`,
+    chSeq: '♾️ No lives: only the clock rules, and every skip counts as a mistake', chWinSeq: '🏆 Reach the end in time with at most 10% skipped',
     fBlock: 'bottom row (f-block)', pickCatOne: 'Pick the category',
     partSym: 'Symbol', partZ: 'Atomic no.', partLoc: 'Spot', mDefine: 'Define', mDefineSub: 'Symbol, number, spot & category', sDefine: 'Define',
     qWhere: 'Where is this element?', qSym: 'Which element has this symbol?', qSymOf: "What is this element's symbol?",
@@ -183,6 +200,7 @@ const I18N = {
     qPeriod: 'Which period (row) is it in?', qBig: 'Which has the HIGHER atomic number?', qSmall: 'Which has the LOWER atomic number?',
     games: {
       table: ['Periodic Table', 'The table is blank. Where does each one go?', 'The table is empty and it is all on you: drop every element in its exact spot. Ready?'],
+      sequence: ['In Order', 'From 1 onward: who comes next?', 'Type the elements in atomic number order, one after another: the name, the symbol or both. Only the right answer goes in. Stuck? You can skip, but skips show up as mistakes in the full list at the end.'],
       define: ['Define the Element', 'Symbol, number, spot and category. Hard mode! 🔥', 'Only the name shows up. Type the symbol and the atomic number (the number of protons), mark its square on a table you can drag and zoom, and pick its category. You only score if everything is right!'],
       fill: ['Fill the Table', 'Type names and watch the table light up!', 'Type any element, in any order, and watch the whole table fill with color. How many can you recall?'],
       symbols: ['Symbols', 'Two little letters, one element. Who is it?', 'A symbol pops up, you name the element. Easy… until the weird ones show up!'],
@@ -296,6 +314,9 @@ const MODES = {
   choice: { label: () => t('mChoice'), sub: () => t('mChoiceSub'), icon: '🔘', short: () => t('sChoice') },
   type:   { label: () => t('mType'),   sub: () => t('mTypeSub'),   icon: '⌨️', short: () => t('sType') },
   click:  { label: () => t('mClick'),  sub: () => t('mClickSub'),  icon: '📍', short: () => t('sClick') },
+  name:   { label: () => t('wName'), sub: () => t('wNameSub'), icon: '🔤', short: () => t('wName') },
+  sym:    { label: () => t('wSym'),  sub: () => t('wSymSub'),  icon: '🅰️', short: () => t('wSym') },
+  both:   { label: () => t('wBoth'), sub: () => t('wBothSub'), icon: '🧩', short: () => t('wBoth') },
   define: { label: () => t('mDefine'), sub: () => t('mDefineSub'), icon: '🧾', short: () => t('sDefine') },
 };
 
@@ -309,7 +330,7 @@ const GAMES = [
   },
   {
     id: 'define', modes: ['define'], qTimer: 45, limitMul: 2.5,
-    bg: '#14304a', thumb: () => `<div class="t-def"><b>Ferro</b><span>Fe · 26</span></div>`,
+    bg: '#14304a', thumb: () => `<div class="t-def"><b>${byZ(26).name}</b><span>Fe · 26</span></div>`,
     // Categoria: só pergunta se as questões tiverem mais de uma categoria
     // (no Treino "por categoria" com uma só, a resposta seria óbvia)
     make: (el, pool) => {
@@ -320,6 +341,10 @@ const GAMES = [
         answer: `${el.sym} · ${el.z}${ask ? ` · ${CATS[el.cat].name}` : ''}`,
       };
     },
+  },
+  {
+    id: 'sequence', kind: 'seq', modes: ['name', 'sym', 'both'], noCategory: true,
+    bg: '#ffd84d', thumb: () => `<div class="t-seq"><span>43</span><b>44</b><span>45</span></div>`,
   },
   {
     id: 'fill', kind: 'fill',
@@ -455,6 +480,14 @@ const LEVELS = [
   { stars: 4, color: '#d63b3b', soft: '#fdecec', count: 50, to: 118, limit: 720, icon: '🔥', bg: 'linear-gradient(135deg,#ff6b6b,#7a0f1f)' },
   { stars: 5, color: '#6b3fd6', soft: '#f1ecfd', count: 118, to: 118, limit: 1200, icon: '👑', bg: 'linear-gradient(135deg,#3a2a0a,#c99a2e)' },
 ];
+const SEQ_LEVELS = [
+  { ...LEVELS[0], to: 20, limit: 150 },
+  { ...LEVELS[1], to: 36, limit: 300 },
+  { ...LEVELS[2], to: 54, limit: 480 },
+  { ...LEVELS[3], to: 86, limit: 780 },
+  { ...LEVELS[4], to: 118, limit: 1080 },
+];
+const seqLimit = (L, mode) => Math.round(L.limit * (mode === 'both' ? 1.7 : 1));
 const FILL_LEVELS = [
   { ...LEVELS[0], to: 20, limit: 180 },
   { ...LEVELS[1], to: 36, limit: 420 },
@@ -493,7 +526,7 @@ const DOODLE = {
   grid: `<svg class="dd dd-grid" viewBox="0 0 300 220" aria-hidden="true"><g stroke="currentColor" stroke-width="2.5">${[0,1,2,3,4,5,6].map(i => `<line x1="${10 + i * 46}" y1="0" x2="${10 + i * 46}" y2="220"/>`).join('')}${[0,1,2,3,4].map(i => `<line x1="0" y1="${14 + i * 48}" x2="300" y2="${14 + i * 48}"/>`).join('')}</g></svg>`,
 };
 const THUMB_BG = ['#86d81c', '#ffd84d', '#7fd1ff', '#ff9ec4', '#bca4ff', '#5fe3c6'];
-const ICONS = { table: '📍', define: '🧾', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', quiz: '💡', duel: '⚖️' };
+const ICONS = { table: '📍', define: '🧾', sequence: '🔢', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', quiz: '💡', duel: '⚖️' };
 
 /* ---------- roteamento ---------- */
 let G = null; // jogo em andamento
@@ -568,6 +601,7 @@ function practicePool(g, s) {
 }
 
 function defaultSettings(g) {
+  if (g.kind === 'seq') return { by: 'range', range: '1-20', cats: ['am'], mode: 'name', limit: '0' };
   return g.kind === 'fill'
     ? { by: 'range', range: '1-118', cats: ['am'], limit: '900', symbols: 'no' }
     : { by: 'range', range: '1-118', cats: ['am'], count: '10', mode: g.modes[0], timer: '0', next: 'auto' };
@@ -589,7 +623,7 @@ function getSettings(g) {
   s.cats = (Array.isArray(s.cats) ? s.cats : []).filter(k => CATS[k] && catCount(g, k) > 0);
   if (!s.cats.length) s.cats = ['am'];
   delete s.fams;
-  if (g.kind !== 'fill') s.count = fitCount(g, s);
+  if (g.kind !== 'fill' && g.kind !== 'seq') s.count = fitCount(g, s);
   return s;
 }
 function saveSettings(g, s) {
@@ -624,9 +658,9 @@ function elementsGroup(s, g) {
 
 function rangeGroup(s, g, noLabel = false) {
   return optGroup(noLabel ? '' : t('elements'), 'range', s.range, [
-    { v: '1-20', label: '1 → 20', sub: t('hTo', 'H', 'Ca') },
-    { v: '1-36', label: '1 → 36', sub: t('hTo', 'H', 'Kr') },
-    { v: '1-54', label: '1 → 54', sub: t('hTo', 'H', 'Xe') },
+    { v: '1-20', label: '1 → 20', sub: t('nElements', g ? poolSize(g, '1-20') : 20) },
+    { v: '1-36', label: '1 → 36', sub: t('nElements', g ? poolSize(g, '1-36') : 36) },
+    { v: '1-54', label: '1 → 54', sub: t('nElements', g ? poolSize(g, '1-54') : 54) },
     { v: '1-118', label: t('all'), sub: t('nElements', g ? poolSize(g, '1-118') : 118) },
   ]);
 }
@@ -675,7 +709,13 @@ function renderPractice(g) {
   const s = getSettings(g);
   const panel = $('#panel');
   let h = '';
-  if (g.kind === 'fill') {
+  if (g.kind === 'seq') {
+    h += rangeGroup(s, g);
+    h += optGroup(t('seqWrite'), 'mode', s.mode, g.modes.map(m => ({ v: m, label: `${MODES[m].icon} ${MODES[m].label()}`, sub: MODES[m].sub() })));
+    h += optGroup(t('totalTime'), 'limit', s.limit, [
+      { v: '300', label: '5 min' }, { v: '600', label: '10 min' }, { v: '900', label: '15 min' }, { v: '0', label: t('noLimit') },
+    ]);
+  } else if (g.kind === 'fill') {
     h += elementsGroup(s, g);
     h += optGroup(t('totalTime'), 'limit', s.limit, [
       { v: '300', label: '5 min' }, { v: '600', label: '10 min' }, { v: '900', label: '15 min' }, { v: '0', label: t('noLimit') },
@@ -701,7 +741,7 @@ function renderPractice(g) {
     </div>`;
   panel.innerHTML = h;
 
-  const changed = () => { if (g.kind !== 'fill') s.count = fitCount(g, s); saveSettings(g, s); renderPractice(g); };
+  const changed = () => { if (g.kind !== 'fill' && g.kind !== 'seq') s.count = fitCount(g, s); saveSettings(g, s); renderPractice(g); };
   $$('.opt[data-k]', panel).forEach(b => b.onclick = () => { s[b.dataset.k] = b.dataset.v; changed(); });
   $$('.by-btn', panel).forEach(b => b.onclick = () => { s.by = b.dataset.by; changed(); });
   $$('.opt[data-cat]', panel).forEach(b => b.onclick = () => {
@@ -718,38 +758,39 @@ function renderPractice(g) {
   });
   $('#resetSet').onclick = () => { saveSettings(g, null); renderPractice(g); };
   $('#goChallenge').onclick = () => renderGamePage(g.id, 'c');
-  $('#start').onclick = () => g.kind === 'fill' ? startFillPractice(g, s) : startPractice(g, s);
+  $('#start').onclick = () => g.kind === 'fill' ? startFillPractice(g, s) : g.kind === 'seq' ? startSeqPractice(g, s) : startPractice(g, s);
 }
 
 function renderChallenge(g) {
   const best = (store.get().best || {})[g.id] || {};
   const fill = g.kind === 'fill';
   const modes = fill ? ['type'] : g.modes;
-  const quiz = g.kind === 'quiz';
-  const levels = fill ? FILL_LEVELS : quiz ? QUIZ_LEVELS : LEVELS;
+  const quiz = g.kind === 'quiz', seq = g.kind === 'seq';
+  const levels = fill ? FILL_LEVELS : quiz ? QUIZ_LEVELS : seq ? SEQ_LEVELS : LEVELS;
   const label = m => MODES[m].label();
-  const limited = modes.filter(m => m !== 'type');
+  const limited = seq ? [] : modes.filter(m => m !== 'type');
   const rules = [t('chTime')];
   if (limited.length) rules.push(t('chLives', limited.map(label).join(' / ')));
   if (modes.includes('type')) rules.push(t('chInf', label('type')));
-  rules.push(t(fill ? 'chWinFill' : 'chWin'));
+  if (seq) rules.push(t('chSeq'));
+  rules.push(t(fill ? 'chWinFill' : seq ? 'chWinSeq' : 'chWin'));
 
   let h = `<div class="ch-rules"><div class="ch-title">${t('chRulesTitle')}</div>
     <div class="ch-list">${rules.map(r => `<span>${r}</span>`).join('')}</div></div>`;
   for (const mode of modes) {
-    const inf = mode === 'type';
+    const inf = mode === 'type' || seq;
     h += `<div class="mode-head"><span class="mode-ic">${MODES[mode].icon}</span><b>${label(mode)}</b>
       <span class="mode-lives ${inf ? 'inf' : ''}">${inf ? '♾️ ' + t('livesInf') : '❤️ ' + t('lives3')}</span></div>`;
     // jogos com poucos elementos (ex.: Famílias) podem ter dois níveis com as mesmas perguntas: fica só o primeiro
-    const sizes = levels.map(L => fill ? L.to : Math.min(L.count, quiz ? quizPool(null, L.d).length : poolOf(g, 1, L.to).length));
+    const sizes = levels.map(L => fill || seq ? L.to : Math.min(L.count, quiz ? quizPool(null, L.d).length : poolOf(g, 1, L.to).length));
     h += levels.map((L, i) => {
       if (i > 0 && sizes[i] === sizes[i - 1]) return '';
       const key = `${mode}-${i}`;
-      const mins = Math.round(L.limit * (g.limitMul || 1) / 60) + ' min';
+      const mins = Math.round((seq ? seqLimit(L, mode) : L.limit * (g.limitMul || 1)) / 60) + ' min';
       const n = sizes[i];
-      const desc = fill ? t('fillDesc', L.to, Math.round(L.limit / 60)) : quiz ? t('quizLvl')[i] : t('lvlDesc', n, L.to);
+      const desc = fill ? t('fillDesc', L.to, Math.round(L.limit / 60)) : seq ? t('seqDesc', L.to, mins) : quiz ? t('quizLvl')[i] : t('lvlDesc', n, L.to);
       const info = [
-        fill ? ['🧪', n, t('sElements')] : ['📋', n, t('sQuestions')],
+        fill || seq ? ['🧪', n, t('sElements')] : ['📋', n, t('sQuestions')],
         ['⏱️', mins, t('sTime')],
         [MODES[mode].icon, MODES[mode].short(), t('sMode')],
         inf ? ['♾️', '∞', t('sLives')] : ['❤️', 3, t('sLives')],
@@ -771,6 +812,7 @@ function renderChallenge(g) {
   $('#panel').innerHTML = h;
   $$('[data-lvl]').forEach(btn => btn.onclick = () => fill
     ? startFillChallenge(g, +btn.dataset.lvl)
+    : seq ? startSeqChallenge(g, +btn.dataset.lvl, btn.dataset.mode)
     : startChallenge(g, +btn.dataset.lvl, btn.dataset.mode));
   const rp = $('#resetProg');
   if (rp) rp.onclick = () => {
@@ -930,8 +972,8 @@ function tick() {
   // Definir: o relógio para enquanto você confere a resposta
   if (G.locked && !G.fill && G.questions[G.i] && G.questions[G.i].mode === 'define') return;
   G.elapsed += dt;
-  if (G.fill) {
-    if (G.limit && G.elapsed >= G.limit) return finishFill('time');
+  if (G.fill || G.seq) {
+    if (G.limit && G.elapsed >= G.limit) return G.seq ? finishSeq('time') : finishFill('time');
   } else {
     if (!G.locked) {
       G.qTime += dt;
@@ -948,6 +990,7 @@ function updateHud() {
   $('.clock').classList.toggle('hurry', !!G.limit && G.limit - G.elapsed <= 30);
   const bar = $('#qbar');
   if (G.fill) bar.style.width = (G.limit ? 100 * (1 - G.elapsed / G.limit) : 100 * G.found.size / G.pool.length) + '%';
+  else if (G.seq) bar.style.width = (G.limit ? 100 * (1 - G.elapsed / G.limit) : 100 * G.idx / G.pool.length) + '%';
   else if (G.timer) bar.style.width = Math.max(0, 100 * (1 - G.qTime / G.timer)) + '%';
   else if (G.limit) bar.style.width = Math.max(0, 100 * (1 - G.elapsed / G.limit)) + '%';
   else bar.style.width = (100 * G.i / G.questions.length) + '%';
@@ -1177,7 +1220,7 @@ function togglePause() {
   } else {
     $('#pause-ov').remove();
     // se pausou durante o popup no modo automático, segue para a próxima
-    if (!G.fill && G.locked && G.next !== 'manual') G.to = setTimeout(nextQ, 600);
+    if (!G.fill && !G.seq && G.locked && G.next !== 'manual') G.to = setTimeout(nextQ, 600);
     const inp = $('#tin') || $('#fin'); if (inp && !inp.disabled) inp.focus();
   }
 }
@@ -1185,7 +1228,7 @@ function togglePause() {
 document.addEventListener('keydown', e => {
   if (!G) return;
   if (e.key === 'Escape') return togglePause();
-  if (G.fill || G.paused) return;
+  if (G.fill || G.seq || G.paused) return;
   if (G.locked) {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nextQ(); }
     return;
@@ -1239,6 +1282,139 @@ function finish(reason) {
   window.scrollTo(0, 0);
   $('#again').onclick = g.replay;
   $('#back').onclick = g.back;
+}
+
+/* ---------- Em Ordem ---------- */
+const SEQ_STEPS = { name: ['name'], sym: ['sym'], both: ['sym', 'name'] };
+
+function startSeqPractice(g, s) {
+  const [a, b] = s.range.split('-').map(Number);
+  startSeq({ from: a, to: b, write: s.mode, limit: +s.limit, back: () => renderGamePage(g.id, 'p'), replay: () => startSeqPractice(g, s) });
+}
+function startSeqChallenge(g, li, mode) {
+  const L = SEQ_LEVELS[li];
+  startSeq({
+    from: 1, to: L.to, write: mode, limit: seqLimit(L, mode), challenge: true,
+    back: () => renderGamePage(g.id, 'c'), replay: () => startSeqChallenge(g, li, mode),
+    onFinish: r => saveBest(g.id, `${mode}-${li}`, r.score, r.total, r.passed),
+  });
+}
+
+function startSeq(cfg) {
+  stopGame();
+  const pool = ELEMENTS.filter(e => e.z >= cfg.from && e.z <= cfg.to);
+  // res[i]: 'ok' (escreveu) | 'skip' (pulou)
+  G = { ...cfg, seq: true, pool, idx: 0, step: 0, res: [], elapsed: 0, paused: false, last: performance.now() };
+  app.innerHTML = `
+  <section class="stage play seq-stage">
+    <div class="hud">
+      <div class="clock"><small>${G.limit ? t('left') : t('time')}</small><b id="clock">0:00</b></div>
+      <div class="bars"><div class="fill-count"><b id="fcount">0</b> ${t('ofElements', pool.length)}</div><div class="qbar"><span id="qbar"></span></div></div>
+      ${hudButtons()}
+    </div>
+    <div class="seq-main" id="smain">
+      <div class="seq-track" id="strack"></div>
+      <div class="seq-side">
+        <div class="seq-input" id="sbar">
+          <input id="fin" class="tin" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button class="btn-w" id="sskip">${t('skip')} ⏭</button>
+        </div>
+        <div class="seq-hint" id="shint">${t('seqHint')}</div>
+      </div>
+    </div>
+    <div id="sres"></div>
+  </section>`;
+  const inp = $('#fin');
+  inp.oninput = () => { if (seqMatch(inp.value)) seqAdvance(); };
+  inp.onkeydown = e => {
+    if (e.key !== 'Enter') return;
+    if (seqMatch(inp.value)) seqAdvance();
+    else { inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
+  };
+  $('#sskip').onclick = () => { seqSkip(); inp.focus(); };
+  bindHud();
+  renderSeq(false);
+  inp.focus();
+  updateHud();
+  G.iv = setInterval(tick, 100);
+}
+
+const seqWant = () => SEQ_STEPS[G.write][G.step];
+function seqMatch(v) {
+  const e = G.pool[G.idx], n = norm(v);
+  if (!e || !n) return false;
+  return seqWant() === 'sym' ? n === norm(e.sym) : names(e).some(x => norm(x) === n);
+}
+function seqNext(mark) {
+  $('#fin').classList.remove('shake');
+  G.res[G.idx] = mark; G.idx++; G.step = 0;
+  $('#fcount').textContent = G.res.filter(r => r === 'ok').length;
+  if (G.idx >= G.pool.length) return finishSeq('done');
+  renderSeq(true);
+}
+function seqAdvance() {
+  $('#fin').value = '';
+  G.step++;
+  if (G.step >= SEQ_STEPS[G.write].length) seqNext('ok');
+  else renderSeq(false);
+}
+function seqSkip() {
+  if (!G || G.over || !G.seq) return;
+  $('#fin').value = '';
+  seqNext('skip');
+}
+
+function renderSeq(shift) {
+  const steps = SEQ_STEPS[G.write];
+  const done = (e, cls, pos) => `<div class="srow ${pos} ${cls}"><span class="sz">${e.z}</span><b class="ssym">${e.sym}</b><span class="snm">${e.name}</span></div>`;
+  const row = (i, pos) => {
+    const e = G.pool[i];
+    if (!e) return `<div class="srow ${pos} empty"></div>`;
+    if (i < G.idx) return done(e, G.res[i], pos);
+    if (i > G.idx) return `<div class="srow ${pos} todo"><span class="sz">${e.z}</span><b class="ssym">—</b><span class="snm">———</span></div>`;
+    const slots = steps.map((w, k) => {
+      const st = k < G.step ? 'done' : k === G.step ? 'act' : '';
+      const val = k < G.step ? (w === 'sym' ? e.sym : e.name) : '…';
+      return `<span class="slot ${w} ${st}">${val}</span>`;
+    }).join('');
+    return `<div class="srow cur"><span class="sz">${e.z}</span><div class="slots">${slots}</div></div>`;
+  };
+  const tr = $('#strack');
+  tr.innerHTML = [row(G.idx - 2, 'p2'), row(G.idx - 1, 'p1'), row(G.idx, 'cur'), row(G.idx + 1, 'n1'), row(G.idx + 2, 'n2')].join('');
+  if (shift) { tr.classList.remove('anim'); void tr.offsetWidth; tr.classList.add('anim'); }
+  const e = G.pool[G.idx];
+  $('#fin').placeholder = t('seqPh', seqWant() === 'sym' ? t('wSym') : t('wName'), e.z);
+}
+
+function finishSeq(reason) {
+  const g = G;
+  clearInterval(g.iv);
+  g.over = true;
+  const total = g.pool.length;
+  const score = g.res.filter(r => r === 'ok').length;
+  const skipped = g.res.filter(r => r === 'skip').length;
+  const pct = Math.round(100 * score / total);
+  const passed = reason === 'done' && skipped <= Math.floor(total * 0.1);
+  if (g.onFinish) g.onFinish({ score, total, passed });
+  let [emoji, title] = resultTitle(pct);
+  if (reason === 'time') [emoji, title] = t('rTime');
+  $('#smain').remove();
+  const L = t('seqLegend');
+  $('#sres').innerHTML = `<div class="res-card inline">
+    <div class="res-emoji">${emoji}</div><h1>${title}</h1>
+    <div class="res-stats">
+      <div><b>${score}/${total}</b><small>${t('correct')}</small></div>
+      <div><b>${skipped}</b><small>${t('seqSkipped')}</small></div>
+      <div><b>${fmt(g.elapsed)}</b><small>${t('tTime')}</small></div>
+    </div>
+    <div class="res-actions"><button class="btn-y" id="again">${t('again')}</button><button class="btn-w" id="back">${t('back')}</button></div>
+  </div>
+  <h3 class="rv-title">${t('seqListTitle')}</h3>
+  <div class="seq-legend"><span class="sl ok">${L[0]}</span><span class="sl skip">${L[1]}</span><span class="sl miss">${L[2]}</span></div>
+  <div class="seq-list">${g.pool.map((e, i) => `<div class="sl ${g.res[i] || 'miss'}"><span class="z">${e.z}</span><b>${e.sym}</b><span>${e.name}</span></div>`).join('')}</div>`;
+  $('#again').onclick = () => { stopGame(); g.replay(); };
+  $('#back').onclick = () => { stopGame(); g.back(); };
+  window.scrollTo(0, 0);
 }
 
 /* ---------- Preencher a Tabela ---------- */
