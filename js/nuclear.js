@@ -81,22 +81,71 @@ const valleyZ = a => a / (1.98 + 0.0155 * Math.pow(a, 2 / 3));
 const nucKey = (z, a) => z + '-' + a;
 const halfLife = (z, a, lang) => { const h = HALF[nucKey(z, a)]; return h ? h[lang === 'pt' ? 0 : 1] : null; };
 
+// isótopos estáveis do 21 ao 81 que não estão em NUC (dados reais)
+const STABLE_MORE = {
+  21: [45], 22: [46, 47, 48, 49, 50], 23: [51], 24: [50, 52, 53, 54], 25: [55], 31: [69, 71], 32: [70, 72, 73, 74, 76], 33: [75],
+  34: [74, 76, 77, 78, 80], 36: [78, 80, 82, 83, 84, 86], 37: [85], 39: [89], 40: [90, 91, 92, 94, 96], 41: [93],
+  42: [92, 94, 95, 96, 97, 98, 100], 44: [96, 98, 99, 100, 101, 102, 104], 45: [103], 46: [102, 104, 105, 106, 108, 110],
+  48: [106, 108, 110, 111, 112, 114], 49: [113], 50: [112, 114, 115, 116, 117, 118, 119, 120, 122, 124], 51: [121, 123],
+  52: [120, 122, 123, 124, 125, 126], 54: [124, 126, 128, 129, 130, 131, 132, 134, 136], 56: [130, 132, 134, 135, 136, 137, 138],
+  57: [139], 58: [136, 138, 140, 142], 59: [141], 60: [142, 143, 145, 146, 148, 150], 62: [144, 149, 150, 152, 154], 63: [151, 153],
+  64: [154, 155, 156, 157, 158, 160], 65: [159], 66: [156, 158, 160, 161, 162, 163, 164], 67: [165], 68: [162, 164, 166, 167, 168, 170],
+  69: [169], 70: [168, 170, 171, 172, 173, 174, 176], 71: [175], 72: [176, 177, 178, 179, 180], 73: [181], 74: [182, 183, 184, 186],
+  75: [185], 76: [184, 187, 188, 189, 190, 192], 77: [191, 193], 78: [192, 194, 195, 196, 198], 80: [196, 198, 199, 200, 201, 202, 204],
+  81: [203, 205],
+};
+const stableOf = z => NUC[z] ? NUC[z][0] : STABLE_MORE[z] || [];
+
+// Fórmula da energia de ligação (Bethe–Weizsäcker): estima se um núcleo pesado "segura" as partículas.
+// Usada só onde não há dados reais de quais isótopos existem.
+function semfB(z, n) {
+  const a = z + n;
+  if (a < 2 || z < 0 || n < 0) return 0;
+  let b = 15.75 * a - 17.8 * Math.pow(a, 2 / 3) - 0.711 * z * (z - 1) / Math.pow(a, 1 / 3) - 23.7 * (n - z) * (n - z) / a;
+  const d = 11.18 / Math.sqrt(a);
+  if (z % 2 === 0 && n % 2 === 0) b += d; else if (z % 2 === 1 && n % 2 === 1) b -= d;
+  return b;
+}
+// segura se tirar um nêutron ou um próton custar energia (senão ele escapa sozinho)
+const semfBound = (z, n) => z >= 1 && n >= 1 && semfB(z, n) - semfB(z, n - 1) > 0 && semfB(z, n) - semfB(z - 1, n) > 0;
+// A "ideal" (meio do vale de estabilidade) para um Z
+function valleyA(z) { let best = z, bd = Infinity; for (let a = z; a <= 3 * z + 10; a++) { const d = Math.abs(valleyZ(a) - z); if (d < bd) { bd = d; best = a; } } return best; }
+
 // Situação de um núcleo: estável, radioativo (com o tipo de decaimento) ou "não existe"
 function nucInfo(z, a) {
   const n = a - z;
   if (z === 0) return { kind: n ? 'neutron' : 'empty' };
-  const d = NUC[z];
-  if (!d) return { kind: 'unknown' };
-  const [stable, lo, hi, holes] = d;
+  if (z > 118 || n < 0) return { kind: 'unknown' };
+  const d = NUC[z], stable = stableOf(z);
   if (stable.includes(a)) return { kind: 'stable' };
-  const ref = stable.length ? stable.reduce((s, x) => s + x, 0) / stable.length : (lo + hi) / 2;
-  if (a < lo || a > hi || holes.includes(a)) {
+  const ref = stable.length ? stable.reduce((s, x) => s + x, 0) / stable.length : d ? (d[1] + d[2]) / 2 : valleyA(z);
+  const out = d ? (a < d[1] || a > d[2] || d[3].includes(a)) : !semfBound(z, n);
+  if (out) {
     if (z === 4 && a === 8) return { kind: 'unbound', why: 'split' };
     return { kind: 'unbound', why: a < ref ? 'few' : 'many' };
   }
   const k = nucKey(z, a);
-  const decay = DECAY_FIX[k] || (z > 82 ? 'a' : z < valleyZ(a) ? 'b-' : 'b+');
+  const decay = DECAY_FIX[k] || (z > 82 ? (z < valleyZ(a) - 2 ? 'b-' : 'a') : z < valleyZ(a) ? 'b-' : 'b+');
   return { kind: 'radio', decay, half: HALF[k] || null };
+}
+
+// Elétrons por camada na ordem real de energia (diagrama de Pauling): ex. Fe = 2, 8, 14, 2
+const MADELUNG = [[1, 0], [2, 0], [2, 1], [3, 0], [3, 1], [4, 0], [3, 2], [4, 1], [5, 0], [4, 2], [5, 1], [6, 0], [4, 3], [5, 2], [6, 1], [7, 0], [5, 3], [6, 2], [7, 1]];
+function shellCounts(e) {
+  const by = [];
+  for (const [n, l] of MADELUNG) {
+    if (e <= 0) break;
+    const c = Math.min(e, 4 * l + 2);
+    by[n - 1] = (by[n - 1] || 0) + c; e -= c;
+  }
+  if (e > 0) by[6] = (by[6] || 0) + e;
+  return Array.from(by, x => x || 0);
+}
+// isótopo "típico" de um elemento: o estável mais perto da massa da tabela (ou o mais estável, se nenhum for estável)
+function typicalA(z) {
+  const st = stableOf(z), m = typeof MASSES !== 'undefined' ? MASSES[z] : valleyA(z);
+  if (st.length) return st.reduce((b, x) => Math.abs(x - m) < Math.abs(b - m) ? x : b, st[0]);
+  return Math.round(m);
 }
 
 // isótopos radioativos famosos de um elemento (os que têm meia-vida na lista)

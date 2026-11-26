@@ -147,6 +147,7 @@ const I18N = {
       letters: ['Letras Sumidas', 'Umas letras fugiram. Complete o nome!', 'Algumas letras deram no pé. Escreva o nome inteiro do elemento e traga elas de volta!'],
       groups: ['Grupos', 'Em que coluna esse elemento mora?', 'Diga o grupo (coluna 1 a 18) de cada elemento. Lantanídeos e actinídeos ficam de folga.'],
       periods: ['Períodos', 'Em que andar da tabela ele está?', 'Diga o período (linha 1 a 7) de cada elemento. Sobe e desce na tabela!'],
+      inorg: ['Funções inorgânicas', 'Ácido, base, sal ou óxido? Nome e fórmula!', 'Reconheça ácidos, bases, sais e óxidos pela fórmula, acerte o nome e a fórmula de substâncias do dia a dia (água sanitária, cal, ferrugem…) e treine as regras de nomenclatura. Cada resposta vem com uma explicação.'],
       quiz: ['Perguntas de Química', 'Quem explode na água? Quem nunca reage? Responda!', 'Grave como cada família se comporta: quem reage com a água, quem forma sal, quem brilha no letreiro, quem enferruja… Cada resposta vem com uma explicação curtinha.'],
       duel: ['Duelo Atômico', 'Dois elementos, uma briga: quem é maior?', 'Dois elementos entram no ringue. Quem tem o maior (ou menor) número atômico vence!'],
     },
@@ -267,6 +268,7 @@ const I18N = {
       letters: ['Runaway Letters', 'Some letters ran off. Bring them back!', 'A few letters escaped from the name. Type the full element name and catch them!'],
       groups: ['Groups', 'Which column does it live in?', 'Name the group (column 1 to 18) of each element. Lanthanides and actinides get the day off.'],
       periods: ['Periods', 'Which floor of the table is it on?', 'Name the period (row 1 to 7) of each element. Up and down the table!'],
+      inorg: ['Inorganic functions', 'Acid, base, salt or oxide? Names and formulas!', 'Spot acids, bases, salts and oxides from the formula, get the names and formulas of everyday substances (bleach, lime, rust…) right and practice the naming rules. Every answer comes with an explanation.'],
       quiz: ['Chemistry Questions', 'Who explodes in water? Who never reacts? Answer!', 'Learn how each family behaves: who reacts with water, who forms salts, who glows in signs, who rusts… Every answer comes with a short explanation.'],
       duel: ['Atomic Duel', 'Two elements, one fight: who is bigger?', 'Two elements step into the ring. The higher (or lower) atomic number wins!'],
     },
@@ -504,7 +506,7 @@ const GAMES = [
     bg: 'linear-gradient(135deg,#ffe46b,#ff9ec4)',
     thumb: () => `<div class="t-card t-quiz">${LANG === 'en' ? 'Na + H₂O = 💥?' : 'Na + H₂O = 💥?'}</div>`,
     make: item => {
-      const L = item[LANG] || item.pt, topic = QUIZ_TOPICS[item.topic];
+      const L = item[LANG] || item.pt, topic = QUIZ_TOPICS[item.topic] || INQ_TOPICS[item.topic];
       return {
         heading: L.q, answer: L.a, options: shuffle([L.a, ...L.wrong]), note: L.note,
         visual: `<div class="quiz-topic">${topic.icon} ${topic[LANG] || topic.pt}</div>`,
@@ -635,13 +637,16 @@ const FILL_LEVELS = [
   { ...LEVELS[4], to: 118, limit: 900 },
 ];
 
+GAMES.splice(GAMES.findIndex(x => x.id === 'quiz') + 1, 0, { ...GAMES.find(x => x.id === 'quiz'), id: 'inorg', bank: INQ, topics: INQ_TOPICS,
+  bg: 'linear-gradient(135deg,#c8f7c5,#7fd1ff)', thumb: () => `<div class="t-card t-quiz">H₂SO₄ = 🍋?</div>` });
+
 const QUIZ_LEVELS = [
   { ...LEVELS[0], d: 1, count: 15, limit: 240 },
   { ...LEVELS[1], d: 2, count: 30, limit: 480 },
   { ...LEVELS[2], d: 3, count: 50, limit: 780 },
 ];
-const quizPool = (topics, d = 3) => QUIZ.filter(x => x.d <= d && (!topics || topics.includes(x.topic)));
-const topicCount = k => QUIZ.filter(x => x.topic === k).length;
+const quizPool = (topics, d = 3, g) => ((g && g.bank) || QUIZ).filter(x => x.d <= d && (!topics || topics.includes(x.topic)));
+const topicCount = (k, g) => ((g && g.bank) || QUIZ).filter(x => x.topic === k).length;
 
 function poolOf(g, from, to) {
   return ELEMENTS.filter(e => e.z >= from && e.z <= to && (!g.filter || g.filter(e)));
@@ -665,7 +670,7 @@ const DOODLE = {
   grid: `<svg class="dd dd-grid" viewBox="0 0 300 220" aria-hidden="true"><g stroke="currentColor" stroke-width="2.5">${[0,1,2,3,4,5,6].map(i => `<line x1="${10 + i * 46}" y1="0" x2="${10 + i * 46}" y2="220"/>`).join('')}${[0,1,2,3,4].map(i => `<line x1="0" y1="${14 + i * 48}" x2="300" y2="${14 + i * 48}"/>`).join('')}</g></svg>`,
 };
 const THUMB_BG = ['#86d81c', '#ffd84d', '#7fd1ff', '#ff9ec4', '#bca4ff', '#5fe3c6'];
-const ICONS = { table: '📍', define: '🧾', sequence: '🔢', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', quiz: '💡', xray: '🩻', boom: '💥', decay: '☢️', duel: '⚖️' };
+const ICONS = { table: '📍', define: '🧾', sequence: '🔢', fill: '✍️', symbols: 'Au', names: 'Na', 'atomic-number': 'Z', 'who-is': '#', mystery: '?', families: '🧬', categories: '🎨', letters: 'A_', groups: '↕', periods: '↔', quiz: '💡', inorg: '🧂', xray: '🩻', boom: '💥', decay: '☢️', duel: '⚖️' };
 
 /* ---------- roteamento ---------- */
 let G = null; // jogo em andamento
@@ -680,6 +685,7 @@ function route() {
   stopGame();
   atomLearnStop();
   reactLearnStop();
+  fundLearnStop();
   const parts = (location.hash.slice(1) || '/').split('/').filter(Boolean);
   // endereços antigos (em português) redirecionam para os novos
   const OLD = { jogos: 'games', jogo: 'game', estudar: 'learn' };
@@ -692,7 +698,7 @@ function route() {
   if (!parts.length) renderHome();
   else if (parts[0] === 'games') renderHome();
   else if (parts[0] === 'game') renderGamePage(parts[1]);
-  else if (parts[0] === 'learn') renderLearn(parts[1]);
+  else if (parts[0] === 'learn') renderLearn(parts[1], parts[2]);
   else renderHome();
   window.scrollTo(0, 0);
 }
@@ -735,7 +741,7 @@ const catCount = (g, k) => (g.hideCats || []).includes(k) ? 0 : ELEMENTS.filter(
 
 // elementos do treino: por faixa de número ou pelas categorias escolhidas
 function practicePool(g, s) {
-  if (g.kind === 'quiz') return quizPool(s.topics);
+  if (g.kind === 'quiz') return quizPool(s.topics, 3, g);
   if (s.by === 'category') return ELEMENTS.filter(e => s.cats.includes(e.cat) && gameOk(g, e));
   const [a, b] = s.range.split('-').map(Number);
   return poolOf(g, a, b);
@@ -752,8 +758,9 @@ function getSettings(g) {
   const s = { ...defaultSettings(g), ...saved };
   if (g.kind === 'quiz') {
     s.mode = 'choice';
-    s.topics = (Array.isArray(s.topics) ? s.topics : []).filter(k => QUIZ_TOPICS[k]);
-    if (!s.topics.length) s.topics = Object.keys(QUIZ_TOPICS);
+    const TP = g.topics || QUIZ_TOPICS;
+    s.topics = (Array.isArray(s.topics) ? s.topics : []).filter(k => TP[k]);
+    if (!s.topics.length) s.topics = Object.keys(TP);
     s.count = fitCount(g, s);
     return s;
   }
@@ -779,10 +786,10 @@ function optGroup(label, key, cur, opts) {
   </div></div>`;
 }
 
-function topicsGroup(s) {
+function topicsGroup(s, g) {
   return `<div class="og"><div class="og-label">${t('topics')}</div>
     <div class="fam-hint">${t('pickTopic')}</div>
-    <div class="fam-grid">${Object.entries(QUIZ_TOPICS).map(([k, tp]) => `<button class="opt fam ${s.topics.includes(k) ? 'on' : ''}" data-topic="${k}"><span class="cat-name">${tp.icon} ${tp[LANG] || tp.pt}</span><small>${t('nQuestions', topicCount(k))}</small></button>`).join('')}</div></div>`;
+    <div class="fam-grid">${Object.entries(g.topics || QUIZ_TOPICS).map(([k, tp]) => `<button class="opt fam ${s.topics.includes(k) ? 'on' : ''}" data-topic="${k}"><span class="cat-name">${tp.icon} ${tp[LANG] || tp.pt}</span><small>${t('nQuestions', topicCount(k, g))}</small></button>`).join('')}</div></div>`;
 }
 
 function elementsGroup(s, g) {
@@ -865,7 +872,7 @@ function renderPractice(g) {
       { v: 'no', label: t('onlyNames'), sub: t('exName') }, { v: 'yes', label: t('namesSyms'), sub: t('symEnter') },
     ]);
   } else {
-    h += g.kind === 'quiz' ? topicsGroup(s) : elementsGroup(s, g);
+    h += g.kind === 'quiz' ? topicsGroup(s, g) : elementsGroup(s, g);
     h += countGroup(g, s);
     if (g.modes.length > 1) h += optGroup(t('mode'), 'mode', s.mode, g.modes.map(m => ({ v: m, label: `${MODES[m].icon} ${MODES[m].label()}`, sub: MODES[m].sub() })));
     h += `<div class="og-row">
@@ -923,7 +930,7 @@ function renderChallenge(g) {
     h += `<div class="mode-head"><span class="mode-ic">${MODES[mode].icon}</span><b>${label(mode)}</b>
       <span class="mode-lives ${inf ? 'inf' : ''}">${inf ? '♾️ ' + t('livesInf') : '❤️ ' + t('lives3')}</span></div>`;
     // jogos com poucos elementos (ex.: Famílias) podem ter dois níveis com as mesmas perguntas: fica só o primeiro
-    const sizes = levels.map(L => fill || seq ? L.to : Math.min(L.count, quiz ? quizPool(null, L.d).length : poolOf(g, 1, L.to).length));
+    const sizes = levels.map(L => fill || seq ? L.to : Math.min(L.count, quiz ? quizPool(null, L.d, g).length : poolOf(g, 1, L.to).length));
     h += levels.map((L, i) => {
       if (i > 0 && sizes[i] === sizes[i - 1]) return '';
       const key = `${mode}-${i}`;
@@ -989,7 +996,7 @@ function startPractice(g, s) {
 function startChallenge(g, li, mode) {
   const quiz = g.kind === 'quiz';
   const L = (quiz ? QUIZ_LEVELS : LEVELS)[li];
-  const pool = quiz ? quizPool(null, L.d) : poolOf(g, 1, L.to);
+  const pool = quiz ? quizPool(null, L.d, g) : poolOf(g, 1, L.to);
   const list = shuffle(pool).slice(0, Math.min(L.count, pool.length));
   const lives = mode === 'type' ? 0 : 3; // digitar: vidas infinitas
   startGame({
@@ -1647,20 +1654,16 @@ function finishFill(reason) {
 /* ---------- Estudar ---------- */
 function learnTabs(sub) {
   const T = AL[LANG] || AL.pt;
-  return `<div class="learn-tabs"><a href="#/learn" class="${sub !== 'atom' && sub !== 'react' ? 'on' : ''}">${T.tabTable}</a><a href="#/learn/atom" class="${sub === 'atom' ? 'on' : ''}">${T.tabAtom}</a><a href="#/learn/react" class="${sub === 'react' ? 'on' : ''}">${rlT().tab}</a></div>`;
+  return `<div class="learn-tabs"><a href="#/learn" class="${!['atom', 'react', 'fund'].includes(sub) ? 'on' : ''}">${T.tabTable}</a><a href="#/learn/fund" class="${sub === 'fund' ? 'on' : ''}">${flT().tab}</a></div>`;
 }
 
-function renderLearn(sub) {
-  if (sub === 'react') {
-    app.innerHTML = `<section class="learn-page atom-learn">${learnTabs(sub)}${reactLearnHtml()}</section>`;
-    reactLearnInit();
+function renderLearn(sub, id) {
+  if (sub === 'fund') {
+    app.innerHTML = `<section class="learn-page atom-learn fund-learn">${learnTabs(sub)}${fundLearnHtml(id)}</section>`;
+    fundLearnInit(id);
     return;
   }
-  if (sub === 'atom') {
-    app.innerHTML = `<section class="learn-page atom-learn">${learnTabs(sub)}${atomLearnHtml()}</section>`;
-    atomLearnInit();
-    return;
-  }
+  if (sub === 'atom' || sub === 'react') { location.replace(sub === 'atom' ? '#/learn/fund/a-parts' : '#/learn/fund/r-energy'); return; }
   app.innerHTML = `
   <section class="learn-page">
     ${learnTabs(sub)}

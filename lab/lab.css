@@ -34,7 +34,7 @@
 .pick-row { display: flex; gap: 6px; }
 .pick-row select {
   flex: 1; min-width: 0; height: 44px; border: 2px solid var(--ink); border-radius: 12px; padding: 0 10px;
-  font: 700 15px Montserrat; background: #fff; color: var(--ink); cursor: pointer;
+  font: 700 15px Montserrat; background: #fff; color: var(--ink); cursor: var(--cur-hand);
 }
 .icon-btn { width: 44px; height: 44px; border: 2px solid var(--ink); border-radius: 12px; background: #fff; font-size: 18px; }
 .icon-btn:hover { background: var(--lime-soft); }
@@ -89,7 +89,7 @@
 
 /* "ver mais" */
 .more { border-top: 2px dashed #e2e2e2; margin-top: 10px; }
-.more summary { cursor: pointer; list-style: none; padding: 12px 0 2px; font-weight: 800; font-size: 13px; color: #555; display: flex; align-items: center; gap: 6px; }
+.more summary { cursor: var(--cur-hand); list-style: none; padding: 12px 0 2px; font-weight: 800; font-size: 13px; color: #555; display: flex; align-items: center; gap: 6px; }
 .more summary::-webkit-details-marker { display: none; }
 .more summary::before { content: '+'; display: grid; place-items: center; width: 20px; height: 20px; border: 2px solid var(--ink); border-radius: 50%; font-size: 13px; color: var(--ink); }
 .more[open] summary::before { content: '−'; background: var(--lime); }
@@ -263,7 +263,7 @@
 /* ---------- mini glossário no topo ---------- */
 .lab-head { position: relative; }
 .glossary summary {
-  list-style: none; cursor: pointer; border: 2px solid var(--ink); border-radius: 20px; padding: 6px 14px;
+  list-style: none; cursor: var(--cur-hand); border: 2px solid var(--ink); border-radius: 20px; padding: 6px 14px;
   font-weight: 800; font-size: 13px; background: #fff; box-shadow: 3px 3px 0 var(--ink);
 }
 .glossary summary::-webkit-details-marker { display: none; }

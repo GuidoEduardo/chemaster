@@ -198,7 +198,7 @@ function reactLearnHtml() {
       </div></div></div>
     <div class="al-uses">${T.factors.map(([i, n, d]) => `<div><span>${i}</span><b>${n}</b><p>${d}</p></div>`).join('')}</div>`);
 
-  const cta = `<div class="al-cta"><b>${T.ctaTitle}</b><div class="al-games"><a class="btn-y" href="#/learn/atom">${T.ctaAtom}</a><a class="btn-w" href="#/game/quiz">${T.ctaQuiz}</a></div></div>`;
+  const cta = `<div class="al-cta"><b>${T.ctaTitle}</b><div class="al-games"><a class="btn-y" href="#/learn/fund/a-parts">${T.ctaAtom}</a><a class="btn-w" href="#/game/quiz">${T.ctaQuiz}</a></div></div>`;
   const toc = `<nav class="al-toc"><b>${T.toc}</b>${secs.map(([id, t], i) => `<a href="#" data-go="rl-${id}">${i + 1}. ${t}</a>`).join('')}</nav>`;
   return `<h1 class="page-title">${T.title}</h1><p class="lead">${T.lead}</p>${toc}${s1}${s2}${s3}${s4}${s5}${s6}${cta}`;
 }

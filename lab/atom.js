@@ -15,9 +15,9 @@
   /* ---------- textos ---------- */
   const TX = {
     pt: {
-      doc: 'CheMaster Lab · Criar Átomo', title: 'Criar Átomo',
+      doc: 'CheMaster Lab · Criar Átomo', title: 'Criar Átomo', pick: '⚡ Montar elemento…',
       bins: { p: ['Prótons', 'carga +'], n: ['Nêutrons', 'sem carga'], e: ['Elétrons', 'carga −'] },
-      hint: 'Puxe das caixinhas e solte no átomo · agarre e arremesse qualquer partícula · solte numa caixinha para jogar fora',
+      hint: 'Puxe das caixinhas e solte no átomo · segure a caixinha para pôr várias · arremesse partículas · solte numa caixinha para jogar fora',
       pause: 'Pausar (espaço)', play: 'Continuar (espaço)', reset: 'Recomeçar (R)', paused: '⏸ Simulação pausada: monte com calma',
       empty: 'Puxe um <b>próton</b> para o meio da tela para começar um átomo.',
       onlyN: 'Só nêutrons não formam átomo: sem prótons, não existe elemento.',
@@ -32,14 +32,14 @@
       decayed: { 'b-': 'β⁻: um nêutron virou próton e um elétron saiu disparado do núcleo.', 'b+': 'β⁺: um próton virou nêutron e saiu um pósitron.', a: 'α: saiu um pacote de 2 prótons + 2 nêutrons.' },
       nowIs: n => ` Agora é <b>${n}</b>!`,
       dl: { a: 'alfa (α)', 'b-': 'beta menos (β⁻)', 'b+': 'beta mais (β⁺)' },
-      limit: 'O simulador vai até 20 prótons, 30 nêutrons e 24 elétrons.',
+      limit: 'O simulador vai até 118 prótons, 180 nêutrons e 120 elétrons.',
       tip: '💡 Dica: pause (espaço) para montar sem o núcleo explodir no meio do caminho.',
       missions: '🎯 Missões', done: (a, b) => `${a}/${b}`, mDone: m => `🎉 Missão cumprida: <b>${m}</b>`,
     },
     en: {
-      doc: 'CheMaster Lab · Build an Atom', title: 'Build an Atom',
+      doc: 'CheMaster Lab · Build an Atom', title: 'Build an Atom', pick: '⚡ Build an element…',
       bins: { p: ['Protons', 'charge +'], n: ['Neutrons', 'no charge'], e: ['Electrons', 'charge −'] },
-      hint: 'Pull from the boxes and drop on the atom · grab and throw any particle · drop on a box to throw it away',
+      hint: 'Pull from the boxes and drop on the atom · hold a box to add many · throw particles · drop on a box to throw away',
       pause: 'Pause (space)', play: 'Resume (space)', reset: 'Start over (R)', paused: '⏸ Simulation paused: build calmly',
       empty: 'Drag a <b>proton</b> to the middle of the screen to start an atom.',
       onlyN: 'Neutrons alone do not make an atom: no protons, no element.',
@@ -54,7 +54,7 @@
       decayed: { 'b-': 'β⁻: a neutron turned into a proton and an electron shot out of the nucleus.', 'b+': 'β⁺: a proton turned into a neutron and a positron came out.', a: 'α: a packet of 2 protons + 2 neutrons left.' },
       nowIs: n => ` Now it is <b>${n}</b>!`,
       dl: { a: 'alpha (α)', 'b-': 'beta minus (β⁻)', 'b+': 'beta plus (β⁺)' },
-      limit: 'The simulator goes up to 20 protons, 30 neutrons and 24 electrons.',
+      limit: 'The simulator goes up to 118 protons, 180 neutrons and 120 electrons.',
       tip: '💡 Tip: pause (space) to build without the nucleus blowing up halfway.',
       missions: '🎯 Missions', done: (a, b) => `${a}/${b}`, mDone: m => `🎉 Mission complete: <b>${m}</b>`,
     },
@@ -73,7 +73,7 @@
     { id: 'c7', pt: 'Tente montar o carbono-7 💥', en: 'Try to build carbon-7 💥', ok: (c, ev) => ev && ev.type === 'boom' && ev.z === 6 && ev.a === 7 },
     { id: 'chain', pt: 'Veja um átomo decair 2 vezes seguidas', en: 'Watch an atom decay 2 times in a row', ok: (c, ev) => ev && ev.type === 'decay' && ev.chain >= 2 },
   ];
-  const MAX = { p: 20, n: 30, e: 24 };
+  const MAX = { p: 118, n: 180, e: 120 };
   const COL = { p: '#ff6b6b', n: '#d9d4c7', e: '#4f8dff', pos: '#ffb238' };
   const INK = '#111';
 
@@ -86,15 +86,26 @@
   const N = { key: '', kind: 'empty', since: 0, decayIn: 0, chain: 0, shake: 0, decay: null };
   const fx = [];              // efeitos: anéis de explosão etc.
 
-  const rN = () => 13 * U, rE = () => 7.5 * U;
-  const radiusOf = p => p.t === 'e' || p.t === 'pos' ? rE() : rN();
   const count = () => {
     const c = { p: 0, n: 0, e: 0 };
     for (const q of parts) { if (q.st === 'nuc') c[q.t]++; else if (q.st === 'orb') c.e++; }
     return c;
   };
-  const nucRadius = c => rN() * (0.92 * Math.sqrt(Math.max(1, c.p + c.n)) + 0.6);
-  const shellR = (c, i) => nucRadius(c) + (42 + i * 34) * U;
+  // tamanhos se ajustam ao átomo: quanto mais partículas, menores elas ficam, e as camadas cabem na tela
+  let MAXR = 250, SZ = { rn: 13, re: 7.5, nucR: 20, gap: 34 };
+  function relayout(c = count()) {
+    const tot = c.p + c.n;
+    const rn = 13 * U * Math.max(0.34, Math.min(1, Math.sqrt(40 / Math.max(1, tot))));
+    const nucR = rn * (0.92 * Math.sqrt(Math.max(1, tot)) + 0.6);
+    const k = Math.max(1, shellCounts(c.e).length);
+    const gap = Math.max(9 * U, Math.min(34 * U, (MAXR - nucR - 12 * U) / (k + 0.4)));
+    const re = 7.5 * U * Math.max(0.45, Math.min(1, gap / (30 * U)));
+    SZ = { rn, re, nucR, gap };
+  }
+  const rN = () => SZ.rn, rE = () => SZ.re;
+  const radiusOf = p => p.t === 'e' || p.t === 'pos' ? rE() : rN();
+  const nucRadius = () => SZ.nucR;
+  const shellR = (c, i) => SZ.nucR + 8 * U + SZ.gap * (i + 1);
 
   /* ---------- tela ---------- */
   function resize() {
@@ -109,6 +120,8 @@
     const left = 12, right = mobile ? W - 12 : panel.left - 12;
     CX = (left + right) / 2; CY = (top + bottom) / 2;
     U = Math.max(0.55, Math.min(1.25, Math.min(right - left, bottom - top) / 560));
+    MAXR = Math.min(right - left, bottom - top) / 2 - 6;
+    relayout();
   }
 
   /* ---------- partículas ---------- */
@@ -127,7 +140,7 @@
     if (q.t !== 'e') {
       if (d < nucZone && c[q.t] < MAX[q.t]) { q.st = 'nuc'; q.vx = q.vy = 0; return; }
     } else {
-      const outer = shellR(c, Math.max(0, shellsOf(c.e + 1).length - 1)) + 30 * U;
+      const outer = shellR(c, Math.max(0, shellCounts(c.e + 1).length - 1)) + 30 * U;
       if (c.p + c.n > 0 && d < outer && c.e < MAX.e) { q.st = 'orb'; return; }
     }
     if (q.t !== 'e' && d < nucZone) log(tx('limit'));
@@ -247,13 +260,14 @@
   const BOOM_AFTER = 2.4;
   function step(dt) {
     const c = count();
+    relayout(c);
     if (!paused) simT += dt;
     // posições-alvo do núcleo (girassol) e das camadas
     const slots = nucleusLayout(c.p, c.n, rN());
     const byType = { p: slots.filter(s => s.t === 'p'), n: slots.filter(s => s.t === 'n') };
     const idx = { p: 0, n: 0 };
     const shake = N.kind === 'unbound' ? (paused ? 1.5 : 2 + 10 * Math.min(1, N.since / BOOM_AFTER)) : N.kind === 'radio' ? 1.2 : 0.4;
-    const shells = shellsOf(c.e);
+    const shells = shellCounts(c.e);
     let ei = 0;
     const eSorted = parts.filter(q => q.st === 'orb');
     for (const q of parts) {
@@ -280,7 +294,7 @@
     // elétrons nas camadas
     let k = 0;
     shells.forEach((cnt, si) => {
-      const R = shellR(c, si), speed = (0.9 - si * 0.18) * (paused ? 0 : 1);
+      const R = shellR(c, si), speed = (0.9 / (1 + si * 0.4)) * (paused ? 0 : 1);
       for (let j = 0; j < cnt; j++, k++) {
         const q = eSorted[k]; if (!q) continue;
         const a = (j / cnt) * Math.PI * 2 + si * 0.7 + simT * speed;
@@ -333,10 +347,10 @@
   }
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    const c = count(), shells = shellsOf(c.e);
+    const c = count(), shells = shellCounts(c.e);
     // camadas
     ctx.setLineDash([5 * U, 6 * U]); ctx.lineWidth = 1.5;
-    const nShow = c.p + c.n > 0 ? Math.min(4, shells.length + 1) : 0;
+    const nShow = c.p + c.n > 0 ? Math.min(7, shells.length + 1) : 0;
     for (let i = 0; i < nShow; i++) {
       ctx.beginPath(); ctx.arc(CX, CY, shellR(c, i), 0, Math.PI * 2);
       ctx.strokeStyle = i < shells.length ? '#9aa6c2' : '#dcd8cb'; ctx.stroke();
@@ -351,7 +365,7 @@
     }
     if (held && held.t === 'e' && c.p + c.n > 0) {
       ctx.lineWidth = 10 * U; ctx.strokeStyle = 'rgba(79,141,255,.18)';
-      ctx.beginPath(); ctx.arc(CX, CY, shellR(c, Math.max(0, shellsOf(c.e + 1).length - 1)), 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(CX, CY, shellR(c, Math.max(0, shellCounts(c.e + 1).length - 1)), 0, Math.PI * 2); ctx.stroke();
     }
     // brilho de radioativo / perigo
     if (c.p && N.kind === 'radio') {
@@ -440,13 +454,8 @@
     if (performance.now() - z.t > 80) { v.x = 0; v.y = 0; }
     // toque rápido numa caixinha: vai direto para o átomo (vem antes do "lixo", que também é a caixinha)
     if (q.fromBin && Math.hypot(e.clientX - ptr.sx, e.clientY - ptr.sy) < 6) {
-      q.x = CX + (Math.random() - 0.5) * 8; q.y = CY + (Math.random() - 0.5) * 8;
-      if (q.t === 'e') { const c = count(); if (c.p + c.n) { q.st = 'orb'; q.x = CX + shellR(c, 0); } else { q.st = 'free'; q.x = CX + 120 * U; } }
-      else q.st = 'nuc';
-      const c = count();
-      if (q.st === 'nuc' && c[q.t] > MAX[q.t]) { parts = parts.filter(x => x !== q); log(tx('limit')); }
-      if (q.st === 'orb' && c.e > MAX.e) { parts = parts.filter(x => x !== q); log(tx('limit')); }
-      evaluate(); return;
+      parts = parts.filter(x => x !== q);
+      quickAdd(q.t); return;
     }
     if (overBin(e.clientX, e.clientY)) { parts = parts.filter(x => x !== q); evaluate(); return; }
     settle(q, sp > 80 ? v : { x: 0, y: 0 });
@@ -465,15 +474,50 @@
   cv.addEventListener('pointerup', release);
   cv.addEventListener('pointercancel', release);
   // puxar das caixinhas
+  // coloca uma partícula direto no átomo (toque rápido ou segurando a caixinha). Devolve false no limite.
+  function quickAdd(k) {
+    const c = count();
+    if (c[k === 'e' ? 'e' : k] >= MAX[k]) { log(tx('limit')); return false; }
+    if (k === 'e') add('e', CX + shellR(c, 0), CY, c.p + c.n ? 'orb' : 'free');
+    else add(k, CX + (Math.random() - 0.5) * 8, CY + (Math.random() - 0.5) * 8, 'nuc');
+    evaluate();
+    return true;
+  }
   $$('.sim-bin').forEach(b => b.addEventListener('pointerdown', e => {
     e.preventDefault();
-    const q = add(b.dataset.k, e.clientX, e.clientY, 'held');
+    const k = b.dataset.k;
+    const q = add(k, e.clientX, e.clientY, 'held');
     if (!q) return;
     q.fromBin = true;
     grab(q, e);
-    const mv = ev => moveHeld(ev), up = ev => { window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up); release(ev); };
+    // segurou parado na caixinha: vai colocando várias seguidas
+    let rep = null;
+    const hold = setTimeout(() => {
+      if (held !== q || Math.hypot(ptr.x - ptr.sx, ptr.y - ptr.sy) > 6) return;
+      parts = parts.filter(x => x !== q); held = null; cv.className = '';
+      b.classList.add('pumping');
+      const one = () => { if (!quickAdd(k)) clearInterval(rep); };
+      one(); rep = setInterval(one, 110);
+    }, 380);
+    const mv = ev => moveHeld(ev);
+    const up = ev => {
+      clearTimeout(hold); clearInterval(rep); b.classList.remove('pumping');
+      window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up);
+      if (held === q) release(ev);
+    };
     window.addEventListener('pointermove', mv); window.addEventListener('pointerup', up);
   }));
+
+  // montar um elemento inteiro de uma vez (isótopo típico, átomo neutro)
+  function buildPreset(z) {
+    const a = typicalA(z);
+    parts = []; fx.length = 0; held = null; N.chain = 0;
+    for (let i = 0; i < z; i++) add('p', CX + (Math.random() - 0.5) * 30, CY + (Math.random() - 0.5) * 30, 'nuc');
+    for (let i = 0; i < a - z; i++) add('n', CX + (Math.random() - 0.5) * 30, CY + (Math.random() - 0.5) * 30, 'nuc');
+    for (let i = 0; i < z; i++) { const ang = Math.random() * 6.28; add('e', CX + Math.cos(ang) * MAXR * 0.7, CY + Math.sin(ang) * MAXR * 0.7, 'orb'); }
+    N.key = 'x'; evaluate();
+  }
+  $('#pick').onchange = e => { const z = +e.target.value; if (z) buildPreset(z); e.target.value = ''; e.target.blur(); };
 
   /* ---------- botões ---------- */
   function setPaused(v) {
@@ -505,6 +549,7 @@
     $('#title').textContent = tx('title');
     $('#langCode').textContent = LANG.toUpperCase();
     $('#hint').textContent = tx('hint');
+    $('#pick').innerHTML = `<option value="">${tx('pick')}</option>` + ELEMENTS.map(e => `<option value="${e.z}">${e.z} · ${e.sym} · ${e.name}</option>`).join('');
     $('#reset').title = tx('reset');
     $$('.sim-bin').forEach(b => { const [n, s] = tx('bins')[b.dataset.k]; b.querySelector('b').textContent = n; b.querySelector('small').textContent = s; });
     setPaused(paused);

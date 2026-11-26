@@ -2,7 +2,7 @@
 .sim-body { margin: 0; height: 100vh; height: 100dvh; overflow: hidden; background: #fbfaf5;
   background-image: radial-gradient(#e6e2d6 1.2px, transparent 1.2px); background-size: 22px 22px; user-select: none; -webkit-user-select: none; }
 #sim { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; touch-action: none; display: block; }
-#sim.grab { cursor: grab; } #sim.grabbing { cursor: grabbing; }
+#sim.grab { cursor: var(--cur-grab); } #sim.grabbing { cursor: var(--cur-grabbing); }
 
 .sim-top { position: fixed; top: 12px; left: 12px; right: 12px; display: flex; align-items: center; gap: 12px; pointer-events: none; z-index: 5; }
 .sim-top > * { pointer-events: auto; }
@@ -42,14 +42,14 @@
 .sim-paused.on { display: block; }
 
 .sim-missions { position: fixed; right: 12px; bottom: 12px; width: 250px; background: #fff; border: 2.5px solid var(--ink); border-radius: 14px; box-shadow: 4px 4px 0 var(--ink); padding: 8px 12px; z-index: 4; max-height: 45vh; overflow: auto; }
-.sim-missions summary { font-weight: 900; cursor: pointer; font-size: 14px; }
+.sim-missions summary { font-weight: 900; cursor: var(--cur-hand); font-size: 14px; }
 .sim-missions summary small { color: var(--muted); font-weight: 700; margin-left: 4px; }
 .sim-missions ul { list-style: none; padding: 0; margin: 8px 0 2px; display: grid; gap: 4px; }
 .sim-missions li { font-size: 12px; font-weight: 700; padding: 5px 7px; border-radius: 8px; background: #f6f5ef; }
 .sim-missions li.ok { background: var(--lime-soft); text-decoration: line-through; color: var(--muted); }
 
 .sim-dock { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 4; }
-.sim-bin { width: 112px; background: #fff; border: 2.5px solid var(--ink); border-radius: 16px; box-shadow: 4px 4px 0 var(--ink); padding: 8px 6px 6px; text-align: center; cursor: grab; touch-action: none; transition: transform .1s, background .1s; }
+.sim-bin { width: 112px; background: #fff; border: 2.5px solid var(--ink); border-radius: 16px; box-shadow: 4px 4px 0 var(--ink); padding: 8px 6px 6px; text-align: center; cursor: var(--cur-grab); touch-action: none; transition: transform .1s, background .1s; }
 .sim-bin:hover { transform: translateY(-3px); }
 .sim-bin.trash { background: #ffe0df; transform: scale(1.06); }
 .sim-bin b { display: block; font-size: 14px; font-weight: 900; margin-top: 4px; }
@@ -81,3 +81,8 @@
   .sim-log .sim-msg:nth-child(n+2) { display: none; }
   .sim-paused { top: 66px; font-size: 11px; }
 }
+.sim-pick { height: 44px; max-width: 230px; border: 2.5px solid var(--ink); border-radius: 12px; background: #fff; font: 800 14px Montserrat; padding: 0 10px; box-shadow: 3px 3px 0 var(--ink); cursor: var(--cur-hand); }
+.sim-pick:hover { background: var(--lime-soft); }
+.sim-bin.pumping { background: var(--lime-soft); transform: scale(.96); }
+@media (max-width: 760px) { .sim-pick { max-width: 130px; font-size: 12px; height: 40px; } }
+.sim-back { white-space: nowrap; flex-shrink: 0; }
